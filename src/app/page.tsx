@@ -1,4 +1,5 @@
 "use client"
+
 import Banners from "@/components/Banners";
 import CategorySlider from "@/components/CategorySlider";
 import FeaturedProducts from "@/components/FeaturedProducts";

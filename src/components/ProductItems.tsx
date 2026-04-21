@@ -8,8 +8,8 @@ import Link from "next/link"
 
 function ProductItems() {
     return (
-        <div className="space-y-3 group py-2 px-3 overflow-hidden bg-white dark:bg-white/20 shadow-md rounded-md w-50 h-88">
-            <Link href={"/"} className="hover:text-blue-500 transition-colors duration-150">
+        <div className="text-gray-600 space-y-3 group py-2 px-3 overflow-hidden bg-white shadow-md rounded-md w-50 h-88"> {/* dark:bg-white/20 */}
+            <Link href={"/product/23454356"} className="hover:text-blue-500 transition-colors duration-150">
                 <div className="relative img flex items-center justify-center py-3">
                     <Image src={productImg} alt="product" height={140} width={140} className="object-contain transition duration-200 group-hover:scale-105" />
                     <span className="z-2 absolute left-0 top-0 border-2 font-bold border-gray-500 text-gray-500 py-0.5 px-1 rounded-md">Bingo</span>
@@ -28,7 +28,7 @@ function ProductItems() {
                 </p>
             </div>
             <div className="flex flex-col items-center w-full">
-                <Button variant="contained" className="text-center w-full font-bold">
+                <Button variant="contained" className="text-center! w-full! font-bold!">
                     Add to cart
                 </Button>
             </div>

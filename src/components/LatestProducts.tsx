@@ -8,7 +8,7 @@ function LatestProducts() {
 
     return (
         <section className="py-6">
-            <div className=' bg-gray-100 dark:bg-black rounded-md'>
+            <div className=' bg-gray-100 rounded-md'> {/* dark:bg-black */}
                 <div className='container'>
                     <div className=''>
                         <div className="py-4 space-y-2 flex items-center justify-between">

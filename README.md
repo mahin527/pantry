@@ -30,7 +30,7 @@
 ## 🧰 Tech Stack
 
 - **Framework:** Next.js (TypeScript)
-- **Styling:** Tailwind CSS, [Material ui](https://mui.com/material-ui/), [swiperjs](https://swiperjs.com/react) 
+- **Styling:** Tailwind CSS, [Material ui](https://mui.com/material-ui/), [swiperjs](https://swiperjs.com/react), react-collapse, react-range-slider-input, react-inner-image-zoom 
 - **State Management:** Zustand (with Persistence)
 - **Validation:** Zod
 - **Icons:** [React icons](https://react-icons.github.io/react-icons/)

@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import logoImg from "../../public/logo-img.png"
 import Link from "next/link"
@@ -8,7 +10,7 @@ import NavLinks from "./NavLinks"
 const Header = () => {
     return (
         <header>
-            <div className="border-b border-gray-300 dark:border-gray-800">
+            <div className="border-b border-gray-300"> {/* dark:border-gray-800 */}
                 <div className="container py-4">
                     <div className="flex items-center justify-between">
                         <div className="logo">

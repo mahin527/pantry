@@ -33,7 +33,7 @@ function CategorySlider() {
     { id: 10, image: Img10, title: "Healthcare" }
   ]
   return (
-    <div className='py-6 bg-gray-100 dark:bg-black rounded-md'>
+    <div className='py-6 bg-gray-100 rounded-md'> {/* dark:bg-black */}
       <div className='container'>
         <Swiper
           spaceBetween={20}
@@ -49,7 +49,7 @@ function CategorySlider() {
           {categoryImages.map((item) => (
             <SwiperSlide key={item.id}>
               <Link href={"/"} className="group">
-                <div className="w-full h-25.5 lg:h-27.5 bg-white dark:bg-white/5 shadow-md p-3 rounded-md flex items-center justify-center transition duration-500 group-hover:bg-black/5 dark:group-hover:bg-white/10">
+                <div className="w-full h-25.5 lg:h-27.5 bg-white shadow-md p-3 rounded-md flex items-center justify-center transition duration-500 group-hover:bg-black/5"> {/*  dark:bg-white/5 dark:group-hover:bg-white/10*/}
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -58,7 +58,7 @@ function CategorySlider() {
                     className="size-14 xl:size-16 object-contain transition duration-200 group-hover:scale-105"
                   />
                 </div>
-                <h4 className="py-2 text-center text-sm lg:text-base font-bold group-hover:text-blue-500 dark:group-hover:text-blue-400  transition-colors duration-150">{item.title}</h4>
+                <h4 className="py-2 text-center text-sm lg:text-base font-bold group-hover:text-blue-500  transition-colors duration-150">{item.title}</h4>
               </Link>
             </SwiperSlide>
           ))}

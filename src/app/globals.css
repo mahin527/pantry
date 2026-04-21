@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -17,16 +17,50 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
-body {
+/* body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-}
+} */
 
 .container {
   width: 96% !important;
   max-width: none !important;
   margin-inline: auto;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3e90ee;
+}
+
+/* ::-webkit-scrollbar-track {
+  background: #ffffff;
+} */
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #838485;
+}
+
+/* React collapse */
+.ReactCollapse--collapse {
+  transition: height 400ms;
+}
+
+/* react-range-slider-input */
+.range-slider {
+  height: 4px !important;
+}
+
+.range-slider .range-slider__thumb {
+  width: 17px !important;
+  height: 17px !important;
+
 }

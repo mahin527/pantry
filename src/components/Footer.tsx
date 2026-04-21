@@ -12,15 +12,16 @@ import { FaPinterest } from "react-icons/fa6";
 import { RiVisaFill } from "react-icons/ri";
 import { FaCcPaypal } from "react-icons/fa6";
 import { FaCcAmazonPay } from "react-icons/fa";
+import { FaCcApplePay } from "react-icons/fa";
 
 function Footer() {
 
     return (
-        <footer>
-            <div className="bg-gray-200 dark:bg-neutral-900">
+        <footer className="mx-auto">
+            <div className="bg-gray-100"> {/* dark:bg-neutral-900 */}
                 <div className='container'>
                     {/* icons */}
-                    <div className='py-6 lg:py-8 border-b border-gray-400 dark:border-gray-800 flex flex-wrap items-center justify-center gap-5 md:gap-8 lg:gap-14'>
+                    <div className='text-gray-600 py-6 lg:py-8 border-b border-gray-300 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-5 md:gap-8 lg:gap-14'> {/* dark:border-gray-800 */}
                         <div className="flex flex-col items-center justify-center gap-2 ">
                             <LiaShippingFastSolid size={36} />
                             <p>
@@ -68,7 +69,7 @@ function Footer() {
                         </div>
                     </div>
 
-                    <div className="flex justify-between flex-wrap gap-5 py-8">
+                    <div className="text-gray-600 flex justify-between flex-wrap gap-5 py-8">
                         <div className="contact tracking-wider xl:tracking-widest space-y-3 lg:space-y-4">
                             <h3 className="text-xl lg:text-2xl font-semibold">
                                 Contact us
@@ -186,14 +187,14 @@ function Footer() {
                                 Subscribe to our latest newsletter to get news about special discounts.
                             </p>
                             <form className="w-full flex flex-col gap-4 py-4">
-                                <div className="search-box bg-black/15 dark:bg-white/15 w-150 h-14 rounded-md flex items-center">
+                                <div className="search-box bg-black/5 w-150 h-14 rounded-md flex items-center"> {/* dark:bg-white/15 */}
                                     <input type="text" placeholder="Enter your email" className="px-4 text-sm md:text-base lg:text-lg tracking-wider outline-none border-none w-full h-full" />
                                 </div>
                                 <Button variant="contained" className="max-w-fit">
                                     SUBSCRIBE
                                 </Button>
                                 <div className="flex items-center gap-2">
-                                    <input type="checkbox" name="agreement" id="agreement" className="h-6 w-6 text-gray-600 rounded-full" />
+                                    <input type="checkbox" name="agreement" id="agreement" className="h-5 w-5 text-gray-600 rounded-full" />
                                     <label htmlFor="agreement">
                                         I agree to the terms and conditions and the privacy policy
                                     </label>
@@ -217,7 +218,7 @@ function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="container py-4 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-0">
+            <div className="container py-4 text-gray-600 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-0">
                 <div>
                     <ul className="flex flex-wrap items-center gap-4">
                         <li>
@@ -262,7 +263,11 @@ function Footer() {
                                 <FaCcAmazonPay size={32} />
                             </Link>
                         </li>
-
+                        <li>
+                            <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                <FaCcApplePay size={32} />
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </div>

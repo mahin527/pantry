@@ -15,7 +15,7 @@ function PopularProducts() {
 
     return (
         <section className="py-8">
-            <div className='bg-gray-100 dark:bg-black rounded-md'>
+            <div className='bg-gray-100 rounded-md'> {/* dark:bg-black*/}
             <div className="flex items-center justify-between px-5 py-3">
                 <div className="col-1 w-[30%] space-y-2">
                     <h2 className="text-xl font-bold tracking-wider">
@@ -40,7 +40,8 @@ function PopularProducts() {
                                 color: "#3b82f6",
                                 fontWeight: "bold"
                             },
-                        }}>
+                        }}
+                        >
 
                         <Tab label="Breads & Bakery" />
                         <Tab label="Breaksfast & Dairy" />
