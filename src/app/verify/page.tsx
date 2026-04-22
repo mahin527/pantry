@@ -2,35 +2,49 @@
 
 import TextField from '@mui/material/TextField';
 import { FaArrowRightLong } from "react-icons/fa6";
-import { TbLockQuestion } from "react-icons/tb";
+import { IoShieldHalfSharp } from "react-icons/io5";
 
 import { Button } from '@mui/material';
 import Link from 'next/link';
+import { FormEventHandler, useState } from 'react';
+import OtpBox from '@/components/OtpBox';
 
-function ForgotPassword() {
+function VerifyOtp() {
+    const [otp, setOtp] = useState<string>("")
+
+    const handleChangeOtp = (value: string) => {
+        setOtp(value)
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        console.log({ otp });
+
+    }
     return (
         <section className="relative overflow-hidden py-8 bg-gray-100 w-full h-screen flex items-center justify-center">
             <div className="container">
                 <div className='bg-white border border-gray-200 py-5 px-8 rounded-md shadow-md w-86 md:w-90 lg:w-100 xl:w-106 m-auto'>
                     <div className='flex items-center justify-center text-blue-800'>
-                        <TbLockQuestion size={70} />
+                        <IoShieldHalfSharp size={70} />
                     </div>
                     <div className='text-center py-2'>
                         <h2 className='py-2 text-gray-700 text-xl lg:text-2xl font-semibold'>
-                            Forgot Password
+                            Verify OTP
                         </h2>
                         <p className='text-gray-600 text-xs lg:text-sm font-medium tracking-wide leading-5'>
-                            Enter your registered email address and we’ll send you a
-                            One-Time Password (OTP) to reset your password.
+                            OTP send to <span className='font-bold text-blue-700'>
+                                example@gmail.com
+                            </span>
                         </p>
                     </div>
-                    <form className='space-y-3 md:space-y-5 py-4'>
+                    <form onSubmit={handleSubmit} className='space-y-3 md:space-y-5 py-4'>
+                        <OtpBox length={6} onChange={handleChangeOtp} />
+
                         <div className='w-full'>
-                            <TextField id="email" label="Email" variant="outlined" className='w-full!' type='email' />
-                        </div>
-                        <div className='w-full'>
-                            <Button variant="contained" className='w-full! py-3! font-bold!'>
-                                Submit
+                            <Button type='submit' variant="contained" className='w-full! py-3! font-bold!'>
+                                Verify OTP
                             </Button>
                         </div>
                         <div className='text-center text-gray-600 font-medium flex flex-col items-center justify-center gap-y-4'>
@@ -48,4 +62,4 @@ function ForgotPassword() {
     )
 }
 
-export default ForgotPassword
+export default VerifyOtp
