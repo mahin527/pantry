@@ -4,6 +4,7 @@ import Rating from '@mui/material/Rating';
 import QuantityBox from '@/components/QuantityBox';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Button } from '@mui/material';
+import Link from 'next/link';
 
 function CartPage() {
     return (
@@ -106,9 +107,11 @@ function CartPage() {
                             </div>
 
                             <div className='px-5 py-2 text-center w-full'>
-                                <Button variant="contained" className='w-full'>
-                                    Next
-                                </Button>
+                                <Link href={"/checkout"}>
+                                    <Button variant="contained" className='w-full'>
+                                        Next
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                     </div>

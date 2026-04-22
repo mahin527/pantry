@@ -1,7 +1,10 @@
+// "use client"
+
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { AppProvider } from "@/context/AppContext"
 // TODO: configure theme mode (dark/light/system)
 export const metadata: Metadata = {
   title: "Pantry | Grocery Shop",
@@ -16,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <AppProvider>
+          <Header />
+          {children}
+          <Footer />
+        </AppProvider>
       </body>
     </html>
   );

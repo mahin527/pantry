@@ -62,5 +62,24 @@
 .range-slider .range-slider__thumb {
   width: 17px !important;
   height: 17px !important;
-
 }
+
+/* react-international-phone */
+.react-international-phone-input {
+  width: 100% !important;
+  height: 3.5rem !important;
+  font-size: large !important;
+}
+
+.react-international-phone-country-selector-button {
+  width: 100% !important;
+  height: 3.5rem !important;
+}
+
+.react-international-phone-country-selector-dropdown {
+  z-index: 10 !important;
+}
+
+/* .css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root {
+
+} */

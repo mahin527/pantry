@@ -17,7 +17,7 @@ function NavMenus() {
                     Login
                 </Link>
             </div>
-            <Link href={"/cart"}>
+            <Link href={"/wishlist"}>
                 <Button variant='text' className='rounded-md'>
                     <div className="relative">
                         {/* TODO: Use mui component: https://mui.com/material-ui/react-button/ */}
@@ -28,7 +28,7 @@ function NavMenus() {
                     </div>
                 </Button>
             </Link>
-            <Link href={"/save"}>
+            <Link href={"/cart"}>
                 <Button variant='text' className='rounded-md'>
                     <div className="relative">
                         <RiShoppingBag3Line size={34} />
