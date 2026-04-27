@@ -18,7 +18,7 @@ function NavMenus() {
                 </Link>
             </div>
             <Link href={"/wishlist"}>
-                <Button variant='text' className='rounded-md'>
+                <Button variant='text' className='rounded-full! py-3!'>
                     <div className="relative">
                         {/* TODO: Use mui component: https://mui.com/material-ui/react-button/ */}
                         <IoMdHeartEmpty size={34} />
@@ -29,7 +29,7 @@ function NavMenus() {
                 </Button>
             </Link>
             <Link href={"/cart"}>
-                <Button variant='text' className='rounded-md'>
+                <Button variant='text' className='rounded-full! py-3!'>
                     <div className="relative">
                         <RiShoppingBag3Line size={34} />
                         <span className="absolute -top-2 -right-2 bg-blue-100 size-5 text-sm font-bold rounded-full flex items-center justify-center">

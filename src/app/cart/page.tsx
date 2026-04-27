@@ -26,7 +26,7 @@ function CartPage() {
 
                             <div key={index} className='px-5 flex justify-between py-4 border-b border-gray-200'>
                                 <div className='flex items-center gap-4'>
-                                    <Image src={potatoChips1} alt='product' width={100} height={100} className='h-28 w-20' />
+                                    <Image src={potatoChips1} alt='product' width={100} height={100} className='h-28 w-20 rounded-md' />
                                     <div className='space-y-2'>
                                         <span className='text-xs lg:text-sm text-gray-500'>
                                             Bingo
@@ -51,7 +51,7 @@ function CartPage() {
                                 </div>
 
                                 <div>
-                                    <Button className='py-3! rounded-md! font-bold! text-red-600!'>
+                                    <Button className='py-5! rounded-full! font-bold! text-red-600!'>
                                         <RiDeleteBin6Line size={20} />
                                     </Button>
                                 </div>
