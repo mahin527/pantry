@@ -26,10 +26,10 @@ function AddressList() {
                                     Mahin Hasan
                                 </span>
                                 <span>
-                                    Jashore, Khulna, Bangladesh
+                                    Los Angeles, California, USA
                                 </span>
                                 <span>
-                                    +880 12346 7879
+                                   (+12)123 456 789
                                 </span>
                             </div>
                         </div>

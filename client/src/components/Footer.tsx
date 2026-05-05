@@ -36,7 +36,7 @@ function Footer() {
     return (
         <>
             <footer className="mx-auto">
-                <div className="bg-gray-100"> {/* dark:bg-neutral-900 */}
+                <div className="bg-gray-200"> {/* dark:bg-neutral-900 */}
                     <div className='container'>
                         {/* icons */}
                         <div className='text-gray-600 py-6 lg:py-8 border-b border-gray-300 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-5 md:gap-8 lg:gap-14'> {/* dark:border-gray-800 */}
@@ -97,7 +97,7 @@ function Footer() {
                                         Classyshop - Mega Super Town
                                     </p>
                                     <p>
-                                        Jashore, Khulna, Bangladesh
+                                        Los Angeles, California, USA
                                     </p>
                                 </div>
                                 <p>
@@ -236,59 +236,62 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className="container py-4 text-gray-600 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-0">
-                    <div>
-                        <ul className="flex flex-wrap items-center gap-4">
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <IoLogoLinkedin size={32} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <FaGithub size={32} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <FaFacebook size={32} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <FaPinterest size={32} />
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        &copy; Pantry 2026 | All Rights Reserved by Mahin Hasan
-                    </div>
-                    <div>
-                        <ul className="flex flex-wrap items-center gap-4">
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <RiVisaFill size={32} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <FaCcPaypal size={32} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <FaCcAmazonPay size={32} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                    <FaCcApplePay size={32} />
-                                </Link>
-                            </li>
-                        </ul>
+                <div className="bg-gray-700 text-gray-100">
+                    <div className="container py-4 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-0">
+                        <div>
+                            <ul className="flex flex-wrap items-center gap-4">
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <IoLogoLinkedin size={32} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <FaGithub size={32} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <FaFacebook size={32} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <FaPinterest size={32} />
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            &copy; Pantry 2026 | All Rights Reserved by Mahin Hasan
+                        </div>
+                        <div>
+                            <ul className="flex flex-wrap items-center gap-4">
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <RiVisaFill size={32} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <FaCcPaypal size={32} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <FaCcAmazonPay size={32} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
+                                        <FaCcApplePay size={32} />
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+
             </footer>
 
             <div>

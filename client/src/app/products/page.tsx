@@ -28,7 +28,7 @@ function ProductsPage() {
                         <Sidebar />
                     </div>
                     <div className='product-wrapper w-[80%] tracking-wider text-gray-600'>
-                        <div className='top-strip sticky top-5 z-10 w-full bg-white shadow-md flex items-center justify-between py-3 lg:py-4 xl:py-5 px-6 rounded-md'> {/**  dark:bg-white/10 */}
+                        <div className='top-strip sticky top-5 z-10 w-full bg-white shadow-md flex items-center justify-between py-3 lg:py-4 xl:py-5 px-6 rounded-md'> 
                             <p className='font-bold'>
                                 There are 25 products
                             </p>

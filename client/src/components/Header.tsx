@@ -19,12 +19,12 @@ const Header = () => {
                                 <h3 className="text-2xl lg:text-3xl font-black font-sans text-blue-500 dark:text-blue-400">Pantry</h3>
                             </Link>
                         </div>
-                        <Searchbar />
+                        <Searchbar placeholder="Search for products..." />
                         <NavMenus />
                     </div>
                 </div>
             </div>
-                <NavLinks />
+            <NavLinks />
         </header>
     )
 }
