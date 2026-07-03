@@ -146,9 +146,9 @@ function Register() {
                 </div>
             </div>
 
-            <div className="circle-1 bg-blue-500 opacity-20 size-70 rounded-full absolute bottom-0 -left-[16%]">
+            <div className="circle-1 bg-blue-500 opacity-20 size-70 rounded-full absolute bottom-0 left-[-16%]">
             </div>
-            <div className="circle-2 bg-blue-500 opacity-20 size-70 rounded-full absolute top-0 -right-[16%]">
+            <div className="circle-2 bg-blue-500 opacity-20 size-70 rounded-full absolute top-0 right-[-16%]">
             </div>
         </section>
     )

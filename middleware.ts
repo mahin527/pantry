@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE_CONFIG } from "@/constants";
+import { verifyTokenEdge } from "@/lib/auth";
 
 const protectedRoutes = [
   "/my-account",
@@ -9,7 +10,7 @@ const protectedRoutes = [
   "/wishlist",
 ];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isProtected = protectedRoutes.some((route) =>
@@ -27,14 +28,7 @@ export function middleware(request: NextRequest) {
   }
 
   try {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      throw new Error("Invalid token structure");
-    }
-    const payload = JSON.parse(atob(parts[1]));
-    if (payload.exp && Date.now() >= payload.exp * 1000) {
-      throw new Error("Token expired");
-    }
+    await verifyTokenEdge(token);
     return NextResponse.next();
   } catch {
     const response = NextResponse.redirect(new URL("/login", request.url));
