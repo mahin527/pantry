@@ -71,4 +71,3 @@ function OtpBox({ length, onChange }: OtpBoxProps) {
 }
 
 export default OtpBox;
-123456

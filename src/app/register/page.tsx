@@ -23,13 +23,13 @@ function Register() {
                     </div>
                     <form className='space-y-3 md:space-y-5 py-4'>
                         <div className='w-full'>
-                            <TextField id="fullname" label="Fullname" variant="outlined" className='w-full!' type='text' />
+                            <TextField id="fullname" name="fullname" label="Fullname" variant="outlined" className='w-full!' type='text' />
                         </div>
                         <div className='w-full'>
-                            <TextField id="email" label="Email" variant="outlined" className='w-full!' type='email' />
+                            <TextField id="email" name="email" label="Email" variant="outlined" className='w-full!' type='email' />
                         </div>
                         <div className='w-full relative'>
-                            <TextField id="password" label="Password" variant="outlined" className='w-full!' type={`${isShowPassword ? 'text' : 'password'}`} />
+                            <TextField id="password" name="password" label="Password" variant="outlined" className='w-full!' type={`${isShowPassword ? 'text' : 'password'}`} />
                             <IconButton onClick={() => setIsShowPassword(!isShowPassword)} size='large' aria-label="password-show-hide" className='absolute! right-2 top-1/2 -translate-y-1/2 z-10'>
                                 {
                                     isShowPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />

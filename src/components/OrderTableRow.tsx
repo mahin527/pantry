@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Link from "next/link"
 
 function OrderTableRow() {
-    const [expendIndex, setExpendIndex] = useState<boolean>(false)
+    const [expandIndex, setExpandIndex] = useState<boolean>(false)
     return (
         <>
             <tr className="border-b border-gray-200 hover:bg-blue-100">
@@ -19,11 +19,11 @@ function OrderTableRow() {
                         <IconButton
                             size="large"
                             className="bg-gray-100 shadow-md"
-                            onClick={() => setExpendIndex(!expendIndex)}
-                            aria-label={expendIndex ? "Collapse" : "Expand"}
-                            aria-expanded={expendIndex}
+                            onClick={() => setExpandIndex(!expandIndex)}
+                            aria-label={expandIndex ? "Collapse" : "Expand"}
+                            aria-expanded={expandIndex}
                         >
-                            <FaAngleDown size={24} className={`transition-transform duration-200 ease-in-out ${expendIndex && 'rotate-180'}`} />
+                            <FaAngleDown size={24} className={`transition-transform duration-200 ease-in-out ${expandIndex && 'rotate-180'}`} />
 
                         </IconButton>
                     </div>
@@ -66,7 +66,7 @@ function OrderTableRow() {
                     #4566789
                 </td>
                 <td className="px-3 h-8 whitespace-nowrap border-r border-gray-200">
-                    Panding
+                    Pending
                 </td>
                 <td className="px-3 h-8 whitespace-nowrap border-r border-gray-200">
                     2026-27-04
@@ -75,7 +75,7 @@ function OrderTableRow() {
 
             {
                 [1, 2, 3].map((item, index) => {
-                    if (expendIndex === true) {
+                    if (expandIndex === true) {
                         return (
                             <tr key={index} className="hover:bg-blue-100">
                                 <td>

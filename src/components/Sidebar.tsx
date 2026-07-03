@@ -30,8 +30,6 @@ function Sidebar() {
 
     const [price, setPrice] = useState<[number, number]>([10, 30000])
 
-    const label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };
-
     const ratings = [5, 4, 3, 2, 1]
     const [selectedRatings, setSelectedRatings] = useState<number[]>([])
     return (

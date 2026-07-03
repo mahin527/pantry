@@ -7,11 +7,11 @@ import LatestProducts from "@/components/LatestProducts";
 import PopularProducts from "@/components/PopularProducts";
 import dynamic from "next/dynamic"
 
+const HomeSlider = dynamic(() => import("@/components/HomeSlider"), {
+  ssr: false,
+})
 
 export default function Home() {
-  const HomeSlider = dynamic(() => import("@/components/HomeSlider"), {
-    ssr: false,
-  })
   return (
     <div className="sliderWrapper p-4">
       <HomeSlider />

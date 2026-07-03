@@ -30,7 +30,7 @@ import FormLabel from '@mui/material/FormLabel';
 
 
 function Footer() {
-    const { isOpenAddAddressPannel, closeAddAddress } = useAppContext()
+    const { isOpenAddAddressPanel, closeAddAddress } = useAppContext()
     const [phone, setPhone] = useState<string>('');
 
     return (
@@ -206,7 +206,7 @@ function Footer() {
                                 </p>
                                 <form className="w-full flex flex-col gap-4 py-4">
                                     <div className="search-box bg-black/5 w-150 h-14 rounded-md flex items-center"> {/* dark:bg-white/15 */}
-                                        <input type="text" placeholder="Enter your email" className="px-4 text-sm md:text-base lg:text-lg tracking-wider outline-none border-none w-full h-full" />
+                                        <input type="email" name="email" placeholder="Enter your email" className="px-4 text-sm md:text-base lg:text-lg tracking-wider outline-none border-none w-full h-full" />
                                     </div>
                                     <Button variant="contained" className="max-w-fit">
                                         SUBSCRIBE
@@ -296,7 +296,7 @@ function Footer() {
 
             <div>
                 <Drawer
-                    open={isOpenAddAddressPannel}
+                    open={isOpenAddAddressPanel}
                     onClose={closeAddAddress}
                     anchor="right"
                 >
@@ -307,19 +307,19 @@ function Footer() {
 
                         <div className='w-full space-y-4 text-gray-600!'>
                             <div>
-                                <TextField id="addressLine" label="Address Line" variant="outlined" className='w-full!' type='text' />
+                                <TextField id="addressLine" name="addressLine" label="Address Line" variant="outlined" className='w-full!' type='text' />
                             </div>
                             <div>
-                                <TextField id="city" label="City" variant="outlined" className='w-full!' type='text' />
+                                <TextField id="city" name="city" label="City" variant="outlined" className='w-full!' type='text' />
                             </div>
                             <div>
-                                <TextField id="state" label="State" variant="outlined" className='w-full!' type='text' />
+                                <TextField id="state" name="state" label="State" variant="outlined" className='w-full!' type='text' />
                             </div>
                             <div>
-                                <TextField id="pincode" label="Pincode" variant="outlined" className='w-full!' type='text' />
+                                <TextField id="pincode" name="pincode" label="Pincode" variant="outlined" className='w-full!' type='text' />
                             </div>
                             <div>
-                                <TextField id="country" label="Country" variant="outlined" className='w-full!' type='text' />
+                                <TextField id="country" name="country" label="Country" variant="outlined" className='w-full!' type='text' />
                             </div>
                             <div className='w-full!'>
                                 {/* <TextField id="mobileNumber" label="Mobile number" variant="outlined" className='w-full!' type='text' /> */}
@@ -331,7 +331,7 @@ function Footer() {
                                 />
                             </div>
                             <div>
-                                <TextField id="landMark" label="Land Mark" variant="outlined" className='w-full!' type='text' />
+                                <TextField id="landMark" name="landMark" label="Land Mark" variant="outlined" className='w-full!' type='text' />
                             </div>
                             <div>
                                 <FormControl>

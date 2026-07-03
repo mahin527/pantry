@@ -13,12 +13,12 @@ import Link from "next/link";
 import { Button } from "@mui/material";
 import { usePathname } from "next/navigation";
 
-interface accountPageLinkType {
+type accountPageLinkType = {
     id: number
     title: string
     link: string 
     icon: IconType
-}[]
+}
 
 function AccountSidebar() {
     const accountPageLinks: accountPageLinkType[] = [

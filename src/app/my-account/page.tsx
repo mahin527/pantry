@@ -27,10 +27,10 @@ function MyAccount() {
                         <form className="py-6 px-6">
                             <div className='flex flex-col sm:flex-row items-center gap-6 text-gray-600!'>
                                 <div className="w-full">
-                                    <TextField id="fullname" label="Fullname" variant="outlined" type='text' className="w-full" />
+                                    <TextField id="fullname" name="fullname" label="Fullname" variant="outlined" type='text' className="w-full" />
                                 </div>
                                 <div className="w-full">
-                                    <TextField id="email" label="Email" variant="outlined" type='text' className="w-full" />
+                                    <TextField id="email" name="email" label="Email" variant="outlined" type='text' className="w-full" />
                                 </div>
                             </div>
                             <div className="py-3">
@@ -54,13 +54,13 @@ function MyAccount() {
                         <form className="py-6 px-6">
                             <div className='grid grid-cols-1 sm:grid-cols-2 items-center gap-6 text-gray-600!'>
                                 <div className="w-full">
-                                    <TextField id="old-password" label="Old Password" variant="outlined" type='text' className="w-full" />
+                                    <TextField id="old-password" name="oldPassword" label="Old Password" variant="outlined" type='text' className="w-full" />
                                 </div>
                                 <div className="w-full">
-                                    <TextField id="new-password" label="New Password" variant="outlined" type='text' className="w-full" />
+                                    <TextField id="new-password" name="newPassword" label="New Password" variant="outlined" type='text' className="w-full" />
                                 </div>
                                 <div className="w-full">
-                                    <TextField id="confirm-password" label="Confirm Password" variant="outlined" type='text' className="w-full" />
+                                    <TextField id="confirm-password" name="confirmPassword" label="Confirm Password" variant="outlined" type='text' className="w-full" />
                                 </div>
                             </div>
                             <div className="py-3">

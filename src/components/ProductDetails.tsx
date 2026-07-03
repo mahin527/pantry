@@ -14,7 +14,7 @@ function ProductDetails() {
         <div className="py-3 w-[70%] space-y-8">
             <div>
                 <h2 className="text-xl lg:text-2xl 2xl:text-3xl font-semibold text-gray-700">
-                    Lay's American Style Cream & Onion Potato Chips 82 g
+                    Lay&apos;s American Style Cream & Onion Potato Chips 82 g
                 </h2>
             </div>
             <div className="flex gap-4 items-center text-base 2xl:text-lg font-bold text-gray-600">
@@ -43,10 +43,10 @@ function ProductDetails() {
             </div>
             <div>
                 <p className="text-base 2xl:text-lg font-bold text-gray-600 tracking-wider leading-7">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s
                     standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
                     va type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+                    Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took
                     a galley of type and scrambled it to make a type specimen book
                 </p>
             </div>

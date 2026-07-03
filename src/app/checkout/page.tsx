@@ -4,9 +4,7 @@ import Image from 'next/image'
 import potatoChips1 from "../../../public/potato-chips-1.jpg"
 import { FaPlus } from "react-icons/fa";
 
-import { FaRegEdit } from "react-icons/fa";
 import { Button } from '@mui/material';
-import Radio from '@mui/material/Radio';
 import { useAppContext } from "@/context/AppContext"
 import AddressList from '@/components/AddressList';
 
@@ -50,7 +48,7 @@ function CheckoutPage() {
                             </div>
                             <div className='max-h-75 overflow-y-scroll'>
                                 {
-                                    [1, 2, 3, 4, 5,].map((item, index) => (
+                                    [1, 2, 3, 4, 5].map((item, index) => (
                                         <div key={index} className='flex px-5 py-2'>
                                             <div className='flex gap-3 w-[80%]'>
                                                 <div className='w-[30%]'>

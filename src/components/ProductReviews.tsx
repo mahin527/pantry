@@ -33,7 +33,7 @@ function ProductReviews() {
                     <div className="px-6 py-2">
                         <p className="text-xs lg:text-sm text-gray-600 tracking-wider leading-6 text-justify">
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500. Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry&apos;s standard dummy text ever since the 1500. Lorem Ipsum is simply dummy text of the printing and typesetting
                             industry.
                         </p>
                     </div>
@@ -55,7 +55,7 @@ function ProductReviews() {
                     <div className="px-6 py-2">
                         <p className="text-xs lg:text-sm text-gray-600 tracking-wider leading-6 text-justify">
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500. Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry&apos;s standard dummy text ever since the 1500. Lorem Ipsum is simply dummy text of the printing and typesetting
                             industry.
                         </p>
                     </div>
@@ -68,8 +68,8 @@ function ProductReviews() {
                 </div>
                 <form className="space-y-3">
                     <TextareaAutosize
-                        aria-label="add-a-riview"
-                        id="add-a-riview"
+                        aria-label="add-a-review"
+                        id="add-a-review"
                         minRows={8}
                         placeholder="Share your experience with this product (quality, freshness, taste, etc.)"
                         className="text-xs lg:text-sm bg-gray-100 w-100 md:w-150 lg:w-200 outline-none border border-gray-200 px-2 py-2 rounded-md text-gray-700! tracking-widest! leading-5 lg:leading-7!"

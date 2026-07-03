@@ -1,5 +1,4 @@
 "use client"
-import React from 'react'
 import Sidebar from '@/components/Sidebar'
 import { Button } from '@mui/material'
 import { useState } from 'react'
@@ -64,10 +63,10 @@ function ProductsPage() {
                                             },
                                         }}
                                     >
-                                        <MenuItem onClick={handleClose}>Name, Z TO A</MenuItem>
-                                        <MenuItem onClick={handleClose}>Name, A TO Z</MenuItem>
-                                        <MenuItem onClick={handleClose}>Price, Low To High</MenuItem>
-                                        <MenuItem onClick={handleClose}>Price, High To Low </MenuItem>
+                                        <MenuItem onClick={() => { setSortBy("Name, Z To A"); handleClose(); }}>Name, Z TO A</MenuItem>
+                                        <MenuItem onClick={() => { setSortBy("Name, A To Z"); handleClose(); }}>Name, A TO Z</MenuItem>
+                                        <MenuItem onClick={() => { setSortBy("Price, Low To High"); handleClose(); }}>Price, Low To High</MenuItem>
+                                        <MenuItem onClick={() => { setSortBy("Price, High To Low"); handleClose(); }}>Price, High To Low</MenuItem>
                                     </Menu>
                                 </div>
                             </div>

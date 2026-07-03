@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from "react"
 
 type AppContextType = {
-    isOpenAddAddressPannel: boolean
+    isOpenAddAddressPanel: boolean
     openAddAddress: () => void
     closeAddAddress: () => void
 }
@@ -11,13 +11,13 @@ type AppContextType = {
 const AppContext = createContext<AppContextType | null>(null)
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const [isOpenAddAddressPannel, setIsOpenAddAddressPannel] = useState(false)
+    const [isOpenAddAddressPanel, setIsOpenAddAddressPanel] = useState(false)
 
-    const openAddAddress = () => setIsOpenAddAddressPannel(true)
-    const closeAddAddress = () => setIsOpenAddAddressPannel(false)
+    const openAddAddress = () => setIsOpenAddAddressPanel(true)
+    const closeAddAddress = () => setIsOpenAddAddressPanel(false)
 
     return (
-        <AppContext.Provider value={{ isOpenAddAddressPannel, openAddAddress, closeAddAddress }}>
+        <AppContext.Provider value={{ isOpenAddAddressPanel, openAddAddress, closeAddAddress }}>
             {children}
         </AppContext.Provider>
     )

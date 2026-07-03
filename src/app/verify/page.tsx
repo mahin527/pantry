@@ -1,12 +1,11 @@
 "use client"
 
-import TextField from '@mui/material/TextField';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { IoShieldHalfSharp } from "react-icons/io5";
 
 import { Button } from '@mui/material';
 import Link from 'next/link';
-import { FormEventHandler, useState } from 'react';
+import { useState } from 'react';
 import OtpBox from '@/components/OtpBox';
 
 function VerifyOtp() {

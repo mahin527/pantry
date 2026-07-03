@@ -26,7 +26,7 @@ function ForgotPassword() {
                     </div>
                     <form className='space-y-3 md:space-y-5 py-4'>
                         <div className='w-full'>
-                            <TextField id="email" label="Email" variant="outlined" className='w-full!' type='email' />
+                            <TextField id="email" name="email" label="Email" variant="outlined" className='w-full!' type='email' />
                         </div>
                         <div className='w-full'>
                             <Button variant="contained" className='w-full! py-3! font-bold!'>
