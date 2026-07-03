@@ -9,9 +9,44 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from 'react';
 import { Button } from '@mui/material';
 import Link from 'next/link';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema, type LoginInput } from '@/validations';
+import { useRouter } from 'next/navigation';
 
 function LoginPage() {
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
+    const [serverError, setServerError] = useState<string | null>(null)
+    const router = useRouter()
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginInput>({
+        resolver: zodResolver(loginSchema),
+    })
+
+    const onSubmit = async (data: LoginInput) => {
+        setServerError(null)
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+                credentials: "include",
+            })
+            const json = await res.json()
+            if (!json.success) {
+                setServerError(json.message || "Login failed")
+                return
+            }
+            router.push("/")
+        } catch {
+            setServerError("Something went wrong. Please try again.")
+        }
+    }
+
     return (
         <section className="relative overflow-hidden py-8 bg-gray-100 w-full h-screen flex items-center justify-center">
             <div className="container">
@@ -21,12 +56,45 @@ function LoginPage() {
                             Login to your account
                         </h2>
                     </div>
-                    <form className='space-y-3 md:space-y-5 py-4'>
+                    <form onSubmit={handleSubmit(onSubmit)} className='space-y-3 md:space-y-5 py-4'>
+                        {serverError && (
+                            <p className="text-red-500 text-sm font-medium text-center">{serverError}</p>
+                        )}
                         <div className='w-full'>
-                            <TextField id="email" name="email" label="Email" variant="outlined" className='w-full!' type='email' />
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        id="email"
+                                        label="Email"
+                                        variant="outlined"
+                                        className='w-full!'
+                                        type='email'
+                                        error={!!errors.email}
+                                        helperText={errors.email?.message}
+                                    />
+                                )}
+                            />
                         </div>
                         <div className='w-full relative'>
-                            <TextField id="password" name="password" label="Password" variant="outlined" className='w-full!' type={`${isShowPassword ? 'text' : 'password'}`} />
+                            <Controller
+                                name="password"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        id="password"
+                                        label="Password"
+                                        variant="outlined"
+                                        className='w-full!'
+                                        type={`${isShowPassword ? 'text' : 'password'}`}
+                                        error={!!errors.password}
+                                        helperText={errors.password?.message}
+                                    />
+                                )}
+                            />
                             <IconButton onClick={() => setIsShowPassword(!isShowPassword)} size='large' aria-label="password-show-hide" className='absolute! right-2 top-1/2 -translate-y-1/2 z-10'>
                                 {
                                     isShowPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />
@@ -38,8 +106,8 @@ function LoginPage() {
                             <Link href={"/forgot-password"} className='text-gray-600 font-bold hover:text-blue-500'>Forgot Password?</Link>
                         </div>
                         <div className='w-full'>
-                            <Button variant="contained" className='w-full! py-3! font-bold!'>
-                                Login
+                            <Button type="submit" variant="contained" className='w-full! py-3! font-bold!' disabled={isSubmitting}>
+                                {isSubmitting ? "Logging in..." : "Login"}
                             </Button>
                         </div>
                         <div className='text-center text-gray-600 font-medium flex flex-col gap-y-4'>
