@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { registerSchema } from "@/validations";
 import { authService } from "@/services/auth.service";
 import { error } from "@/lib/api-response";
+import { MESSAGES } from "@/lib/messages";
+import { HTTP } from "@/lib/http-status";
 import { AUTH_COOKIE_CONFIG } from "@/constants";
 
 export async function POST(request: NextRequest) {
@@ -11,18 +13,20 @@ export async function POST(request: NextRequest) {
     const parsed = registerSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        error("Validation failed", parsed.error.issues[0]?.message),
-        { status: 400 },
+        error(MESSAGES.VALIDATION_FAILED, parsed.error.issues[0]?.message),
+        { status: HTTP.BAD_REQUEST },
       );
     }
 
     const result = await authService.register(parsed.data);
 
     if (!result.success) {
-      return NextResponse.json(result, { status: 409 });
+      return NextResponse.json(result, { status: HTTP.CONFLICT });
     }
 
-    const response = NextResponse.json(result, { status: 201 });
+    const response = NextResponse.json(result, {
+      status: HTTP.CREATED,
+    });
 
     response.cookies.set(AUTH_COOKIE_CONFIG.name, result.data!.token, {
       httpOnly: AUTH_COOKIE_CONFIG.httpOnly,
@@ -34,6 +38,8 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch {
-    return NextResponse.json(error("Internal server error"), { status: 500 });
+    return NextResponse.json(error(MESSAGES.INTERNAL_ERROR), {
+      status: HTTP.INTERNAL_SERVER_ERROR,
+    });
   }
 }

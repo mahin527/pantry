@@ -8,6 +8,7 @@ import {
 } from "@/lib/auth";
 import { userRepository } from "@/repositories/user.repository";
 import { success, error } from "@/lib/api-response";
+import { MESSAGES } from "@/lib/messages";
 import type { ApiResponse } from "@/types/common";
 import type { RegisterInput, LoginInput } from "@/validations";
 
@@ -52,7 +53,7 @@ export const authService = {
 
     const existing = await userRepository.findByEmail(data.email);
     if (existing) {
-      return error("Email already registered");
+      return error(MESSAGES.EMAIL_EXISTS);
     }
 
     const hashedPassword = await hashPassword(data.password);
@@ -74,7 +75,7 @@ export const authService = {
         user: toSafeUser(user),
         token,
       },
-      "Registration successful",
+      MESSAGES.REGISTER_SUCCESS,
     );
   },
 
@@ -83,12 +84,12 @@ export const authService = {
 
     const user = await userRepository.findByEmail(data.email);
     if (!user) {
-      return error("Invalid email or password");
+      return error(MESSAGES.INVALID_CREDENTIALS);
     }
 
     const isMatch = await comparePassword(data.password, user.password);
     if (!isMatch) {
-      return error("Invalid email or password");
+      return error(MESSAGES.INVALID_CREDENTIALS);
     }
 
     const token = generateAccessToken({
@@ -102,12 +103,12 @@ export const authService = {
         user: toSafeUser(user),
         token,
       },
-      "Login successful",
+      MESSAGES.LOGIN_SUCCESS,
     );
   },
 
   async logout(): Promise<ApiResponse<null>> {
-    return success(null, "Logged out successfully");
+    return success(null, MESSAGES.LOGOUT_SUCCESS);
   },
 
   async getCurrentUser(token: string): Promise<ApiResponse<SafeUser>> {
@@ -115,16 +116,16 @@ export const authService = {
     try {
       payload = verifyAccessToken(token);
     } catch {
-      return error("Invalid or expired token", "Unauthorized");
+      return error(MESSAGES.INVALID_TOKEN, "Unauthorized");
     }
 
     await connectDB();
 
     const user = await userRepository.findById(payload.userId);
     if (!user) {
-      return error("User not found", "Unauthorized");
+      return error(MESSAGES.USER_NOT_FOUND, "Unauthorized");
     }
 
-    return success(toSafeUser(user), "User fetched successfully");
+    return success(toSafeUser(user), MESSAGES.USER_FETCHED);
   },
 };
