@@ -11,7 +11,7 @@ import { BsCartCheck } from "react-icons/bs";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import Link from "next/link";
 import { Button } from "@mui/material";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type accountPageLinkType = {
     id: number
@@ -21,17 +21,28 @@ type accountPageLinkType = {
 }
 
 function AccountSidebar() {
+    const router = useRouter()
+    const pathname = usePathname()
+
     const accountPageLinks: accountPageLinkType[] = [
         { id: 1, title: "My Profile", link: "/my-account", icon: CgProfile },
         { id: 2, title: "Address", link: "/address", icon: IoLocationOutline },
         { id: 3, title: "Wishlist", link: "/wishlist", icon: IoMdHeartEmpty },
         { id: 4, title: "My Orders", link: "/my-orders", icon: BsCartCheck },
         { id: 5, title: "Logout", link: "", icon: FaArrowRightFromBracket }
-
     ]
 
-
-const pathname = usePathname()
+    const handleLogout = async () => {
+        try {
+            await fetch("/api/auth/logout", {
+                method: "POST",
+                credentials: "include",
+            })
+        } catch {
+            // proceed with redirect regardless
+        }
+        router.push("/login")
+    }
 
     return (
         <aside className='account-sidebar w-full h-fit shadow-md rounded-xl'>
@@ -55,7 +66,19 @@ const pathname = usePathname()
                 {
                     accountPageLinks.map((link) => {
                         const Icon = link.icon;
-                        const isActive = pathname === link.link 
+                        const isActive = pathname === link.link
+
+                        if (link.link === "") {
+                            return (
+                                <button key={link.id} onClick={handleLogout} className="w-full py-2">
+                                    <Button className={`w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3!`}>
+                                        <Icon size={26} />
+                                        {link.title}
+                                    </Button>
+                                </button>
+                            )
+                        }
+
                         return (
                             <Link key={link.id} href={link.link} className="w-full py-2">
                                 <Button className={`w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3! ${isActive === true && 'active'}`}>
@@ -74,5 +97,3 @@ const pathname = usePathname()
 }
 
 export default AccountSidebar
-
-

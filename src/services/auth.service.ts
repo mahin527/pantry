@@ -1,5 +1,11 @@
 import { connectDB } from "@/lib/db";
-import { hashPassword, comparePassword, generateAccessToken } from "@/lib/auth";
+import {
+  hashPassword,
+  comparePassword,
+  generateAccessToken,
+  verifyAccessToken,
+  type TokenPayload,
+} from "@/lib/auth";
 import { userRepository } from "@/repositories/user.repository";
 import { success, error } from "@/lib/api-response";
 import type { ApiResponse } from "@/types/common";
@@ -9,6 +15,36 @@ type AuthResult = {
   user: { id: string; name: string; email: string; role: string };
   token: string;
 };
+
+type SafeUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  avatar?: string;
+  isVerified: boolean;
+  createdAt: Date;
+};
+
+function toSafeUser(user: {
+  _id: { toString(): string };
+  name: string;
+  email: string;
+  role: string;
+  avatar?: string;
+  isVerified: boolean;
+  createdAt: Date;
+}): SafeUser {
+  return {
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    avatar: user.avatar,
+    isVerified: user.isVerified,
+    createdAt: user.createdAt,
+  };
+}
 
 export const authService = {
   async register(data: RegisterInput): Promise<ApiResponse<AuthResult>> {
@@ -35,12 +71,7 @@ export const authService = {
 
     return success(
       {
-        user: {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
+        user: toSafeUser(user),
         token,
       },
       "Registration successful",
@@ -68,12 +99,7 @@ export const authService = {
 
     return success(
       {
-        user: {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
+        user: toSafeUser(user),
         token,
       },
       "Login successful",
@@ -82,5 +108,23 @@ export const authService = {
 
   async logout(): Promise<ApiResponse<null>> {
     return success(null, "Logged out successfully");
+  },
+
+  async getCurrentUser(token: string): Promise<ApiResponse<SafeUser>> {
+    let payload: TokenPayload;
+    try {
+      payload = verifyAccessToken(token);
+    } catch {
+      return error("Invalid or expired token", "Unauthorized");
+    }
+
+    await connectDB();
+
+    const user = await userRepository.findById(payload.userId);
+    if (!user) {
+      return error("User not found", "Unauthorized");
+    }
+
+    return success(toSafeUser(user), "User fetched successfully");
   },
 };
