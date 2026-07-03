@@ -21,3 +21,21 @@ export const ORDER_STATUS = {
   DELIVERED: "delivered",
   CANCELLED: "cancelled",
 } as const;
+
+export type AuthCookieOptions = {
+  name: string;
+  httpOnly: boolean;
+  secure: boolean;
+  sameSite: "lax" | "strict" | "none";
+  path: string;
+  maxAge: number;
+};
+
+export const AUTH_COOKIE_CONFIG: AuthCookieOptions = {
+  name: COOKIE_NAMES.SESSION,
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",
+  maxAge: 7 * 24 * 60 * 60,
+};

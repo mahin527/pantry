@@ -1,4 +1,2 @@
-// Validation schemas will be added here in future phases.
-// Example:
-// import { z } from "zod";
-// export const loginSchema = z.object({ ... });
+export { registerSchema, loginSchema } from "./auth.validation";
+export type { RegisterInput, LoginInput } from "./auth.validation";
