@@ -16,7 +16,7 @@ import { FaCcPaypal } from "react-icons/fa6";
 import { FaCcAmazonPay } from "react-icons/fa";
 import { FaCcApplePay } from "react-icons/fa";
 import Drawer from '@mui/material/Drawer';
-import { useAppContext } from "@/context/AppContext"
+import { useAppContext } from "@/providers/AppProvider"
 import TextField from '@mui/material/TextField';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';

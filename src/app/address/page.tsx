@@ -2,7 +2,7 @@
 
 import AccountSidebar from '@/components/AccountSidebar'
 import AddressList from '@/components/AddressList';
-import { useAppContext } from "@/context/AppContext"
+import { useAppContext } from "@/providers/AppProvider"
 import { Button } from '@mui/material';
 import { FaPlus } from "react-icons/fa";
 

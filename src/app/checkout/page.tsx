@@ -5,7 +5,7 @@ import potatoChips1 from "../../../public/potato-chips-1.jpg"
 import { FaPlus } from "react-icons/fa";
 
 import { Button } from '@mui/material';
-import { useAppContext } from "@/context/AppContext"
+import { useAppContext } from "@/providers/AppProvider"
 import AddressList from '@/components/AddressList';
 
 function CheckoutPage() {
