@@ -1,0 +1,36 @@
+import mongoose, { Schema, Document, models } from "mongoose";
+
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  avatar?: string;
+  role: "user" | "admin";
+  isVerified: boolean;
+  emailVerifiedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const UserSchema = new Schema<IUser>(
+  {
+    name: { type: String, required: true, trim: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    password: { type: String, required: true },
+    avatar: { type: String },
+    role: { type: String, enum: ["user", "admin"], default: "user" },
+    isVerified: { type: Boolean, default: false },
+    emailVerifiedAt: { type: Date },
+  },
+  { timestamps: true },
+);
+
+UserSchema.index({ email: 1 });
+
+export const User = models.User || mongoose.model<IUser>("User", UserSchema);
