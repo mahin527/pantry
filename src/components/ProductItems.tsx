@@ -62,6 +62,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
             height={140}
             width={140}
             className="object-contain transition duration-200 group-hover:scale-105 max-h-full"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 200px"
           />
           <span className="z-2 absolute left-0 top-0 border-2 font-bold border-gray-500 text-gray-500 py-0.5 px-1 rounded-md text-[10px] md:text-xs">
             {brand}
@@ -75,6 +76,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
               size="small"
               className="absolute! top-0 right-0 z-10 bg-white/80 hover:bg-white"
               sx={{ position: "absolute", top: 0, right: 0, zIndex: 10 }}
+              aria-label={inWishlist ? `Remove ${title} from wishlist` : `Add ${title} to wishlist`}
             >
               {inWishlist ? (
                 <IoMdHeart size={18} className="text-red-500" />

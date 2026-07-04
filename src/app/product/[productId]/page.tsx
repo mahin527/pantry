@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { fetchApi } from "@/lib/fetch-api"
 import ProductDetailsComponents from "@/components/ProductDetailsComponents"
+import { ProductJsonLd } from "../../ProductJsonLd"
 
 type Product = {
   _id: string
@@ -61,10 +62,23 @@ export default async function ProductDetailsPage({ params }: Props) {
     relatedRaw?.products.filter((p) => p._id !== product._id) ?? []
 
   return (
-    <section className="py-6">
-      <div className="container">
-        <ProductDetailsComponents product={product} relatedProducts={related} />
-      </div>
-    </section>
+    <>
+      <ProductJsonLd
+        title={product.title}
+        description={product.shortDescription || product.description.slice(0, 200)}
+        price={product.discountPrice ?? product.price}
+        image={product.images?.[0] || "/potato-chips-1.jpg"}
+        slug={product.slug}
+        brand={product.brand}
+        rating={product.rating}
+        reviewCount={product.reviewCount}
+        availability={product.stock > 0}
+      />
+      <section className="py-6">
+        <div className="container">
+          <ProductDetailsComponents product={product} relatedProducts={related} />
+        </div>
+      </section>
+    </>
   )
 }

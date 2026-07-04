@@ -1,5 +1,6 @@
 import { fetchApi } from "@/lib/fetch-api"
 import Banners from "@/components/Banners"
+import { HomepageJsonLd } from "./HomepageJsonLd"
 import CategorySlider from "@/components/CategorySlider"
 import FeaturedProducts from "@/components/FeaturedProducts"
 import LatestProducts from "@/components/LatestProducts"
@@ -38,7 +39,9 @@ export default async function Home() {
   ])
 
   return (
-    <div className="sliderWrapper p-4">
+    <>
+      <HomepageJsonLd />
+      <div className="sliderWrapper p-4">
       <HomeSliderWrapper />
       {categories && <CategorySlider categories={categories} />}
       {popular && <PopularProducts products={popular} />}
@@ -46,5 +49,6 @@ export default async function Home() {
       {latest && <LatestProducts products={latest} />}
       {featured && <FeaturedProducts products={featured} />}
     </div>
+    </>
   )
 }

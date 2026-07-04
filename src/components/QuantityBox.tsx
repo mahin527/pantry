@@ -30,11 +30,11 @@ function QuantityBox({
 
   return (
     <div className="flex items-center border border-gray-300 rounded-lg w-fit overflow-hidden">
-      <Button className="py-3!" onClick={minusQty} disabled={disabled}>
+      <Button className="py-3!" onClick={minusQty} disabled={disabled} aria-label="Decrease quantity">
         <FaMinus className="20" />
       </Button>
-      <span className="px-3 font-bold text-base xl:text-lg text-gray-600">{qtyValue}</span>
-      <Button className="py-3!" onClick={plusQty} disabled={disabled}>
+      <span className="px-3 font-bold text-base xl:text-lg text-gray-600" aria-live="polite" aria-atomic="true">{qtyValue}</span>
+      <Button className="py-3!" onClick={plusQty} disabled={disabled} aria-label="Increase quantity">
         <FaPlus className="20" />
       </Button>
     </div>

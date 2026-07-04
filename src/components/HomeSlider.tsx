@@ -28,12 +28,12 @@ function HomeSlider() {
                 className="mySwiper">
                 <SwiperSlide>
                     <div className="item">
-                        <Image src={sliderImage1} alt="slider image" className="w-full h-auto md:rounded-xl" priority />
+                        <Image src={sliderImage1} alt="Fresh groceries at Pantry - Home slider" className="w-full h-auto md:rounded-xl" priority sizes="100vw" />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="item">
-                        <Image src={sliderImage2} alt="slider image" className="w-full h-auto md:rounded-xl" />
+                        <Image src={sliderImage2} alt="Pantry grocery delivery promotion" className="w-full h-auto md:rounded-xl" sizes="100vw" />
                     {/* TODO: Create banner */}
                     </div>
                 </SwiperSlide>

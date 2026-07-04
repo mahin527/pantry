@@ -236,7 +236,7 @@ export default function AdminOrdersPage() {
                       <Chip label={o.orderStatus.charAt(0).toUpperCase() + o.orderStatus.slice(1)} size="small" color={STATUS_COLORS[o.orderStatus] ?? "default"} />
                     </TableCell>
                     <TableCell>
-                      <IconButton color="primary" onClick={() => { setDetailOrder(o); setNewStatus(o.orderStatus) }}>
+                      <IconButton color="primary" onClick={() => { setDetailOrder(o); setNewStatus(o.orderStatus) }} aria-label={`View order ${o._id.slice(-8).toUpperCase()}`}>
                         <FaEye size={16} />
                       </IconButton>
                     </TableCell>

@@ -38,6 +38,7 @@ function CategorySlider({ categories }: { categories: Category[] }) {
                     width={58}
                     height={58}
                     className="size-10 md:size-14 xl:size-16 object-contain transition duration-200 group-hover:scale-105"
+                    sizes="(max-width: 640px) 25vw, (max-width: 768px) 12.5vw, 58px"
                   />
                 </div>
                 <h4 className="py-1 md:py-2 text-center text-[10px] md:text-sm lg:text-base font-bold group-hover:text-blue-500 transition-colors duration-150 truncate">{cat.name}</h4>
