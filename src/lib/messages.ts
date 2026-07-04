@@ -42,4 +42,10 @@ export const MESSAGES = {
   ADDRESS_NOT_FOUND: "Address not found",
   ADDRESSES_FETCHED: "Addresses fetched successfully",
   ADDRESS_DEFAULT_UPDATED: "Default address updated",
+  ORDER_CREATED: "Order placed successfully",
+  ORDER_FETCHED: "Order fetched successfully",
+  ORDERS_FETCHED: "Orders fetched successfully",
+  ORDER_NOT_FOUND: "Order not found",
+  CART_EMPTY: "Your cart is empty",
+  INSUFFICIENT_STOCK: "Insufficient stock for one or more items",
 } as const;
