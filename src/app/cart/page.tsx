@@ -52,52 +52,52 @@ export default function CartPage() {
           {items.map((item) => (
             <div
               key={item.productId}
-              className="px-5 flex justify-between py-4 border-b border-gray-200"
+              className="px-3 md:px-5 flex flex-col md:flex-row justify-between py-4 border-b border-gray-200"
             >
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 md:gap-4">
                 <Image
                   src={item.image}
                   alt={item.title}
                   width={100}
                   height={100}
-                  className="h-28 w-20 rounded-md object-cover"
+                  className="h-24 w-18 md:h-28 md:w-20 rounded-md object-cover flex-shrink-0"
                 />
-                <div className="space-y-2">
-                  <span className="text-xs lg:text-sm text-gray-500">{item.brand}</span>
-                  <h4 className="font-bold text-base lg:text-lg text-gray-700">
+                <div className="space-y-1 md:space-y-2 min-w-0">
+                  <span className="text-[11px] md:text-xs lg:text-sm text-gray-500">{item.brand}</span>
+                  <h4 className="font-bold text-sm md:text-base lg:text-lg text-gray-700 leading-tight">
                     {item.title}
                   </h4>
-                  <Rating name="read-only" value={5} readOnly />
-                  <div className="flex items-center gap-3 text-gray-600">
+                  <Rating name="read-only" value={5} readOnly size="small" />
+                  <div className="flex flex-wrap items-center gap-2 md:gap-3 text-gray-600">
                     <QuantityBox
                       disabled={false}
                       onChange={(val) => updateQuantity(item.productId, val)}
                     />
                     {item.discountPrice ? (
                       <>
-                        <p className="text-blue-500 font-bold">
+                        <p className="text-blue-500 font-bold text-sm md:text-base">
                           {formatPrice(item.discountPrice)}
                         </p>
-                        <p className="text-gray-400 font-bold line-through">
+                        <p className="text-gray-400 font-bold line-through text-xs md:text-sm">
                           {formatPrice(item.price)}
                         </p>
                       </>
                     ) : (
-                      <p className="text-blue-500 font-bold">{formatPrice(item.price)}</p>
+                      <p className="text-blue-500 font-bold text-sm md:text-base">{formatPrice(item.price)}</p>
                     )}
-                    <p className="font-bold text-gray-600">
+                    <p className="font-bold text-gray-600 text-sm md:text-base">
                       Sub: {formatPrice(item.subtotal)}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div>
+              <div className="flex md:block justify-end mt-2 md:mt-0">
                 <Button
-                  className="py-5! rounded-full! font-bold! text-red-600!"
+                  className="py-2! md:py-5! rounded-full! font-bold! text-red-600!"
                   onClick={() => removeItem(item.productId)}
                 >
-                  <RiDeleteBin6Line size={20} />
+                  <RiDeleteBin6Line size={18} className="md:size-[20]" />
                 </Button>
               </div>
             </div>

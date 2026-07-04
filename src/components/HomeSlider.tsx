@@ -13,7 +13,7 @@ import sliderImage2 from "../../public/home_slider2.png"
 
 function HomeSlider() {
     return (
-        <div className="homeSlider container py-2">
+        <div className="homeSlider container py-1 md:py-2">
             <Swiper navigation={true}
                 modules={[Navigation, Autoplay]}
                 autoplay={{
@@ -28,12 +28,12 @@ function HomeSlider() {
                 className="mySwiper">
                 <SwiperSlide>
                     <div className="item">
-                        <Image src={sliderImage1} alt="slider image" className="w-full h-auto" />
+                        <Image src={sliderImage1} alt="slider image" className="w-full h-auto md:rounded-xl" priority />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="item">
-                        <Image src={sliderImage2} alt="slider image" className="w-full h-auto rounded-xl" />
+                        <Image src={sliderImage2} alt="slider image" className="w-full h-auto md:rounded-xl" />
                     {/* TODO: Create banner */}
                     </div>
                 </SwiperSlide>

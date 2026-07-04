@@ -87,7 +87,7 @@ function Footer() {
                             </div>
                         </div>
 
-                        <div className="text-gray-600 flex justify-between flex-wrap gap-5 py-8">
+                        <div className="text-gray-600 flex flex-col md:flex-row justify-between gap-6 md:gap-5 py-6 md:py-8">
                             <div className="contact tracking-wider xl:tracking-widest space-y-3 lg:space-y-4">
                                 <h3 className="text-xl lg:text-2xl font-semibold">
                                     Contact us
@@ -196,19 +196,19 @@ function Footer() {
                             </div>
 
 
-                            <div className="subscribe-newsletter tracking-wider xl:tracking-widest">
-                                <h3 className="text-xl lg:text-2xl font-semibold pb-2">
+                            <div className="subscribe-newsletter tracking-wider xl:tracking-widest w-full md:w-auto">
+                                <h3 className="text-lg md:text-xl lg:text-2xl font-semibold pb-2 text-center md:text-left">
                                     Subscribe to our newsletter
                                 </h3>
 
-                                <p>
+                                <p className="text-center md:text-left text-sm md:text-base">
                                     Subscribe to our latest newsletter to get news about special discounts.
                                 </p>
-                                <form className="w-full flex flex-col gap-4 py-4">
-                                    <div className="search-box bg-black/5 w-full max-w-sm md:max-w-md lg:w-150 h-14 rounded-md flex items-center"> {/* dark:bg-white/15 */}
+                                <form className="w-full flex flex-col gap-3 md:gap-4 py-3 md:py-4">
+                                    <div className="search-box bg-black/5 w-full max-w-sm md:max-w-md lg:w-150 h-12 md:h-14 rounded-md flex items-center">
                                         <input type="email" name="email" placeholder="Enter your email" className="px-4 text-sm md:text-base lg:text-lg tracking-wider outline-none border-none w-full h-full" />
                                     </div>
-                                    <Button variant="contained" className="max-w-fit">
+                                    <Button variant="contained" className="w-full md:max-w-fit">
                                         SUBSCRIBE
                                     </Button>
                                     <div className="flex items-center gap-2">

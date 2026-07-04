@@ -50,20 +50,20 @@ function ProductItems({ product }: { product?: ProductItem }) {
   }
 
   return (
-    <div className="text-gray-600 space-y-3 group py-2 px-3 overflow-hidden bg-white shadow-md rounded-md w-full max-w-52 h-88">
+    <div className="text-gray-600 space-y-2 md:space-y-3 group py-2 px-3 overflow-hidden bg-white shadow-md rounded-md w-full max-w-52 h-80 md:h-88 flex flex-col">
       <Link
         href={`/product/${slug}`}
-        className="hover:text-blue-500 transition-colors duration-150"
+        className="hover:text-blue-500 transition-colors duration-150 flex-shrink-0"
       >
-        <div className="relative img flex items-center justify-center py-3">
+        <div className="relative img flex items-center justify-center py-2 md:py-3 aspect-square">
           <Image
             src={imageSrc}
             alt={title}
             height={140}
             width={140}
-            className="object-contain transition duration-200 group-hover:scale-105"
+            className="object-contain transition duration-200 group-hover:scale-105 max-h-full"
           />
-          <span className="z-2 absolute left-0 top-0 border-2 font-bold border-gray-500 text-gray-500 py-0.5 px-1 rounded-md">
+          <span className="z-2 absolute left-0 top-0 border-2 font-bold border-gray-500 text-gray-500 py-0.5 px-1 rounded-md text-[10px] md:text-xs">
             {brand}
           </span>
           {product && (
@@ -84,19 +84,20 @@ function ProductItems({ product }: { product?: ProductItem }) {
             </IconButton>
           )}
         </div>
-        <h3 className="font-bold tracking-wider">{title}</h3>
+        <h3 className="font-bold text-xs md:text-sm tracking-wider line-clamp-2">{title}</h3>
       </Link>
-      <Rating name="read-only" value={rating} size="small" readOnly className="pt-2" />
+      <div className="flex-1" />
+      <Rating name="read-only" value={rating} size="small" readOnly className="pt-1 md:pt-2" />
       <div className="price flex items-center justify-between">
-        <p className="text-blue-500 font-bold">{formatPrice(price)}</p>
+        <p className="text-blue-500 font-bold text-sm md:text-base">{formatPrice(price)}</p>
         {discountPrice != null && (
-          <p className="text-gray-400 font-bold line-through">{formatPrice(discountPrice)}</p>
+          <p className="text-gray-400 font-bold line-through text-xs md:text-sm">{formatPrice(discountPrice)}</p>
         )}
       </div>
       <div className="flex flex-col items-center w-full">
         <Button
           variant="contained"
-          className="text-center! w-full! font-bold!"
+          className="text-center! w-full! font-bold! text-xs! md:text-sm! py-1.5! md:py-2!"
           onClick={handleAdd}
         >
           Add to cart
