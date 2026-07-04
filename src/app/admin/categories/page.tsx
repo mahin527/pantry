@@ -22,8 +22,8 @@ import {
   InputAdornment,
 } from "@mui/material"
 import { FaPlus, FaEdit, FaTrash, FaSearch } from "react-icons/fa"
-import { CategoryFormDialog } from "./CategoryFormDialog"
-import { DeleteCategoryDialog } from "./DeleteCategoryDialog"
+import { CategoryFormDialog } from "@/components/admin/CategoryFormDialog"
+import { DeleteCategoryDialog } from "@/components/admin/DeleteCategoryDialog"
 
 type Category = {
   _id: string
@@ -218,7 +218,9 @@ export default function AdminCategoriesPage() {
       {deleteCategory && (
         <DeleteCategoryDialog
           open={!!deleteCategory}
-          category={deleteCategory}
+          title="Category"
+          itemName={deleteCategory.name}
+          endpoint={`/api/admin/categories/${deleteCategory._id}`}
           onClose={() => setDeleteCategory(null)}
           onDeleted={onDeleted}
           showSnackbar={showSnackbar}
