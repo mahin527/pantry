@@ -20,6 +20,11 @@ function HomeSlider() {
                     delay: 2500,
                     disableOnInteraction: false
                 }}
+                breakpoints={{
+                    320: { slidesPerView: 1 },
+                    768: { slidesPerView: 1 },
+                    1024: { slidesPerView: 1 },
+                }}
                 className="mySwiper">
                 <SwiperSlide>
                     <div className="item">

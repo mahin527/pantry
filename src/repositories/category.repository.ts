@@ -61,6 +61,10 @@ export const categoryRepository = {
     return count > 0;
   },
 
+  async count(): Promise<number> {
+    return Category.countDocuments();
+  },
+
   async findActive(): Promise<ICategory[]> {
     return Category.find({ isActive: true }).sort({ sortOrder: 1, name: 1 });
   },

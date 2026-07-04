@@ -109,4 +109,19 @@ export const productRepository = {
     const count = await Product.countDocuments({ sku });
     return count > 0;
   },
+
+  async count(): Promise<number> {
+    return Product.countDocuments();
+  },
+
+  async countLowStock(threshold = 10): Promise<number> {
+    return Product.countDocuments({ stock: { $lte: threshold } });
+  },
+
+  async findLowStock(limit: number, threshold = 10): Promise<IProduct[]> {
+    return Product.find({ stock: { $lte: threshold } })
+      .sort({ stock: 1 })
+      .limit(limit)
+      .select("title sku stock images price");
+  },
 };

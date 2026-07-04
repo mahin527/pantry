@@ -99,4 +99,28 @@ export const orderRepository = {
   async delete(id: string): Promise<IOrder | null> {
     return Order.findByIdAndDelete(id)
   },
+
+  async countAll(): Promise<number> {
+    return Order.countDocuments();
+  },
+
+  async countPending(): Promise<number> {
+    return Order.countDocuments({ orderStatus: "pending" });
+  },
+
+  async calculateRevenue(): Promise<number> {
+    const result = await Order.aggregate([
+      { $match: { paymentStatus: "paid" } },
+      { $group: { _id: null, total: { $sum: "$total" } } },
+    ]);
+    return result[0]?.total ?? 0;
+  },
+
+  async findRecent(limit: number): Promise<IOrder[]> {
+    return Order.find()
+      .populate("items.product", "title slug price images brand")
+      .populate("user", "name email")
+      .sort({ createdAt: -1 })
+      .limit(limit);
+  },
 }

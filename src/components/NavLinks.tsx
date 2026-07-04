@@ -15,8 +15,8 @@ function NavLinks() {
 
     ]
     return (
-        <nav className="container py-6  text-gray-700">
-            <ul className='flex flex-wrap items-center justify-between gap-2'>
+        <nav className="container py-6 text-gray-700 overflow-x-auto">
+            <ul className='flex items-center gap-2 whitespace-nowrap'>
                 {
                     navLinks.map((link) => (
                         <li key={link.id} className='text-sm md:text-base tracking-wide font-bold'>
