@@ -1,10 +1,9 @@
-import mongoose, { Types } from "mongoose";
+import { Types } from "mongoose";
 import { Cart, ICart, type ICartItem } from "@/models";
 
 export type CartItemInput = {
   product: string;
   quantity: number;
-  priceAtAddition: number;
 };
 
 export const cartRepository = {
@@ -23,7 +22,6 @@ export const cartRepository = {
     userId: string,
     productId: string,
     quantity: number,
-    priceAtAddition: number,
   ): Promise<ICart> {
     let cart = await Cart.findOne({ user: userId });
     if (!cart) {
@@ -36,12 +34,10 @@ export const cartRepository = {
 
     if (existingIndex >= 0) {
       cart.items[existingIndex].quantity += quantity;
-      cart.items[existingIndex].priceAtAddition = priceAtAddition;
     } else {
       cart.items.push({
         product: new Types.ObjectId(productId),
         quantity,
-        priceAtAddition,
       });
     }
 
@@ -103,12 +99,10 @@ export const cartRepository = {
       );
       if (existing) {
         existing.quantity += incoming.quantity;
-        existing.priceAtAddition = incoming.priceAtAddition;
       } else {
         cart.items.push({
           product: new Types.ObjectId(incoming.product),
           quantity: incoming.quantity,
-          priceAtAddition: incoming.priceAtAddition,
         });
       }
     }

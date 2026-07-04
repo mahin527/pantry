@@ -109,8 +109,7 @@ export const cartService = {
       return error(MESSAGES.QUANTITY_EXCEEDS_STOCK);
     }
 
-    const effectivePrice = product.discountPrice ?? product.price;
-    await cartRepository.addItem(userId, productId, quantity, effectivePrice);
+    await cartRepository.addItem(userId, productId, quantity);
 
     const populated = await cartRepository.getCart(userId);
     return success(
@@ -185,7 +184,7 @@ export const cartService = {
 
   async mergeCart(
     userId: string,
-    items: Array<{ product: string; quantity: number; priceAtAddition: number }>,
+    items: Array<{ product: string; quantity: number }>,
   ): Promise<ApiResponse<CartResponse>> {
     await connectDB();
 
