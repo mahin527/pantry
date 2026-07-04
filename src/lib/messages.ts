@@ -36,4 +36,10 @@ export const MESSAGES = {
   PRODUCT_OUT_OF_STOCK: "Product is out of stock",
   PRODUCT_INACTIVE: "Product is unavailable",
   QUANTITY_EXCEEDS_STOCK: "Requested quantity exceeds available stock",
+  ADDRESS_CREATED: "Address added successfully",
+  ADDRESS_UPDATED: "Address updated successfully",
+  ADDRESS_DELETED: "Address deleted successfully",
+  ADDRESS_NOT_FOUND: "Address not found",
+  ADDRESSES_FETCHED: "Addresses fetched successfully",
+  ADDRESS_DEFAULT_UPDATED: "Default address updated",
 } as const;
