@@ -1,10 +1,12 @@
 "use client"
 
 import Image from "next/image"
-import { Button } from "@mui/material"
+import { Button, IconButton } from "@mui/material"
 import Rating from "@mui/material/Rating"
 import Link from "next/link"
 import { useCart } from "@/hooks/useCart"
+import { useWishlist } from "@/hooks/useWishlist"
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 
 type ProductItem = {
   _id: string
@@ -19,6 +21,7 @@ type ProductItem = {
 
 function ProductItems({ product }: { product?: ProductItem }) {
   const { addItem } = useCart()
+  const { addItem: addWishlist, removeItem, isInWishlist } = useWishlist()
   const title = product?.title || "Colorful fruit juices - 64 fl oz Bottle"
   const slug = product?.slug || "23454356"
   const imageSrc =
@@ -28,6 +31,17 @@ function ProductItems({ product }: { product?: ProductItem }) {
   const rating = product?.rating ?? 4
   const price = product?.price ?? 24.09
   const discountPrice = product?.discountPrice ?? 32.21
+
+  const inWishlist = product ? isInWishlist(product._id) : false
+
+  const handleWishlist = () => {
+    if (!product) return
+    if (inWishlist) {
+      removeItem(product._id)
+    } else {
+      addWishlist(product)
+    }
+  }
 
   const handleAdd = () => {
     if (!product) return
@@ -51,6 +65,23 @@ function ProductItems({ product }: { product?: ProductItem }) {
           <span className="z-2 absolute left-0 top-0 border-2 font-bold border-gray-500 text-gray-500 py-0.5 px-1 rounded-md">
             {brand}
           </span>
+          {product && (
+            <IconButton
+              onClick={(e) => {
+                e.preventDefault()
+                handleWishlist()
+              }}
+              size="small"
+              className="absolute! top-0 right-0 z-10 bg-white/80 hover:bg-white"
+              sx={{ position: "absolute", top: 0, right: 0, zIndex: 10 }}
+            >
+              {inWishlist ? (
+                <IoMdHeart size={18} className="text-red-500" />
+              ) : (
+                <IoMdHeartEmpty size={18} className="text-gray-500" />
+              )}
+            </IconButton>
+          )}
         </div>
         <h3 className="font-bold tracking-wider">{title}</h3>
       </Link>

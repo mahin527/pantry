@@ -3,11 +3,12 @@
 import { useState } from "react"
 import Rating from "@mui/material/Rating"
 import { Button } from "@mui/material"
-import { IoMdHeartEmpty } from "react-icons/io"
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import Tooltip from "@mui/material/Tooltip"
 import { RiShoppingBag3Line } from "react-icons/ri"
 import QuantityBox from "./QuantityBox"
 import { useCart } from "@/hooks/useCart"
+import { useWishlist } from "@/hooks/useWishlist"
 
 type Product = {
   _id: string
@@ -27,6 +28,9 @@ function ProductDetails({ product }: { product: Product }) {
   const [qty, setQty] = useState(1)
   const outOfStock = product.stock <= 0
   const { addItem } = useCart()
+  const { addItem: addWishlist, removeItem, isInWishlist } = useWishlist()
+
+  const inWishlist = isInWishlist(product._id)
 
   const handleAdd = () => {
     addItem(
@@ -41,6 +45,23 @@ function ProductDetails({ product }: { product: Product }) {
       },
       qty,
     )
+  }
+
+  const handleWishlist = () => {
+    if (inWishlist) {
+      removeItem(product._id)
+    } else {
+      addWishlist({
+        _id: product._id,
+        title: product.title,
+        slug: product.slug,
+        price: product.price,
+        discountPrice: product.discountPrice,
+        images: product.images,
+        brand: product.brand,
+        rating: product.rating,
+      })
+    }
   }
 
   return (
@@ -91,9 +112,16 @@ function ProductDetails({ product }: { product: Product }) {
           >
             <RiShoppingBag3Line size={26} /> {outOfStock ? "Out of Stock" : "Add to cart"}
           </Button>
-          <Tooltip title="Add to wishlist" placement="top">
-            <Button className="rounde-md!">
-              <IoMdHeartEmpty size={34} />
+          <Tooltip
+            title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+            placement="top"
+          >
+            <Button className="rounde-md!" onClick={handleWishlist}>
+              {inWishlist ? (
+                <IoMdHeart size={34} className="text-red-500" />
+              ) : (
+                <IoMdHeartEmpty size={34} />
+              )}
             </Button>
           </Tooltip>
         </div>

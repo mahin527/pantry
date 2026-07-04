@@ -48,4 +48,10 @@ export const MESSAGES = {
   ORDER_NOT_FOUND: "Order not found",
   CART_EMPTY: "Your cart is empty",
   INSUFFICIENT_STOCK: "Insufficient stock for one or more items",
+  WISHLIST_FETCHED: "Wishlist fetched successfully",
+  WISHLIST_ITEM_ADDED: "Item added to wishlist",
+  WISHLIST_ITEM_REMOVED: "Item removed from wishlist",
+  WISHLIST_CLEARED: "Wishlist cleared",
+  PRODUCT_ALREADY_IN_WISHLIST: "Product already in wishlist",
+  ORDER_UPDATED: "Order status updated",
 } as const;

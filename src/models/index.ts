@@ -18,3 +18,6 @@ export type { IOrder, IOrderItem, IShippingAddress } from "./Order";
 
 export { Review } from "./Review";
 export type { IReview } from "./Review";
+
+export { Wishlist } from "./Wishlist";
+export type { IWishlist, IWishlistItem } from "./Wishlist";
