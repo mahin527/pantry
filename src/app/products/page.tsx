@@ -1,92 +1,120 @@
-"use client"
-import Sidebar from '@/components/Sidebar'
-import { Button } from '@mui/material'
-import { useState } from 'react'
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ProductItems from '@/components/ProductItems'
-import Pagination from '@mui/material/Pagination';
+import { fetchApi } from "@/lib/fetch-api"
+import Sidebar from "@/components/Sidebar"
+import ProductItems from "@/components/ProductItems"
+import { ProductsPagination } from "./ProductsPagination"
+import { ProductsToolbar } from "./ProductsToolbar"
 
-function ProductsPage() {
-    const [sortBy, setSortBy] = useState("Name, A To Z")
-
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    return (
-        <>
-            <section className='py-4 bg-gray-50'>
-                <div className="container py-4 flex gap-6">
-                    <div className='sidebar-wrapper w-[20%]'>
-                        <Sidebar />
-                    </div>
-                    <div className='product-wrapper w-[80%] tracking-wider text-gray-600'>
-                        <div className='top-strip sticky top-5 z-10 w-full bg-white shadow-md flex items-center justify-between py-3 lg:py-4 xl:py-5 px-6 rounded-md'> 
-                            <p className='font-bold'>
-                                There are 25 products
-                            </p>
-                            <div className='flex items-center gap-3'>
-                                <p className='font-bold'>
-                                    Sort By
-                                </p>
-                                <div className="relative">
-                                    <Button
-                                        variant="outlined"
-                                        className='font-bold!'
-                                        id="basic-button"
-                                        aria-controls={open ? 'basic-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={open ? 'true' : undefined}
-                                        onClick={handleClick}>
-                                        {sortBy}
-                                    </Button>
-
-                                    <Menu
-                                        id="basic-menu"
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                        slotProps={{
-                                            paper: {
-                                                sx: {
-                                                    color: "#57585b",
-                                                },
-                                            },
-                                            list: {
-                                                'aria-labelledby': 'basic-button',
-                                            },
-                                        }}
-                                    >
-                                        <MenuItem onClick={() => { setSortBy("Name, Z To A"); handleClose(); }}>Name, Z TO A</MenuItem>
-                                        <MenuItem onClick={() => { setSortBy("Name, A To Z"); handleClose(); }}>Name, A TO Z</MenuItem>
-                                        <MenuItem onClick={() => { setSortBy("Price, Low To High"); handleClose(); }}>Price, Low To High</MenuItem>
-                                        <MenuItem onClick={() => { setSortBy("Price, High To Low"); handleClose(); }}>Price, High To Low</MenuItem>
-                                    </Menu>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='py-6 px-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5'>
-                            {
-                                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((item, index) => (
-                                    <ProductItems key={index} />
-                                ))
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div className='flex items-center justify-center'>
-                    <Pagination count={10} color="primary" />
-                </div>
-            </section>
-        </>
-    )
+type Category = {
+  _id: string
+  name: string
+  slug: string
+  image: string
 }
 
-export default ProductsPage
+type Product = {
+  _id: string
+  title: string
+  slug: string
+  price: number
+  discountPrice?: number
+  images: string[]
+  rating: number
+  brand?: string
+}
+
+type ProductsData = {
+  products: Product[]
+  pagination: { total: number; page: number; limit: number; totalPages: number }
+}
+
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+const sortMap: Record<string, { field: string; order: string }> = {
+  "title-asc": { field: "title", order: "asc" },
+  "title-desc": { field: "title", order: "desc" },
+  "price-asc": { field: "price", order: "asc" },
+  "price-desc": { field: "price", order: "desc" },
+  "createdAt-asc": { field: "createdAt", order: "asc" },
+  "createdAt-desc": { field: "createdAt", order: "desc" },
+}
+
+export default async function ProductsPage({ searchParams }: Props) {
+  const sp = await searchParams
+
+  const page = typeof sp.page === "string" ? sp.page : "1"
+  const search = typeof sp.search === "string" ? sp.search : ""
+  const category = typeof sp.category === "string" ? sp.category : ""
+  const minPrice = typeof sp.minPrice === "string" ? sp.minPrice : ""
+  const maxPrice = typeof sp.maxPrice === "string" ? sp.maxPrice : ""
+  const sort = typeof sp.sort === "string" ? sp.sort : "createdAt-desc"
+  const featured = typeof sp.featured === "string" ? sp.featured : ""
+  const popular = typeof sp.popular === "string" ? sp.popular : ""
+  const latest = typeof sp.latest === "string" ? sp.latest : ""
+
+  const params = new URLSearchParams()
+  params.set("page", page)
+  params.set("limit", "20")
+  if (search) params.set("search", search)
+  if (category) params.set("category", category)
+  if (minPrice) params.set("minPrice", minPrice)
+  if (maxPrice) params.set("maxPrice", maxPrice)
+  if (featured) params.set("featured", featured)
+  if (popular) params.set("popular", popular)
+  if (latest) params.set("latest", latest)
+
+  const sortOption = sortMap[sort] || sortMap["createdAt-desc"]
+  params.set("sort", sortOption.field)
+  params.set("order", sortOption.order)
+
+  const [productsData, categories] = await Promise.all([
+    fetchApi<ProductsData>(`/api/products?${params.toString()}`),
+    fetchApi<Category[]>("/api/categories"),
+  ])
+
+  const products = productsData?.products ?? []
+  const pagination = productsData?.pagination
+  const total = pagination?.total ?? 0
+
+  return (
+    <section className="py-4 bg-gray-50">
+      <div className="container py-4 flex gap-6">
+        <div className="sidebar-wrapper w-[20%]">
+          <Sidebar
+            key={`${minPrice}-${maxPrice}-${category}`}
+            categories={categories ?? []}
+            selectedCategory={category}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+          />
+        </div>
+        <div className="product-wrapper w-[80%] tracking-wider text-gray-600">
+          <ProductsToolbar total={total} sort={sort} />
+
+          {products.length === 0 ? (
+            <div className="py-16 px-5 text-center">
+              <p className="text-lg font-bold text-gray-500">No products found</p>
+              <p className="text-sm text-gray-400 mt-1">Try adjusting your filters or search terms.</p>
+            </div>
+          ) : (
+            <div className="py-6 px-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
+              {products.map((product) => (
+                <ProductItems key={product._id} product={product} />
+              ))}
+            </div>
+          )}
+
+          {pagination && pagination.totalPages > 1 && (
+            <div className="flex items-center justify-center pb-8">
+              <ProductsPagination
+                currentPage={pagination.page}
+                totalPages={pagination.totalPages}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
