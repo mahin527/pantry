@@ -11,4 +11,12 @@ export const MESSAGES = {
   INTERNAL_ERROR: "Internal server error",
   VALIDATION_FAILED: "Validation failed",
   SUCCESS: "Success",
+  FORBIDDEN: "Forbidden",
+  CATEGORY_CREATED: "Category created successfully",
+  CATEGORY_UPDATED: "Category updated successfully",
+  CATEGORY_DELETED: "Category deleted successfully",
+  CATEGORY_NOT_FOUND: "Category not found",
+  CATEGORIES_FETCHED: "Categories fetched successfully",
+  CATEGORY_FETCHED: "Category fetched successfully",
+  SLUG_EXISTS: "Slug already exists",
 } as const;
