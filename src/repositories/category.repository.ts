@@ -60,4 +60,8 @@ export const categoryRepository = {
     const count = await Category.countDocuments({ slug });
     return count > 0;
   },
+
+  async findActive(): Promise<ICategory[]> {
+    return Category.find({ isActive: true }).sort({ sortOrder: 1, name: 1 });
+  },
 };

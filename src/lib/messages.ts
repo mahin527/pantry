@@ -19,4 +19,12 @@ export const MESSAGES = {
   CATEGORIES_FETCHED: "Categories fetched successfully",
   CATEGORY_FETCHED: "Category fetched successfully",
   SLUG_EXISTS: "Slug already exists",
+  PRODUCT_CREATED: "Product created successfully",
+  PRODUCT_UPDATED: "Product updated successfully",
+  PRODUCT_DELETED: "Product deleted successfully",
+  PRODUCT_NOT_FOUND: "Product not found",
+  PRODUCTS_FETCHED: "Products fetched successfully",
+  PRODUCT_FETCHED: "Product fetched successfully",
+  SKU_EXISTS: "SKU already exists",
+  CATEGORY_INVALID: "Invalid category",
 } as const;
