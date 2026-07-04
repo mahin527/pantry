@@ -1,19 +1,7 @@
-
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-    title: "Pantry | Products Details Page",
-    description: "Pantry - grocery shop products details page  ",
-};
-
 export default function ProductPageLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-    return (
-        <>
-            {children}
-        </>
-    );
+  return <>{children}</>
 }

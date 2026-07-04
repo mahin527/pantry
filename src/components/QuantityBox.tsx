@@ -4,7 +4,7 @@ import { FaMinus } from "react-icons/fa6";
 import { Button } from "@mui/material"
 import { useState } from "react";
 
-function QuantityBox() {
+function QuantityBox({ disabled }: { disabled?: boolean }) {
     const [qtyValue, setqtyValue] = useState(0)
 
     const minusQty = () => {
@@ -19,13 +19,13 @@ function QuantityBox() {
 
     return (
         <div className="flex items-center border border-gray-300 rounded-lg w-fit overflow-hidden">
-            <Button className="py-3!" onClick={minusQty}>
+            <Button className="py-3!" onClick={minusQty} disabled={disabled}>
                 <FaMinus className="20" />
             </Button>
 
             <span className="px-3 font-bold text-base xl:text-lg text-gray-600">{qtyValue}</span>
 
-            <Button className="py-3!" onClick={plusQty}>
+            <Button className="py-3!" onClick={plusQty} disabled={disabled}>
                 <FaPlus className="20" />
             </Button>
         </div>
