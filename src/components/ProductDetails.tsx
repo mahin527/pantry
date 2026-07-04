@@ -1,11 +1,16 @@
+"use client"
+
+import { useState } from "react"
 import Rating from "@mui/material/Rating"
 import { Button } from "@mui/material"
 import { IoMdHeartEmpty } from "react-icons/io"
 import Tooltip from "@mui/material/Tooltip"
 import { RiShoppingBag3Line } from "react-icons/ri"
 import QuantityBox from "./QuantityBox"
+import { useCart } from "@/hooks/useCart"
 
 type Product = {
+  _id: string
   title: string
   brand?: string
   rating: number
@@ -14,10 +19,29 @@ type Product = {
   discountPrice?: number
   stock: number
   description: string
+  images: string[]
+  slug: string
 }
 
 function ProductDetails({ product }: { product: Product }) {
+  const [qty, setQty] = useState(1)
   const outOfStock = product.stock <= 0
+  const { addItem } = useCart()
+
+  const handleAdd = () => {
+    addItem(
+      {
+        _id: product._id,
+        title: product.title,
+        slug: product.slug,
+        price: product.price,
+        discountPrice: product.discountPrice,
+        images: product.images,
+        brand: product.brand,
+      },
+      qty,
+    )
+  }
 
   return (
     <div className="py-3 w-[70%] space-y-8">
@@ -58,11 +82,12 @@ function ProductDetails({ product }: { product: Product }) {
       </div>
       <div>
         <div className="flex items-center gap-3">
-          <QuantityBox disabled={outOfStock} />
+          <QuantityBox disabled={outOfStock} onChange={setQty} />
           <Button
             variant="contained"
             className="py-2.5! font-bold! space-x-2!"
             disabled={outOfStock}
+            onClick={handleAdd}
           >
             <RiShoppingBag3Line size={26} /> {outOfStock ? "Out of Stock" : "Add to cart"}
           </Button>

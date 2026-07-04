@@ -27,4 +27,13 @@ export const MESSAGES = {
   PRODUCT_FETCHED: "Product fetched successfully",
   SKU_EXISTS: "SKU already exists",
   CATEGORY_INVALID: "Invalid category",
+  CART_NOT_FOUND: "Cart not found",
+  CART_ITEM_ADDED: "Item added to cart",
+  CART_ITEM_UPDATED: "Cart updated",
+  CART_ITEM_REMOVED: "Item removed from cart",
+  CART_CLEARED: "Cart cleared",
+  CART_FETCHED: "Cart fetched successfully",
+  PRODUCT_OUT_OF_STOCK: "Product is out of stock",
+  PRODUCT_INACTIVE: "Product is unavailable",
+  QUANTITY_EXCEEDS_STOCK: "Requested quantity exceeds available stock",
 } as const;

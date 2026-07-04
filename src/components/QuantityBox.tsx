@@ -1,35 +1,44 @@
 "use client"
-import { FaPlus } from "react-icons/fa6";
-import { FaMinus } from "react-icons/fa6";
+
+import { useState, useEffect } from "react"
+import { FaPlus } from "react-icons/fa6"
+import { FaMinus } from "react-icons/fa6"
 import { Button } from "@mui/material"
-import { useState } from "react";
 
-function QuantityBox({ disabled }: { disabled?: boolean }) {
-    const [qtyValue, setqtyValue] = useState(0)
+function QuantityBox({
+  disabled,
+  onChange,
+}: {
+  disabled?: boolean
+  onChange?: (val: number) => void
+}) {
+  const [qtyValue, setqtyValue] = useState(1)
 
-    const minusQty = () => {
-        if (qtyValue > 0) {
-            setqtyValue(qtyValue - 1)
-        }
+  useEffect(() => {
+    onChange?.(qtyValue)
+  }, [qtyValue, onChange])
+
+  const minusQty = () => {
+    if (qtyValue > 1) {
+      setqtyValue(qtyValue - 1)
     }
+  }
 
-    const plusQty = () => {
-        setqtyValue(qtyValue + 1)
-    }
+  const plusQty = () => {
+    setqtyValue(qtyValue + 1)
+  }
 
-    return (
-        <div className="flex items-center border border-gray-300 rounded-lg w-fit overflow-hidden">
-            <Button className="py-3!" onClick={minusQty} disabled={disabled}>
-                <FaMinus className="20" />
-            </Button>
-
-            <span className="px-3 font-bold text-base xl:text-lg text-gray-600">{qtyValue}</span>
-
-            <Button className="py-3!" onClick={plusQty} disabled={disabled}>
-                <FaPlus className="20" />
-            </Button>
-        </div>
-    )
+  return (
+    <div className="flex items-center border border-gray-300 rounded-lg w-fit overflow-hidden">
+      <Button className="py-3!" onClick={minusQty} disabled={disabled}>
+        <FaMinus className="20" />
+      </Button>
+      <span className="px-3 font-bold text-base xl:text-lg text-gray-600">{qtyValue}</span>
+      <Button className="py-3!" onClick={plusQty} disabled={disabled}>
+        <FaPlus className="20" />
+      </Button>
+    </div>
+  )
 }
 
 export default QuantityBox
