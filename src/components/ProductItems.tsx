@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useCart } from "@/hooks/useCart"
 import { useWishlist } from "@/hooks/useWishlist"
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
+import { formatPrice } from "@/lib/utils"
 
 type ProductItem = {
   _id: string
@@ -87,9 +88,9 @@ function ProductItems({ product }: { product?: ProductItem }) {
       </Link>
       <Rating name="read-only" value={rating} size="small" readOnly className="pt-2" />
       <div className="price flex items-center justify-between">
-        <p className="text-blue-500 font-bold">${price.toFixed(2)}</p>
+        <p className="text-blue-500 font-bold">{formatPrice(price)}</p>
         {discountPrice != null && (
-          <p className="text-gray-400 font-bold line-through">${discountPrice.toFixed(2)}</p>
+          <p className="text-gray-400 font-bold line-through">{formatPrice(discountPrice)}</p>
         )}
       </div>
       <div className="flex flex-col items-center w-full">

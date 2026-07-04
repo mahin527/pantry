@@ -7,6 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri"
 import { Button, CircularProgress, Box } from "@mui/material"
 import { useWishlist } from "@/hooks/useWishlist"
 import { useCart } from "@/hooks/useCart"
+import { formatPrice } from "@/lib/utils"
 import Link from "next/link"
 
 export default function WishlistPage() {
@@ -83,14 +84,14 @@ export default function WishlistPage() {
                         {item.discountPrice ? (
                           <>
                             <p className="text-blue-500 font-bold">
-                              ${item.discountPrice.toFixed(2)}
+                              {formatPrice(item.discountPrice)}
                             </p>
                             <p className="text-gray-400 font-bold line-through">
-                              ${item.price.toFixed(2)}
+                              {formatPrice(item.price)}
                             </p>
                           </>
                         ) : (
-                          <p className="text-blue-500 font-bold">${item.price.toFixed(2)}</p>
+                          <p className="text-blue-500 font-bold">{formatPrice(item.price)}</p>
                         )}
                         <Button
                           size="small"

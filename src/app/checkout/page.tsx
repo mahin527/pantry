@@ -7,6 +7,7 @@ import { Button, CircularProgress, Snackbar, Alert, Radio } from "@mui/material"
 import { useAppContext } from "@/providers/AppProvider"
 import { useCart } from "@/hooks/useCart"
 import { useRouter } from "next/navigation"
+import { formatPrice } from "@/lib/utils"
 
 type Address = {
   _id: string
@@ -215,7 +216,7 @@ function CheckoutPage() {
                     </div>
                     <div className="w-[20%] text-right">
                       <p className="font-semibold text-blue-500">
-                        ${item.subtotal.toFixed(2)}
+                        {formatPrice(item.subtotal)}
                       </p>
                     </div>
                   </div>
@@ -224,11 +225,11 @@ function CheckoutPage() {
 
               <div className="px-5 flex items-center justify-between text-sm">
                 <span>Subtotal ({itemCount} items)</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
               <div className="px-5 flex items-center justify-between text-sm">
                 <span>Shipping</span>
-                <span>{shippingFee === 0 ? "Free" : `$${shippingFee.toFixed(2)}`}</span>
+                <span>{shippingFee === 0 ? "Free" : formatPrice(shippingFee)}</span>
               </div>
               {subtotal > 0 && (
                 <div className="px-5 flex items-center justify-between text-sm text-gray-400">
@@ -239,7 +240,7 @@ function CheckoutPage() {
 
               <div className="px-5 py-3 border-t border-gray-200 flex items-center justify-between font-bold text-lg">
                 <span>Total</span>
-                <span className="text-blue-500">${total.toFixed(2)}</span>
+                <span className="text-blue-500">{formatPrice(total)}</span>
               </div>
 
               <div className="px-5 py-3 text-center w-full">

@@ -8,6 +8,7 @@ import { Button } from "@mui/material"
 import Link from "next/link"
 import { useCart } from "@/hooks/useCart"
 import { CircularProgress, Box } from "@mui/material"
+import { formatPrice } from "@/lib/utils"
 
 export default function CartPage() {
   const { items, subtotal, itemCount, loading, updateQuantity, removeItem } =
@@ -75,17 +76,17 @@ export default function CartPage() {
                     {item.discountPrice ? (
                       <>
                         <p className="text-blue-500 font-bold">
-                          ${item.discountPrice.toFixed(2)}
+                          {formatPrice(item.discountPrice)}
                         </p>
                         <p className="text-gray-400 font-bold line-through">
-                          ${item.price.toFixed(2)}
+                          {formatPrice(item.price)}
                         </p>
                       </>
                     ) : (
-                      <p className="text-blue-500 font-bold">${item.price.toFixed(2)}</p>
+                      <p className="text-blue-500 font-bold">{formatPrice(item.price)}</p>
                     )}
                     <p className="font-bold text-gray-600">
-                      Sub: ${item.subtotal.toFixed(2)}
+                      Sub: {formatPrice(item.subtotal)}
                     </p>
                   </div>
                 </div>
@@ -114,7 +115,7 @@ export default function CartPage() {
             <div className="space-y-3 py-3 font-medium text-gray-600">
               <div className="px-5 flex items-center justify-between">
                 <span>Subtotal</span>
-                <span className="text-blue-500">${subtotal.toFixed(2)}</span>
+                <span className="text-blue-500">{formatPrice(subtotal)}</span>
               </div>
 
               <div className="px-5 flex items-center justify-between">
@@ -129,7 +130,7 @@ export default function CartPage() {
               <div className="px-5 py-2 flex items-center justify-between">
                 <span className="font-bold text-xl">Total</span>
                 <span className="font-bold text-blue-500 text-xl">
-                  ${subtotal.toFixed(2)}
+                  {formatPrice(subtotal)}
                 </span>
               </div>
 

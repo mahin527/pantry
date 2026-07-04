@@ -31,6 +31,8 @@ import {
   DialogActions,
 } from "@mui/material"
 import { FaSearch, FaEye } from "react-icons/fa"
+import { formatPrice, formatDate } from "@/lib/utils"
+import { STATUS_COLORS } from "@/constants"
 
 type OrderItem = {
   product: { _id: string; title: string; slug: string; price: number; images: string[]; brand?: string }
@@ -70,18 +72,6 @@ type Order = {
   paymentStatus: string
   orderStatus: string
   createdAt: string
-}
-
-const statusColors: Record<string, "warning" | "success" | "error" | "info" | "default"> = {
-  pending: "warning",
-  paid: "success",
-  failed: "error",
-  refunded: "info",
-  confirmed: "info",
-  processing: "info",
-  shipped: "info",
-  delivered: "success",
-  cancelled: "error",
 }
 
 const allowedStatuses = ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"]
@@ -237,13 +227,13 @@ export default function AdminOrdersPage() {
                       #{o._id.slice(-8).toUpperCase()}
                     </TableCell>
                     <TableCell>{o.user?.name ?? "—"}</TableCell>
-                    <TableCell>{new Date(o.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }}>${o.total.toFixed(2)}</TableCell>
+                    <TableCell>{formatDate(o.createdAt)}</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>{formatPrice(o.total)}</TableCell>
                     <TableCell>
-                      <Chip label={o.paymentStatus.charAt(0).toUpperCase() + o.paymentStatus.slice(1)} size="small" color={statusColors[o.paymentStatus] ?? "default"} variant="outlined" />
+                      <Chip label={o.paymentStatus.charAt(0).toUpperCase() + o.paymentStatus.slice(1)} size="small" color={STATUS_COLORS[o.paymentStatus] ?? "default"} variant="outlined" />
                     </TableCell>
                     <TableCell>
-                      <Chip label={o.orderStatus.charAt(0).toUpperCase() + o.orderStatus.slice(1)} size="small" color={statusColors[o.orderStatus] ?? "default"} />
+                      <Chip label={o.orderStatus.charAt(0).toUpperCase() + o.orderStatus.slice(1)} size="small" color={STATUS_COLORS[o.orderStatus] ?? "default"} />
                     </TableCell>
                     <TableCell>
                       <IconButton color="primary" onClick={() => { setDetailOrder(o); setNewStatus(o.orderStatus) }}>
@@ -288,19 +278,19 @@ export default function AdminOrdersPage() {
               {detailOrder.items.map((item, idx) => (
                 <Box key={idx} sx={{ display: "flex", justifyContent: "space-between", py: 0.5, borderBottom: "1px solid #eee" }}>
                   <Typography variant="body2">{item.title} × {item.quantity}</Typography>
-                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>${(item.price * item.quantity).toFixed(2)}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>{formatPrice(item.price * item.quantity)}</Typography>
                 </Box>
               ))}
 
               <Box sx={{ mt: 2, borderTop: "1px solid #ddd", pt: 1 }}>
-                <Typography variant="body2">Subtotal: ${detailOrder.subtotal.toFixed(2)}</Typography>
-                <Typography variant="body2">Shipping: {detailOrder.shippingFee === 0 ? "Free" : `$${detailOrder.shippingFee.toFixed(2)}`}</Typography>
-                <Typography variant="body2">Discount: ${detailOrder.discount.toFixed(2)}</Typography>
-                <Typography variant="body2" sx={{ fontWeight: "bold", fontSize: "1rem" }}>Total: ${detailOrder.total.toFixed(2)}</Typography>
+                <Typography variant="body2">Subtotal: {formatPrice(detailOrder.subtotal)}</Typography>
+                <Typography variant="body2">Shipping: {detailOrder.shippingFee === 0 ? "Free" : formatPrice(detailOrder.shippingFee)}</Typography>
+                <Typography variant="body2">Discount: {formatPrice(detailOrder.discount)}</Typography>
+                <Typography variant="body2" sx={{ fontWeight: "bold", fontSize: "1rem" }}>Total: {formatPrice(detailOrder.total)}</Typography>
               </Box>
 
               <Typography variant="subtitle2" sx={{ mt: 2, fontWeight: "bold" }}>Payment</Typography>
-              <Typography variant="body2">{detailOrder.paymentMethod.toUpperCase()} — <Chip label={detailOrder.paymentStatus} size="small" color={statusColors[detailOrder.paymentStatus] ?? "default"} variant="outlined" /></Typography>
+              <Typography variant="body2">{detailOrder.paymentMethod.toUpperCase()} — <Chip label={detailOrder.paymentStatus} size="small" color={STATUS_COLORS[detailOrder.paymentStatus] ?? "default"} variant="outlined" /></Typography>
 
               <Typography variant="subtitle2" sx={{ mt: 2, fontWeight: "bold" }}>Order Status</Typography>
               <FormControl size="small" sx={{ minWidth: 160, mt: 0.5 }}>

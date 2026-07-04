@@ -14,6 +14,8 @@ import {
   Box,
   Chip,
 } from "@mui/material"
+import { formatPrice, formatDate } from "@/lib/utils"
+import { STATUS_COLORS } from "@/constants"
 
 type Stats = {
   users: number
@@ -73,15 +75,6 @@ async function getDashboard(): Promise<DashboardData | null> {
   } catch {
     return null
   }
-}
-
-const statusColors: Record<string, "warning" | "success" | "error" | "info" | "default"> = {
-  pending: "warning",
-  confirmed: "info",
-  processing: "info",
-  shipped: "info",
-  delivered: "success",
-  cancelled: "error",
 }
 
 function StatCard({ label, value, href }: { label: string; value: number | string; href?: string }) {
@@ -158,7 +151,7 @@ export default async function AdminDashboardPage() {
         <StatCard label="Products" value={stats.products} href="/admin/products" />
         <StatCard label="Categories" value={stats.categories} href="/admin/categories" />
         <StatCard label="Orders" value={stats.orders} href="/admin/orders" />
-        <StatCard label="Revenue" value={`$${stats.revenue.toFixed(2)}`} />
+        <StatCard label="Revenue" value={formatPrice(stats.revenue)} />
         <StatCard label="Pending Orders" value={stats.pendingOrders} href="/admin/orders" />
         <StatCard label="Low Stock" value={stats.lowStockProducts} />
       </Box>
@@ -192,10 +185,10 @@ export default async function AdminDashboardPage() {
                           #{o._id.slice(-8).toUpperCase()}
                         </TableCell>
                         <TableCell>{o.user?.name ?? "—"}</TableCell>
-                        <TableCell>{new Date(o.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</TableCell>
-                        <TableCell sx={{ fontWeight: "bold" }}>${o.total.toFixed(2)}</TableCell>
+                        <TableCell>{formatDate(o.createdAt)}</TableCell>
+                        <TableCell sx={{ fontWeight: "bold" }}>{formatPrice(o.total)}</TableCell>
                         <TableCell>
-                          <Chip label={o.orderStatus} size="small" color={statusColors[o.orderStatus] ?? "default"} />
+                          <Chip label={o.orderStatus} size="small" color={STATUS_COLORS[o.orderStatus] ?? "default"} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -271,7 +264,7 @@ export default async function AdminDashboardPage() {
                       {u.email}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                      Joined {new Date(u.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      Joined {formatDate(u.createdAt)}
                     </Typography>
                   </Box>
                 </Box>

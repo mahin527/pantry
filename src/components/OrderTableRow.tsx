@@ -5,6 +5,8 @@ import Image from "next/image"
 import { FaAngleDown } from "react-icons/fa6"
 import IconButton from "@mui/material/IconButton"
 import Chip from "@mui/material/Chip"
+import { formatPrice, formatDate } from "@/lib/utils"
+import { STATUS_COLORS } from "@/constants"
 
 type OrderItem = {
   product: { _id: string; title: string; slug: string; price: number; images: string[]; brand?: string }
@@ -23,26 +25,10 @@ type Order = {
   createdAt: string
 }
 
-const statusColor: Record<string, "warning" | "success" | "error" | "info" | "default"> = {
-  pending: "warning",
-  paid: "success",
-  failed: "error",
-  refunded: "info",
-  confirmed: "info",
-  processing: "info",
-  shipped: "info",
-  delivered: "success",
-  cancelled: "error",
-}
-
 function OrderTableRow({ order }: { order: Order }) {
   const [expandIndex, setExpandIndex] = useState(false)
 
-  const date = new Date(order.createdAt).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
+  const date = formatDate(order.createdAt)
 
   return (
     <>
@@ -70,13 +56,13 @@ function OrderTableRow({ order }: { order: Order }) {
           {order.items.length} item{order.items.length !== 1 ? "s" : ""}
         </td>
         <td className="px-3 h-8 whitespace-nowrap border-r border-gray-200 font-semibold text-blue-600">
-          ${order.total.toFixed(2)}
+          {formatPrice(order.total)}
         </td>
         <td className="px-3 h-8 whitespace-nowrap border-r border-gray-200">
           <Chip
             label={order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
             size="small"
-            color={statusColor[order.paymentStatus] ?? "default"}
+            color={STATUS_COLORS[order.paymentStatus] ?? "default"}
             variant="outlined"
           />
         </td>
@@ -84,7 +70,7 @@ function OrderTableRow({ order }: { order: Order }) {
           <Chip
             label={order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}
             size="small"
-            color={statusColor[order.orderStatus] ?? "default"}
+            color={STATUS_COLORS[order.orderStatus] ?? "default"}
           />
         </td>
         <td className="px-3 h-8 whitespace-nowrap border-r border-gray-200">{date}</td>
@@ -109,7 +95,7 @@ function OrderTableRow({ order }: { order: Order }) {
               <div className="space-y-2">
                 <p className="font-bold text-base md:text-lg">{item.title}</p>
                 <p className="font-semibold">
-                  Unit Price: <span>${item.price.toFixed(2)}</span>
+                  Unit Price: <span>{formatPrice(item.price)}</span>
                 </p>
                 <p className="font-semibold">
                   Quantity: <span>{item.quantity}</span>
@@ -117,7 +103,7 @@ function OrderTableRow({ order }: { order: Order }) {
               </div>
             </td>
             <td className="font-semibold text-base">
-              ${(item.price * item.quantity).toFixed(2)}
+              {formatPrice(item.price * item.quantity)}
             </td>
             <td></td>
           </tr>

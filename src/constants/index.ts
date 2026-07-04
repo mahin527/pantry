@@ -22,6 +22,18 @@ export const ORDER_STATUS = {
   CANCELLED: "cancelled",
 } as const;
 
+export const STATUS_COLORS: Record<string, "warning" | "success" | "error" | "info" | "default"> = {
+  pending: "warning",
+  paid: "success",
+  failed: "error",
+  refunded: "info",
+  confirmed: "info",
+  processing: "info",
+  shipped: "info",
+  delivered: "success",
+  cancelled: "error",
+};
+
 export type AuthCookieOptions = {
   name: string;
   httpOnly: boolean;

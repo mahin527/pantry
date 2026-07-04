@@ -9,6 +9,7 @@ import { RiShoppingBag3Line } from "react-icons/ri"
 import QuantityBox from "./QuantityBox"
 import { useCart } from "@/hooks/useCart"
 import { useWishlist } from "@/hooks/useWishlist"
+import { formatPrice } from "@/lib/utils"
 
 type Product = {
   _id: string
@@ -85,10 +86,10 @@ function ProductDetails({ product }: { product: Product }) {
       <div className="flex gap-5 items-center">
         <div className="flex items-center gap-3 text-lg xl:text-xl font-bold">
           <p className="text-blue-500">
-            ${product.discountPrice ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
+            {formatPrice(product.discountPrice ?? product.price)}
           </p>
           {product.discountPrice && (
-            <p className="text-gray-500 line-through">${product.price.toFixed(2)}</p>
+            <p className="text-gray-500 line-through">{formatPrice(product.price)}</p>
           )}
         </div>
         <div className="flex items-center gap-2 font-bold text-gray-600">
