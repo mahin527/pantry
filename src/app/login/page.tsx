@@ -50,7 +50,7 @@ function LoginPage() {
     return (
         <section className="relative overflow-hidden py-8 bg-gray-100 w-full h-screen flex items-center justify-center">
             <div className="container">
-                <div className='bg-white border border-gray-200 py-5 px-8 rounded-md shadow-md w-86 md:w-90 lg:w-100 xl:w-106 m-auto'>
+                    <div className='bg-white border border-gray-200 py-5 px-4 sm:px-8 rounded-md shadow-md w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl m-auto'>
                     <div className='text-center py-2'>
                         <h2 className='py-2 text-gray-700 text-xl lg:text-2xl font-semibold'>
                             Login to your account

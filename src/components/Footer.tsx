@@ -205,7 +205,7 @@ function Footer() {
                                     Subscribe to our latest newsletter to get news about special discounts.
                                 </p>
                                 <form className="w-full flex flex-col gap-4 py-4">
-                                    <div className="search-box bg-black/5 w-150 h-14 rounded-md flex items-center"> {/* dark:bg-white/15 */}
+                                    <div className="search-box bg-black/5 w-full max-w-sm md:max-w-md lg:w-150 h-14 rounded-md flex items-center"> {/* dark:bg-white/15 */}
                                         <input type="email" name="email" placeholder="Enter your email" className="px-4 text-sm md:text-base lg:text-lg tracking-wider outline-none border-none w-full h-full" />
                                     </div>
                                     <Button variant="contained" className="max-w-fit">

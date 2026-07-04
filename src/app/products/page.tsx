@@ -79,8 +79,8 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   return (
     <section className="py-4 bg-gray-50">
-      <div className="container py-4 flex gap-6">
-        <div className="sidebar-wrapper w-[20%]">
+      <div className="container py-4 flex flex-col lg:flex-row gap-6">
+        <div className="sidebar-wrapper w-full lg:w-[20%]">
           <Sidebar
             key={`${minPrice}-${maxPrice}-${category}`}
             categories={categories ?? []}
@@ -89,7 +89,7 @@ export default async function ProductsPage({ searchParams }: Props) {
             maxPrice={maxPrice}
           />
         </div>
-        <div className="product-wrapper w-[80%] tracking-wider text-gray-600">
+        <div className="product-wrapper w-full lg:w-[80%] tracking-wider text-gray-600">
           <ProductsToolbar total={total} sort={sort} />
 
           {products.length === 0 ? (
@@ -98,7 +98,7 @@ export default async function ProductsPage({ searchParams }: Props) {
               <p className="text-sm text-gray-400 mt-1">Try adjusting your filters or search terms.</p>
             </div>
           ) : (
-            <div className="py-6 px-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
+            <div className="py-6 px-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
               {products.map((product) => (
                 <ProductItems key={product._id} product={product} />
               ))}

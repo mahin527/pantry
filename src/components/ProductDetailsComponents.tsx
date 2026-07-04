@@ -33,7 +33,7 @@ function ProductDetailsComponents({
 }) {
   return (
     <div className="space-y-5">
-      <div className="flex gap-10">
+      <div className="flex flex-col md:flex-row gap-6 md:gap-10">
         <ProductImage images={product.images} title={product.title} />
         <ProductDetails product={product} />
       </div>

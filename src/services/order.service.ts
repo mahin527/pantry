@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db";
-import { orderRepository } from "@/repositories/order.repository";
+import { orderRepository, type AdminOrderFilter } from "@/repositories/order.repository";
 import { cartRepository } from "@/repositories/cart.repository";
 import { addressRepository } from "@/repositories/address.repository";
 import { Product, Cart } from "@/models";
@@ -185,5 +185,70 @@ export const orderService = {
     }
 
     return success(order, MESSAGES.ORDER_FETCHED);
+  },
+
+  async findAll(
+    raw: {
+      page: number;
+      limit: number;
+      sort: Record<string, 1 | -1>;
+      search?: string;
+      status?: string;
+      paymentStatus?: string;
+    },
+  ): Promise<ApiResponse<PaginatedOrders>> {
+    await connectDB();
+
+    const skip = calculateSkip(raw.page, raw.limit);
+
+    const filter: AdminOrderFilter = {
+      page: raw.page,
+      limit: raw.limit,
+      skip,
+      sort: raw.sort,
+    };
+    if (raw.search) filter.search = raw.search;
+    if (raw.status) filter.status = raw.status;
+    if (raw.paymentStatus) filter.paymentStatus = raw.paymentStatus;
+
+    const { orders, total } = await orderRepository.findAll(filter);
+
+    const pagination = calculatePagination({
+      page: raw.page,
+      limit: raw.limit,
+      total,
+    });
+
+    return success({ orders, pagination }, MESSAGES.ORDERS_FETCHED);
+  },
+
+  async findById(id: string): Promise<ApiResponse<IOrder>> {
+    await connectDB();
+
+    const order = await orderRepository.findById(id);
+    if (!order) {
+      return error(MESSAGES.ORDER_NOT_FOUND);
+    }
+
+    return success(order, MESSAGES.ORDER_FETCHED);
+  },
+
+  async updateStatus(
+    id: string,
+    orderStatus: string,
+  ): Promise<ApiResponse<IOrder>> {
+    await connectDB();
+
+    const order = await orderRepository.findById(id);
+    if (!order) {
+      return error(MESSAGES.ORDER_NOT_FOUND);
+    }
+
+    const updated = await orderRepository.updateStatus(id, orderStatus);
+    if (!updated) {
+      return error(MESSAGES.ORDER_NOT_FOUND);
+    }
+
+    return success(updated, MESSAGES.ORDER_UPDATED);
   },
 };

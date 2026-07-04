@@ -179,7 +179,7 @@ function CheckoutPage() {
           </div>
         </div>
 
-        <div className="w-full md:w-[35%]">
+        <div className="w-full lg:w-[35%]">
           <div className="bg-white rounded-md border border-gray-200">
             <div className="py-4 border-b border-gray-200">
               <h3 className="px-5 text-xl lg:text-2xl text-gray-700 tracking-wider font-bold">

@@ -12,7 +12,7 @@ const Header = () => {
         <header>
             <div className="border-b border-gray-300"> {/* dark:border-gray-800 */}
                 <div className="container py-4">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-2">
                         <div className="logo">
                             <Link href={"/"} className="flex items-center justify-center gap-2 bg-black/10 dark:bg-white/15 py-2 px-5 rounded-full">
                                 <Image src={logoImg} alt="Pantry logo" width={120} height={120} className="size-12 md:size-14 lg:size-16 2xl:size-18" />

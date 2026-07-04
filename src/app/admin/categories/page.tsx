@@ -162,7 +162,7 @@ export default function AdminCategoriesPage() {
         </Paper>
       ) : (
         <Paper>
-          <TableContainer>
+          <TableContainer sx={{ overflowX: "auto" }}>
             <Table>
               <TableHead>
                 <TableRow>

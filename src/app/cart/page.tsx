@@ -37,8 +37,8 @@ export default function CartPage() {
 
   return (
     <section className="py-10 bg-gray-100">
-      <div className="container flex justify-between gap-5">
-        <div className="w-[75%] bg-white rounded-md border border-gray-200">
+      <div className="container flex flex-col lg:flex-row justify-between gap-5">
+        <div className="w-full lg:w-[75%] bg-white rounded-md border border-gray-200">
           <div className="space-y-3 py-4 border-b border-gray-200">
             <h3 className="px-5 text-xl lg:text-2xl text-gray-700 tracking-wider font-bold">
               Your Cart
@@ -103,7 +103,7 @@ export default function CartPage() {
           ))}
         </div>
 
-        <div className="w-[25%]">
+        <div className="w-full lg:w-[25%]">
           <div className="bg-white rounded-md border border-gray-200">
             <div className="py-4 border-b border-gray-200">
               <h3 className="px-5 text-xl lg:text-2xl text-gray-700 tracking-wider font-bold">

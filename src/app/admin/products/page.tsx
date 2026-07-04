@@ -208,7 +208,7 @@ export default function AdminProductsPage() {
         </Paper>
       ) : (
         <Paper>
-          <TableContainer>
+          <TableContainer sx={{ overflowX: "auto" }}>
             <Table>
               <TableHead>
                 <TableRow>

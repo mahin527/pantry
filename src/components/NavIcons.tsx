@@ -5,8 +5,8 @@ import { RiShoppingBag3Line } from "react-icons/ri";
 
 function NavMenus() {
     return (
-        <div className='flex flex-wrap items-center gap-2 text-gray-700'>
-            <div className='flex items-center gap-2 text-sm md:text-base lg:text-lg tracking-wider font-semibold'>
+        <div className='flex items-center gap-1 sm:gap-2 text-gray-700'>
+            <div className='hidden sm:flex items-center gap-2 text-xs md:text-base lg:text-lg tracking-wider font-semibold'>
                 <Link href={"/register"} className='hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200'>
                     Register
                 </Link>

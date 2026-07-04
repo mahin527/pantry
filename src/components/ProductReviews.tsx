@@ -6,7 +6,7 @@ import { Button } from "@mui/material"
 
 function ProductReviews({ reviewCount }: { reviewCount: number }) {
   return (
-    <section className="pt-2 w-[70%]">
+    <section className="pt-2 w-full md:w-[70%]">
       <div className="space-y-5">
         <div>
           <h3 className="text-xl lg:text-2xl font-bold text-blue-500">
@@ -84,7 +84,7 @@ function ProductReviews({ reviewCount }: { reviewCount: number }) {
             id="add-a-review"
             minRows={8}
             placeholder="Share your experience with this product (quality, freshness, taste, etc.)"
-            className="text-xs lg:text-sm bg-gray-100 w-100 md:w-150 lg:w-200 outline-none border border-gray-200 px-2 py-2 rounded-md text-gray-700! tracking-widest! leading-5 lg:leading-7!"
+                                className="text-xs lg:text-sm bg-gray-100 w-full max-w-sm sm:max-w-md lg:max-w-lg xl:w-200 outline-none border border-gray-200 px-2 py-2 rounded-md text-gray-700! tracking-widest! leading-5 lg:leading-7!"
           />
           <div>
             <Rating name="read-only" defaultValue={3} />

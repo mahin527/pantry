@@ -49,7 +49,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
   }
 
   return (
-    <div className="text-gray-600 space-y-3 group py-2 px-3 overflow-hidden bg-white shadow-md rounded-md w-50 h-88">
+    <div className="text-gray-600 space-y-3 group py-2 px-3 overflow-hidden bg-white shadow-md rounded-md w-full max-w-52 h-88">
       <Link
         href={`/product/${slug}`}
         className="hover:text-blue-500 transition-colors duration-150"

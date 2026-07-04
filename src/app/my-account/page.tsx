@@ -8,12 +8,12 @@ function MyAccount() {
 
     return (
         <section className='bg-gray-100 py-8'>
-            <div className="container flex gap-5">
-                <div className="w-[25%]">
-                <AccountSidebar />
+            <div className="container flex flex-col md:flex-row gap-5">
+                <div className="w-full md:w-[25%]">
+                    <AccountSidebar />
                 </div>
 
-                <div className="wrapper w-[75%] space-y-8">
+                <div className="wrapper w-full md:w-[75%] space-y-8">
                     <div className="bg-white shadow-md rounded-md">
                         <div className="py-4 space-y-2 px-6 border-b border-gray-200">
                             <h3 className="text-xl lg:text-2xl text-gray-700 tracking-wider font-bold">

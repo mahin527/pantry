@@ -22,7 +22,7 @@ function ProductImage({ images, title }: { images: string[]; title: string }) {
   }
 
   return (
-    <div className="image-wrapper w-[30%] space-y-6">
+    <div className="image-wrapper w-full md:w-[30%] space-y-6">
       <Swiper
         onSwiper={setBigSwiper}
         className="BigSlider border border-gray-200 rounded-md p-4 overflow-hidden"
