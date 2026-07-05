@@ -1,6 +1,7 @@
 // import "dotenv/config";
 import mongoose from "mongoose";
-import { Category, Product } from "../src/models";
+import bcrypt from "bcryptjs";
+import { Category, Product, User } from "../src/models";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -376,6 +377,40 @@ const products: ProductSeed[] = [
 async function seed() {
   await mongoose.connect(MONGODB_URI!);
   console.log("Connected to MongoDB\n");
+
+  // Seed users
+  const hashedPassword = await bcrypt.hash("Admin@123", 12);
+
+  const adminExists = await User.findOne({ email: "admin@example.com" });
+  if (!adminExists) {
+    await User.create({
+      name: "Admin",
+      email: "admin@example.com",
+      password: hashedPassword,
+      role: "admin",
+      isVerified: true,
+    });
+    console.log("Created admin user: admin@example.com / Admin@123");
+  } else {
+    console.log("Admin user already exists");
+  }
+
+  const userExists = await User.findOne({ email: "user@example.com" });
+  if (!userExists) {
+    const userPassword = await bcrypt.hash("User@123", 12);
+    await User.create({
+      name: "John Doe",
+      email: "user@example.com",
+      password: userPassword,
+      role: "user",
+      isVerified: true,
+    });
+    console.log("Created user: user@example.com / User@123");
+  } else {
+    console.log("User already exists");
+  }
+
+  console.log("");
 
   const categoryMap: Record<string, string> = {};
 

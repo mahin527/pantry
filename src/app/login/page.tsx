@@ -7,16 +7,18 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 import { useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, Snackbar, Alert } from '@mui/material';
 import Link from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginInput } from '@/validations';
 import { useRouter } from 'next/navigation';
+import { setCachedUser } from '@/hooks/useAuth';
 
 function LoginPage() {
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
     const [serverError, setServerError] = useState<string | null>(null)
+    const [successOpen, setSuccessOpen] = useState(false)
     const router = useRouter()
 
     const {
@@ -41,7 +43,16 @@ function LoginPage() {
                 setServerError(json.message || "Login failed")
                 return
             }
-            router.push("/")
+            // Fetch user immediately to update header
+            try {
+                const userRes = await fetch("/api/users/me", { credentials: "include" })
+                const userJson = await userRes.json()
+                if (userJson.success && userJson.data) {
+                    setCachedUser(userJson.data)
+                }
+            } catch {}
+            setSuccessOpen(true)
+            setTimeout(() => router.push("/"), 1200)
         } catch {
             setServerError("Something went wrong. Please try again.")
         }
@@ -50,7 +61,7 @@ function LoginPage() {
     return (
         <section className="relative overflow-hidden py-8 bg-gray-100 w-full h-screen flex items-center justify-center">
             <div className="container">
-                    <div className='bg-white border border-gray-200 py-5 px-4 sm:px-8 rounded-md shadow-md w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl m-auto'>
+                <div className='bg-white border border-gray-200 py-5 px-4 sm:px-8 rounded-md shadow-md w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl m-auto'>
                     <div className='text-center py-2'>
                         <h2 className='py-2 text-gray-700 text-xl lg:text-2xl font-semibold'>
                             Login to your account
@@ -130,6 +141,17 @@ function LoginPage() {
                     </form>
                 </div>
             </div>
+
+            <Snackbar
+                open={successOpen}
+                autoHideDuration={2000}
+                onClose={() => setSuccessOpen(false)}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+                <Alert severity="success" variant="filled" onClose={() => setSuccessOpen(false)}>
+                    Welcome back!
+                </Alert>
+            </Snackbar>
 
             <div className="circle-1 bg-blue-500 opacity-20 size-70 rounded-full absolute bottom-0 -left-[16%]">
             </div>
