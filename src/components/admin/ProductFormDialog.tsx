@@ -25,6 +25,7 @@ import {
   Box,
 } from "@mui/material"
 import { FaPlus, FaTrash } from "react-icons/fa"
+import { ImageUploader } from "@/components/ImageUploader"
 
 export type Product = {
   _id: string
@@ -63,6 +64,7 @@ type Props = {
 export function ProductFormDialog({ open, product, onClose, onSaved, showSnackbar }: Props) {
   const [saving, setSaving] = useState(false)
   const [categories, setCategories] = useState<ActiveCategory[]>([])
+  const [imageUrls, setImageUrls] = useState<string[]>(product?.images ?? [])
   const router = useRouter()
   const isEdit = !!product
 
@@ -91,7 +93,6 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
           description: product.description,
           shortDescription: product.shortDescription ?? "",
           category: product.category,
-          images: product.images ?? [""],
           price: product.price,
           discountPrice: product.discountPrice ?? undefined,
           stock: product.stock,
@@ -109,7 +110,6 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
           description: "",
           shortDescription: "",
           category: "",
-          images: [""],
           price: 0,
           discountPrice: undefined,
           stock: 0,
@@ -123,17 +123,18 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
         },
   })
 
-  const {
-    fields: imageFields,
-    append: appendImage,
-    remove: removeImage,
-  } = useFieldArray({ control, name: "images" as never })
+  const { fields: tagFields, append: appendTag, remove: removeTag } = useFieldArray({
+    control,
+    name: "tags" as never,
+  })
 
-  const {
-    fields: tagFields,
-    append: appendTag,
-    remove: removeTag,
-  } = useFieldArray({ control, name: "tags" as never })
+  const addImage = (url: string) => {
+    if (url) setImageUrls((prev) => [...prev, url])
+  }
+
+  const removeImage = (idx: number) => {
+    setImageUrls((prev) => prev.filter((_, i) => i !== idx))
+  }
 
   const onSubmit = async (data: CreateProductInput | UpdateProductInput) => {
     setSaving(true)
@@ -141,16 +142,16 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
       const method = isEdit ? "PATCH" : "POST"
       const url = isEdit ? `/api/admin/products/${product._id}` : "/api/admin/products"
 
-      const cleaned = {
+      const payload = {
         ...data,
-        images: (data as CreateProductInput).images?.filter(Boolean) ?? [],
+        images: imageUrls,
         tags: (data as CreateProductInput).tags?.filter(Boolean) ?? [],
       }
 
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cleaned),
+        body: JSON.stringify(payload),
         credentials: "include",
       })
 
@@ -254,16 +255,30 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
           </Box>
 
           <Box>
-            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "text.secondary" }}>Image URLs</Typography>
-            {imageFields.map((field, idx) => (
-              <Box key={field.id} sx={{ display: "flex", gap: 1, mb: 1 }}>
-                <Controller name={`images.${idx}` as never} control={control} render={({ field: f }) => (
-                  <TextField {...f} size="small" placeholder="https://..." fullWidth />
-                )} />
-                <IconButton color="error" onClick={() => removeImage(idx)} size="small"><FaTrash size={14} /></IconButton>
+            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "text.secondary" }}>
+              Product Images
+            </Typography>
+            {imageUrls.map((url, idx) => (
+              <Box key={idx} sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
+                <Box
+                  component="img"
+                  src={url}
+                  alt={`Product ${idx + 1}`}
+                  sx={{ width: 60, height: 60, objectFit: "cover", borderRadius: 1, border: "1px solid #ddd" }}
+                />
+                <Typography variant="body2" sx={{ flex: 1, fontSize: "0.75rem", wordBreak: "break-all" }}>
+                  {url}
+                </Typography>
+                <IconButton color="error" size="small" onClick={() => removeImage(idx)}>
+                  <FaTrash size={14} />
+                </IconButton>
               </Box>
             ))}
-            <Button size="small" startIcon={<FaPlus />} onClick={() => appendImage("" as never)}>Add Image</Button>
+            <ImageUploader
+              onUpload={addImage}
+              folder="products"
+              label="Add Image"
+            />
           </Box>
 
           <Box>

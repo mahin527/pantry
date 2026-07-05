@@ -6,6 +6,57 @@ import { FaAngleDown, FaBars, FaXmark } from "react-icons/fa6"
 import Drawer from "@mui/material/Drawer"
 import { Button } from "@mui/material"
 
+export function MobileToggle() {
+    const [mobileOpen, setMobileOpen] = useState(false)
+
+    const navLinks = [
+        { id: 1, title: "Home", link: "/" },
+        { id: 2, title: "Fruits & Vegetables", link: "/products" },
+        { id: 3, title: "Meats & Seafood", link: "/products" },
+        { id: 4, title: "Breaksfast & Dairy", link: "/products" },
+        { id: 5, title: "Breads & Bakery", link: "/products" },
+        { id: 6, title: "Beverages", link: "/products" },
+        { id: 7, title: "Frozen Foods", link: "/products" },
+        { id: 8, title: "Biscuits & Snacks", link: "/products" },
+        { id: 9, title: "Grocery & Staples", link: "/products" },
+    ]
+
+    return (
+        <>
+            <button
+                onClick={() => setMobileOpen(true)}
+                className="flex items-center justify-center size-10 text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                aria-label="Open menu"
+            >
+                <FaBars size={20} />
+            </button>
+            <Drawer open={mobileOpen} onClose={() => setMobileOpen(false)} anchor="left">
+                <div className="w-72 p-4">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-bold text-lg text-gray-700">Categories</h3>
+                        <Button onClick={() => setMobileOpen(false)}>
+                            <FaXmark size={20} />
+                        </Button>
+                    </div>
+                    <ul className="space-y-1">
+                        {navLinks.map((link) => (
+                            <li key={link.id}>
+                                <Link
+                                    href={link.link}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="block px-3 py-2.5 rounded-md font-bold text-gray-600 hover:bg-blue-50 hover:text-blue-500 transition-colors"
+                                >
+                                    {link.title}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </Drawer>
+        </>
+    )
+}
+
 function NavLinks() {
     const [mobileOpen, setMobileOpen] = useState(false)
 

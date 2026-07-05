@@ -2,7 +2,6 @@
 
 import { Avatar } from "@mui/material"
 import { IconType } from "react-icons"
-import { MdCloudUpload } from "react-icons/md"
 import { CgProfile } from "react-icons/cg"
 import { IoLocationOutline } from "react-icons/io5"
 import { IoMdHeartEmpty } from "react-icons/io"
@@ -12,6 +11,8 @@ import Link from "next/link"
 import { Button } from "@mui/material"
 import { usePathname, useRouter } from "next/navigation"
 import { useAuth, setCachedUser } from "@/hooks/useAuth"
+import { ImageUploader } from "@/components/ImageUploader"
+import { useState } from "react"
 
 type accountPageLinkType = {
   id: number
@@ -23,15 +24,8 @@ type accountPageLinkType = {
 function AccountSidebar() {
   const router = useRouter()
   const pathname = usePathname()
-  const { user } = useAuth()
-
-  const accountPageLinks: accountPageLinkType[] = [
-    { id: 1, title: "My Profile", link: "/my-account", icon: CgProfile },
-    { id: 2, title: "Address", link: "/address", icon: IoLocationOutline },
-    { id: 3, title: "Wishlist", link: "/wishlist", icon: IoMdHeartEmpty },
-    { id: 4, title: "My Orders", link: "/my-orders", icon: BsCartCheck },
-    { id: 5, title: "Logout", link: "", icon: FaArrowRightFromBracket },
-  ]
+  const { user, refresh } = useAuth()
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatar ?? "")
 
   const initials = user?.name
     ?.split(" ")
@@ -39,6 +33,23 @@ function AccountSidebar() {
     .join("")
     .toUpperCase()
     .slice(0, 2) ?? "?"
+
+  const handleAvatarUpload = async (url: string) => {
+    setAvatarUrl(url)
+    // Update user avatar in DB
+    try {
+      await fetch("/api/users/me", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ avatar: url }),
+        credentials: "include",
+      })
+      if (user) {
+        setCachedUser({ ...user, avatar: url })
+      }
+    } catch {}
+    refresh()
+  }
 
   const handleLogout = async () => {
     try {
@@ -48,20 +59,37 @@ function AccountSidebar() {
     router.push("/login")
   }
 
+  const accountPageLinks: accountPageLinkType[] = [
+    { id: 1, title: "My Profile", link: "/my-account", icon: CgProfile },
+    { id: 2, title: "Address", link: "/address", icon: IoLocationOutline },
+    { id: 3, title: "Wishlist", link: "/wishlist", icon: IoMdHeartEmpty },
+    { id: 4, title: "My Orders", link: "/my-orders", icon: BsCartCheck },
+    { id: 5, title: "Logout", link: "", icon: FaArrowRightFromBracket },
+  ]
+
   return (
     <aside className="account-sidebar w-full h-fit shadow-md rounded-xl">
       <div className="bg-white py-4 rounded-t-xl">
-        <div className="group profile-block relative bg-white shadow-md w-1/3 xl:w-1/2 mx-auto flex items-center justify-center rounded-full">
+        <div className="relative w-24 h-24 mx-auto">
           <Avatar
-            src={user?.avatar || undefined}
+            src={avatarUrl || user?.avatar || undefined}
             alt={user?.name ?? "User"}
-            sx={{ width: 100, height: 100, fontSize: 36, bgcolor: "primary.main" }}
+            sx={{ width: 96, height: 96, fontSize: 36, bgcolor: "primary.main" }}
           >
             {initials}
           </Avatar>
-          <div className="overlay w-full h-full overflow-hidden rounded-full bg-black/20 z-10 absolute top-0 left-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
-            <MdCloudUpload size={48} className="text-white" />
-            <input type="file" name="profile-pic" id="profile-pic" className="w-full h-full absolute top-0 left-0 z-12 cursor-pointer" />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 z-10">
+            <div className="w-full h-full rounded-full bg-black/30 flex items-center justify-center cursor-pointer">
+              <span className="text-white text-xs font-bold">Change</span>
+            </div>
+          </div>
+          <div className="absolute inset-0 z-20 opacity-0">
+            <ImageUploader
+              currentImage={avatarUrl || user?.avatar}
+              onUpload={handleAvatarUpload}
+              folder="avatars"
+              label=""
+            />
           </div>
         </div>
         <div className="text-center mt-2">

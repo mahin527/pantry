@@ -15,6 +15,10 @@ export const userRepository = {
     return User.create(data);
   },
 
+  async update(id: string, data: Record<string, unknown>): Promise<IUser | null> {
+    return User.findByIdAndUpdate(id, { $set: data }, { new: true, runValidators: true });
+  },
+
   async count(): Promise<number> {
     return User.countDocuments();
   },

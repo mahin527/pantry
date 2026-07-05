@@ -19,7 +19,10 @@ import {
   DialogActions,
   Checkbox,
   FormControlLabel,
+  Box,
+  Typography,
 } from "@mui/material"
+import { ImageUploader } from "@/components/ImageUploader"
 
 type Category = {
   _id: string
@@ -41,6 +44,7 @@ type Props = {
 
 export function CategoryFormDialog({ open, category, onClose, onSaved, showSnackbar }: Props) {
   const [saving, setSaving] = useState(false)
+  const [imageUrl, setImageUrl] = useState(category?.image ?? "")
   const router = useRouter()
   const isEdit = !!category
 
@@ -48,6 +52,7 @@ export function CategoryFormDialog({ open, category, onClose, onSaved, showSnack
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CreateCategoryInput | UpdateCategoryInput>({
     resolver: zodResolver(isEdit ? updateCategorySchema : createCategorySchema),
@@ -63,6 +68,11 @@ export function CategoryFormDialog({ open, category, onClose, onSaved, showSnack
       : { name: "", slug: "", image: "", description: "", sortOrder: 0, isActive: true },
   })
 
+  const onUpload = (url: string) => {
+    setImageUrl(url)
+    setValue("image", url)
+  }
+
   const onSubmit = async (data: CreateCategoryInput | UpdateCategoryInput) => {
     setSaving(true)
     try {
@@ -72,7 +82,7 @@ export function CategoryFormDialog({ open, category, onClose, onSaved, showSnack
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, image: imageUrl || data.image }),
         credentials: "include",
       })
 
@@ -113,9 +123,17 @@ export function CategoryFormDialog({ open, category, onClose, onSaved, showSnack
           <Controller name="slug" control={control} render={({ field }) => (
             <TextField {...field} label="Slug" error={!!errors.slug} helperText={errors.slug?.message} fullWidth />
           )} />
-          <Controller name="image" control={control} render={({ field }) => (
-            <TextField {...field} label="Image URL" error={!!errors.image} helperText={errors.image?.message} fullWidth />
-          )} />
+          <Box>
+            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "text.secondary" }}>
+              Category Image
+            </Typography>
+            <ImageUploader
+              currentImage={category?.image}
+              onUpload={onUpload}
+              folder="categories"
+              label="Choose Image"
+            />
+          </Box>
           <Controller name="description" control={control} render={({ field }) => (
             <TextField {...field} label="Description" multiline rows={3} error={!!errors.description} helperText={errors.description?.message} fullWidth />
           )} />
