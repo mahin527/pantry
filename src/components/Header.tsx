@@ -24,7 +24,7 @@ const Header = () => {
                 <div className="container py-3 md:py-4">
                     {/* Desktop layout — hidden below md */}
                     <div className="hidden md:flex items-center justify-between gap-6">
-                        <Link href={"/"} className="flex items-center gap-3 flex-shrink-0">
+                        <Link href={"/"} className="flex items-center gap-3 shrink-0">
                             <Image src={logoImg} alt="Pantry logo" width={120} height={120} className="size-10 lg:size-12" />
                             <h3 className="text-2xl lg:text-3xl font-black text-blue-600 tracking-tight">Pantry</h3>
                         </Link>

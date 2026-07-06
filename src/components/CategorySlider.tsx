@@ -32,7 +32,7 @@ function CategorySlider({ categories }: { categories: Category[] }) {
             <Link
               key={cat._id}
               href={`/products?category=${cat._id}`}
-              className="snap-start flex-shrink-0 w-[100px] group"
+              className="snap-start shrink-0 w-25 group"
             >
               <div className="w-full aspect-square bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex items-center justify-center transition-all duration-200 group-hover:shadow-md group-hover:border-blue-200 group-hover:-translate-y-0.5">
                 <Image
