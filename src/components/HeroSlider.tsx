@@ -63,7 +63,7 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
       className={`relative overflow-hidden rounded-xl md:rounded-2xl bg-linear-to-br ${slide.gradientFrom} ${slide.gradientTo} transition-all duration-700 ${isActive ? "opacity-100" : "opacity-0"
         }`}
     >
-      <div className="relative z-10 flex flex-col md:flex-row items-center px-6 md:px-12 lg:px-16 py-8 md:py-12 lg:py-16 min-h-[300px] md:min-h-[400px]">
+      <div className="relative z-10 flex flex-col md:flex-row items-center px-6 md:px-12 lg:px-16 py-8 md:py-12 lg:py-16 min-h-75 md:min-h-100">
         {/* Left content */}
         <div className="w-full md:w-1/2 space-y-4 md:space-y-5 text-center md:text-left">
           {slide.badge && (

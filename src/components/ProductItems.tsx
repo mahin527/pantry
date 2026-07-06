@@ -103,7 +103,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
           </h3>
         </Link>
 
-        <Rating value={rating} size="small" readOnly className="!text-amber-400" />
+        <Rating value={rating} size="small" readOnly className="text-amber-400!" />
 
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center gap-1.5">

@@ -35,7 +35,7 @@ const Header = () => {
                     </div>
 
                     {/* Mobile layout — visible below md */}
-                    <div className="flex md:hidden items-center justify-between gap-1 min-h-[44px]">
+                    <div className="flex md:hidden items-center justify-between gap-1 min-h-11">
                         <MobileDrawer />
                         <Link href={"/"} className="flex items-center gap-1">
                             <Image src={logoImg} alt="Pantry" width={120} height={120} className="size-8" />
@@ -61,7 +61,7 @@ const Header = () => {
                             </div>
                             <button
                                 onClick={() => setMobileSearchOpen(false)}
-                                className="flex items-center justify-center size-10 text-gray-500 rounded-full hover:bg-gray-100 flex-shrink-0"
+                                className="flex items-center justify-center size-10 text-gray-500 rounded-full hover:bg-gray-100 shrink-0"
                                 aria-label="Close search"
                             >
                                 <FiX size={20} />

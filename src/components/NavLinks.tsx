@@ -156,7 +156,7 @@ function NavLinks() {
             <div className="container flex items-center justify-between overflow-hidden">
                 <ul className="flex items-center gap-0 lg:gap-1">
                     {visible.map((link) => (
-                        <li key={link.id} className="flex-shrink-0">
+                        <li key={link.id} className="shrink-0">
                             <Link href={link.link}
                                 className="inline-block whitespace-nowrap px-2 lg:px-4 py-3 text-xs lg:text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 after:transition-all hover:after:w-full"
                             >
@@ -165,11 +165,11 @@ function NavLinks() {
                         </li>
                     ))}
                     {overflow.length > 0 && (
-                        <li className="group relative flex-shrink-0">
+                        <li className="group relative shrink-0">
                             <span className="inline-flex items-center gap-1 whitespace-nowrap px-2 lg:px-4 py-3 text-xs lg:text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer">
                                 More <FaChevronDown size={10} className="lg:size-3" />
                             </span>
-                            <div className="absolute top-full right-0 z-50 min-w-[180px] bg-white rounded-lg shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-1 group-hover:translate-y-0">
+                            <div className="absolute top-full right-0 z-50 min-w-45 bg-white rounded-lg shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-1 group-hover:translate-y-0">
                                 {overflow.map((link) => (
                                     <Link key={link.id} href={link.link}
                                         className="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors whitespace-nowrap"
