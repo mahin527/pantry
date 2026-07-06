@@ -2,55 +2,133 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { FaAngleDown, FaBars, FaXmark } from "react-icons/fa6"
+import { FaBars, FaXmark, FaChevronDown } from "react-icons/fa6"
+import { IoMdHeartEmpty } from "react-icons/io"
+import { BsCartCheck } from "react-icons/bs"
+import { CgProfile } from "react-icons/cg"
+import { FaArrowRightFromBracket } from "react-icons/fa6"
 import Drawer from "@mui/material/Drawer"
-import { Button } from "@mui/material"
+import { Button, Divider } from "@mui/material"
+import { useAuth, setCachedUser } from "@/hooks/useAuth"
+import { useRouter } from "next/navigation"
 
-export function MobileToggle() {
-    const [mobileOpen, setMobileOpen] = useState(false)
+export function MobileDrawer() {
+    const [open, setOpen] = useState(false)
+    const { user } = useAuth()
+    const router = useRouter()
 
-    const navLinks = [
+    const categories = [
         { id: 1, title: "Home", link: "/" },
         { id: 2, title: "Fruits & Vegetables", link: "/products" },
         { id: 3, title: "Meats & Seafood", link: "/products" },
-        { id: 4, title: "Breaksfast & Dairy", link: "/products" },
+        { id: 4, title: "Breakfast & Dairy", link: "/products" },
         { id: 5, title: "Breads & Bakery", link: "/products" },
         { id: 6, title: "Beverages", link: "/products" },
-        { id: 7, title: "Frozen Foods", link: "/products" },
-        { id: 8, title: "Biscuits & Snacks", link: "/products" },
+        { id: 7, title: "Snacks & Biscuits", link: "/products" },
+        { id: 8, title: "Frozen Foods", link: "/products" },
         { id: 9, title: "Grocery & Staples", link: "/products" },
     ]
+
+    const accountLinks = [
+        { id: 1, title: "My Account", link: "/my-account", icon: CgProfile },
+        { id: 2, title: "My Orders", link: "/my-orders", icon: BsCartCheck },
+        { id: 3, title: "Wishlist", link: "/wishlist", icon: IoMdHeartEmpty },
+    ]
+
+    const handleLogout = async () => {
+        setOpen(false)
+        try { await fetch("/api/auth/logout", { method: "POST", credentials: "include" }) } catch {}
+        setCachedUser(null)
+        router.push("/")
+    }
+
+    const close = () => setOpen(false)
 
     return (
         <>
             <button
-                onClick={() => setMobileOpen(true)}
+                onClick={() => setOpen(true)}
                 className="flex items-center justify-center size-10 text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
                 aria-label="Open menu"
             >
                 <FaBars size={20} />
             </button>
-            <Drawer open={mobileOpen} onClose={() => setMobileOpen(false)} anchor="left">
-                <div className="w-72 p-4">
+            <Drawer open={open} onClose={close} anchor="left">
+                <div className="w-72 p-4 flex flex-col h-full">
                     <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-bold text-lg text-gray-700">Categories</h3>
-                        <Button onClick={() => setMobileOpen(false)}>
-                            <FaXmark size={20} />
-                        </Button>
+                        <h3 className="font-bold text-lg text-gray-700">Menu</h3>
+                        <Button onClick={close}><FaXmark size={20} /></Button>
                     </div>
-                    <ul className="space-y-1">
-                        {navLinks.map((link) => (
+
+                    {user && (
+                        <div className="flex items-center gap-3 px-3 py-3 mb-3 bg-blue-50 rounded-lg">
+                            <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                                {user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                            </div>
+                            <div>
+                                <p className="font-semibold text-gray-800 text-sm">{user.name}</p>
+                                <p className="text-xs text-gray-500">{user.email}</p>
+                            </div>
+                        </div>
+                    )}
+
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-3">Shop</p>
+                    <ul className="space-y-0.5 mb-4">
+                        {categories.map((link) => (
                             <li key={link.id}>
-                                <Link
-                                    href={link.link}
-                                    onClick={() => setMobileOpen(false)}
-                                    className="block px-3 py-2.5 rounded-md font-bold text-gray-600 hover:bg-blue-50 hover:text-blue-500 transition-colors"
+                                <Link href={link.link} onClick={close}
+                                    className="block px-3 py-2.5 rounded-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                                 >
                                     {link.title}
                                 </Link>
                             </li>
                         ))}
                     </ul>
+
+                    {user && (
+                        <>
+                            <Divider />
+                            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4 px-3">Account</p>
+                            <ul className="space-y-0.5">
+                                {accountLinks.map((link) => {
+                                    const Icon = link.icon
+                                    return (
+                                        <li key={link.id}>
+                                            <Link href={link.link} onClick={close}
+                                                className="flex items-center gap-3 px-3 py-2.5 rounded-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                            >
+                                                <Icon size={18} className="text-gray-500" />
+                                                {link.title}
+                                            </Link>
+                                        </li>
+                                    )
+                                })}
+                                <li>
+                                    <button onClick={handleLogout}
+                                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-md font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                                    >
+                                        <FaArrowRightFromBracket size={18} />
+                                        Logout
+                                    </button>
+                                </li>
+                            </ul>
+                        </>
+                    )}
+
+                    {!user && (
+                        <div className="mt-auto flex gap-2">
+                            <Link href="/login" onClick={close}
+                                className="flex-1 text-center bg-blue-600 text-white py-2.5 rounded-lg font-bold text-sm hover:bg-blue-700 transition-colors"
+                            >
+                                Sign In
+                            </Link>
+                            <Link href="/register" onClick={close}
+                                className="flex-1 text-center bg-gray-100 text-gray-700 py-2.5 rounded-lg font-bold text-sm hover:bg-gray-200 transition-colors"
+                            >
+                                Sign Up
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </Drawer>
         </>
@@ -58,89 +136,53 @@ export function MobileToggle() {
 }
 
 function NavLinks() {
-    const [mobileOpen, setMobileOpen] = useState(false)
-
     const navLinks = [
         { id: 1, title: "Home", link: "/" },
         { id: 2, title: "Fruits & Vegetables", link: "/products" },
         { id: 3, title: "Meats & Seafood", link: "/products" },
-        { id: 4, title: "Breaksfast & Dairy", link: "/products" },
+        { id: 4, title: "Breakfast & Dairy", link: "/products" },
         { id: 5, title: "Breads & Bakery", link: "/products" },
         { id: 6, title: "Beverages", link: "/products" },
-        { id: 7, title: "Frozen Foods", link: "/products" },
-        { id: 8, title: "Biscuits & Snacks", link: "/products" },
+        { id: 7, title: "Snacks & Biscuits", link: "/products" },
+        { id: 8, title: "Frozen Foods", link: "/products" },
         { id: 9, title: "Grocery & Staples", link: "/products" },
     ]
 
+    const visible = navLinks.slice(0, 7)
+    const overflow = navLinks.slice(7)
+
     return (
-        <>
-            {/* Mobile menu button — visible below md */}
-            <div className="md:hidden container py-2">
-                <Button
-                    variant="text"
-                    onClick={() => setMobileOpen(true)}
-                    className="w-full! justify-start! gap-2!"
-                >
-                    <FaBars size={20} />
-                    <span className="font-bold text-gray-700">Categories</span>
-                </Button>
-            </div>
-
-            {/* Mobile Drawer */}
-            <Drawer
-                open={mobileOpen}
-                onClose={() => setMobileOpen(false)}
-                anchor="left"
-            >
-                <div className="w-72 p-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-bold text-lg text-gray-700">Categories</h3>
-                        <Button onClick={() => setMobileOpen(false)}>
-                            <FaXmark size={20} />
-                        </Button>
-                    </div>
-                    <ul className="space-y-1">
-                        {navLinks.map((link) => (
-                            <li key={link.id}>
-                                <Link
-                                    href={link.link}
-                                    onClick={() => setMobileOpen(false)}
-                                    className="block px-3 py-2.5 rounded-md font-bold text-gray-600 hover:bg-blue-50 hover:text-blue-500 transition-colors"
-                                >
-                                    {link.title}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </Drawer>
-
-            {/* Desktop navigation — hidden below md */}
-            <nav className="hidden md:block container py-6 text-gray-700">
-                <ul className="flex items-center gap-2 whitespace-nowrap">
-                    {navLinks.map((link) => (
-                        <li key={link.id} className="text-sm md:text-base tracking-wide font-bold">
-                            <Link href={link.link} className="hover:text-blue-500 transition-colors duration-200">
+        <nav className="hidden md:block bg-white border-b border-gray-200">
+            <div className="container flex items-center justify-between">
+                <ul className="flex items-center">
+                    {visible.map((link) => (
+                        <li key={link.id}>
+                            <Link href={link.link}
+                                className="inline-block px-4 py-3 text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 after:transition-all hover:after:w-full"
+                            >
                                 {link.title}
                             </Link>
                         </li>
                     ))}
-                    <li className="group relative text-sm md:text-base tracking-wider font-semibold">
-                        <span className="flex items-center justify-center cursor-pointer hover:text-blue-500 transition-colors duration-200">
-                            More
-                            <FaAngleDown size={20} />
-                        </span>
-                        <div className="w-50 absolute top-full right-0 z-50 flex flex-col items-start bg-white shadow-md rounded-md overflow-hidden opacity-0 invisible transition-all duration-200 group-hover:opacity-100 group-hover:visible">
-                            {navLinks.map((link) => (
-                                <Link key={link.id} href={link.link} className="px-4 py-2 w-full hover:bg-blue-100 transition-colors">
-                                    {link.title}
-                                </Link>
-                            ))}
-                        </div>
-                    </li>
+                    {overflow.length > 0 && (
+                        <li className="group relative">
+                            <span className="inline-flex items-center gap-1 px-4 py-3 text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer">
+                                More <FaChevronDown size={12} />
+                            </span>
+                            <div className="absolute top-full left-0 z-50 min-w-[200px] bg-white rounded-lg shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-1 group-hover:translate-y-0">
+                                {overflow.map((link) => (
+                                    <Link key={link.id} href={link.link}
+                                        className="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                                    >
+                                        {link.title}
+                                    </Link>
+                                ))}
+                            </div>
+                        </li>
+                    )}
                 </ul>
-            </nav>
-        </>
+            </div>
+        </nav>
     )
 }
 
