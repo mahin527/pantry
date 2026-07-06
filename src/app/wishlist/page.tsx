@@ -17,11 +17,11 @@ export default function WishlistPage() {
   if (loading) {
     return (
       <section className="bg-gray-100 py-8 min-h-screen">
-        <div className="container flex gap-5">
-          <div className="w-[25%]">
+        <div className="container flex flex-col md:flex-row gap-5">
+          <div className="w-full md:w-[25%]">
             <Box sx={{ bgcolor: "white", p: 2, borderRadius: 2, height: 300 }} />
           </div>
-          <div className="wrapper w-[75%] flex items-center justify-center">
+          <div className="wrapper w-full md:w-[75%] flex items-center justify-center">
             <CircularProgress />
           </div>
         </div>
