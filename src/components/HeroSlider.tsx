@@ -133,21 +133,6 @@ function HeroSlider({ slides = defaultSlides }: { slides?: HeroSlide[] }) {
           </SwiperSlide>
         ))}
       </Swiper>
-
-      <style jsx global>{`
-        .hero-swiper .swiper-pagination-bullet {
-          width: 10px;
-          height: 10px;
-          background: #94a3b8;
-          opacity: 0.5;
-        }
-        .hero-swiper .swiper-pagination-bullet-active {
-          background: #2563eb;
-          opacity: 1;
-          width: 28px;
-          border-radius: 5px;
-        }
-      `}</style>
     </div>
   )
 }
