@@ -1,33 +1,24 @@
 "use client"
 
-import { LiaShippingFastSolid } from "react-icons/lia";
+import { LiaShippingFastSolid, LiaSmsSolid, LiaGiftsSolid } from "react-icons/lia";
 import { PiKeyReturnLight } from "react-icons/pi";
 import { MdPayment } from "react-icons/md";
-import { LiaGiftsSolid } from "react-icons/lia";
-import { LiaSmsSolid } from "react-icons/lia";
 import Link from "next/link";
 import { Button } from "@mui/material";
-import { FaFacebook } from "react-icons/fa6";
-import { FaGithub } from "react-icons/fa";
+import { FaFacebookF, FaGithub, FaPinterestP, FaCcPaypal, FaCcAmazonPay, FaCcApplePay, FaArrowRight } from "react-icons/fa6";
 import { IoLogoLinkedin } from "react-icons/io5";
-import { FaPinterest } from "react-icons/fa6";
 import { RiVisaFill } from "react-icons/ri";
-import { FaCcPaypal } from "react-icons/fa6";
-import { FaCcAmazonPay } from "react-icons/fa";
-import { FaCcApplePay } from "react-icons/fa";
 import Drawer from '@mui/material/Drawer';
 import { useAppContext } from "@/providers/AppProvider"
 import TextField from '@mui/material/TextField';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { useState } from "react";
-
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
 
 function Footer() {
     const { isOpenAddAddressPanel, closeAddAddress } = useAppContext()
@@ -35,276 +26,132 @@ function Footer() {
 
     return (
         <>
-            <footer className="mx-auto">
-                <div className="bg-gray-200"> {/* dark:bg-neutral-900 */}
-                    <div className='container'>
-                        {/* icons */}
-                        <div className='text-gray-600 py-6 lg:py-8 border-b border-gray-300 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-5 md:gap-8 lg:gap-14'> {/* dark:border-gray-800 */}
-                            <div className="flex flex-col items-center justify-center gap-2 ">
-                                <LiaShippingFastSolid size={36} />
-                                <p>
-                                    Free Shipping
-                                </p>
-                                <p>
-                                    For All Orders Over $100
-                                </p>
+            <footer className="mx-auto bg-gray-900 text-gray-300">
+                {/* Feature bar */}
+                <div className="bg-gray-800 border-b border-gray-700">
+                    <div className="container py-5 md:py-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                        {[
+                            { icon: LiaShippingFastSolid, title: "Free Shipping", desc: "On orders over $100" },
+                            { icon: PiKeyReturnLight, title: "30 Days Return", desc: "For exchange product" },
+                            { icon: MdPayment, title: "Secure Payment", desc: "Payment cards accepted" },
+                            { icon: LiaGiftsSolid, title: "Special Gifts", desc: "First product order" },
+                            { icon: LiaSmsSolid, title: "Support 24/7", desc: "Contact us anytime" },
+                        ].map((item, i) => (
+                            <div key={i} className="flex flex-col items-center text-center gap-1">
+                                <item.icon size={28} className="text-blue-400" />
+                                <p className="text-sm font-bold text-white">{item.title}</p>
+                                <p className="text-xs text-gray-400">{item.desc}</p>
                             </div>
-                            <div className="flex flex-col items-center justify-center gap-2 ">
-                                <PiKeyReturnLight size={36} />
-                                <p>
-                                    30 Days Returns
-                                </p>
-                                <p>
-                                    For an Exchange Product
-                                </p>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Main footer columns */}
+                <div className="container py-8 md:py-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-10">
+                        {/* Brand column */}
+                        <div className="space-y-4">
+                            <h3 className="text-2xl font-black text-white tracking-tight">
+                                <span className="text-blue-400">P</span>antry
+                            </h3>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                Your one-stop shop for fresh groceries, farm produce, and everyday essentials delivered to your doorstep.
+                            </p>
+                            <div className="pt-2">
+                                <p className="text-sm font-semibold text-white">Contact Us</p>
+                                <p className="text-sm text-gray-400 mt-1">hasan.mahin527@gmail.com</p>
+                                <p className="text-sm text-gray-400">+880 12345 6789</p>
                             </div>
-                            <div className="flex flex-col items-center justify-center gap-2 ">
-                                <MdPayment size={36} />
-                                <p>
-                                    Secured Payment
-                                </p>
-                                <p>
-                                    Payment Cards Accepted
-                                </p>
-                            </div>
-                            <div className="flex flex-col items-center justify-center gap-2 ">
-                                <LiaGiftsSolid size={36} />
-                                <p>
-                                    Special Gifts
-                                </p>
-                                <p>
-                                    Our First Product Order
-                                </p>
-                            </div>
-                            <div className="flex flex-col items-center justify-center gap-2 ">
-                                <LiaGiftsSolid size={36} />
-                                <p>
-                                    Support 24/7
-                                </p>
-                                <p>
-                                    Contact Us Anytime
-                                </p>
+                            <div className="flex items-center gap-3 pt-1">
+                                <Link href="/" className="w-9 h-9 rounded-full bg-gray-700 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-300 hover:text-white">
+                                    <FaFacebookF size={16} />
+                                </Link>
+                                <Link href="/" className="w-9 h-9 rounded-full bg-gray-700 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-300 hover:text-white">
+                                    <FaGithub size={16} />
+                                </Link>
+                                <Link href="/" className="w-9 h-9 rounded-full bg-gray-700 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-300 hover:text-white">
+                                    <IoLogoLinkedin size={16} />
+                                </Link>
+                                <Link href="/" className="w-9 h-9 rounded-full bg-gray-700 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-300 hover:text-white">
+                                    <FaPinterestP size={16} />
+                                </Link>
                             </div>
                         </div>
 
-                        <div className="text-gray-600 flex flex-col md:flex-row justify-between gap-6 md:gap-5 py-6 md:py-8">
-                            <div className="contact tracking-wider xl:tracking-widest space-y-3 lg:space-y-4">
-                                <h3 className="text-xl lg:text-2xl font-semibold">
-                                    Contact us
-                                </h3>
-                                <div>
-                                    <p>
-                                        Classyshop - Mega Super Town
-                                    </p>
-                                    <p>
-                                        Los Angeles, California, USA
-                                    </p>
+                        {/* Quick Links */}
+                        <div className="space-y-3">
+                            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Quick Links</h4>
+                            <ul className="space-y-2.5">
+                                {["Home", "About Us", "Products", "Stores", "Sitemap", "Contact"].map((item) => (
+                                    <li key={item}>
+                                        <Link href="/" className="text-sm text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                            <FaArrowRight size={8} className="text-blue-400" />
+                                            {item}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Categories */}
+                        <div className="space-y-3">
+                            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Categories</h4>
+                            <ul className="space-y-2.5">
+                                {["Fruits & Vegetables", "Meats & Seafood", "Breakfast & Dairy", "Breads & Bakery", "Beverages", "Snacks & Biscuits"].map((item) => (
+                                    <li key={item}>
+                                        <Link href="/products" className="text-sm text-gray-400 hover:text-blue-400 transition-colors">{item}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Newsletter */}
+                        <div className="space-y-3 sm:col-span-2 md:col-span-1">
+                            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Newsletter</h4>
+                            <p className="text-sm text-gray-400">Subscribe for exclusive deals and fresh arrivals.</p>
+                            <div className="flex flex-col gap-3">
+                                <div className="flex items-center bg-gray-800 rounded-lg border border-gray-700 focus-within:border-blue-500 transition-colors overflow-hidden">
+                                    <input
+                                        type="email"
+                                        placeholder="your@email.com"
+                                        className="flex-1 px-4 py-2.5 text-sm bg-transparent outline-none text-white placeholder-gray-500"
+                                    />
+                                    <button className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-colors">
+                                        Subscribe
+                                    </button>
                                 </div>
-                                <p>
-                                    hasan.mahin527@gmail.com
-                                </p>
-                                <p>
-                                    +880 12345 6789
-                                </p>
-                                <div className="flex items-center gap-3 lg:gap-5">
-                                    <LiaSmsSolid size={36} />
-                                    <div className="font-semibold">
-                                        <h4>
-                                            Online Chat
-                                        </h4>
-                                        <h4>
-                                            Get Expert Help
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="products tracking-wider xl:tracking-widest">
-                                <h3 className="text-xl lg:text-2xl font-semibold pb-2">
-                                    Products
-                                </h3>
-                                <ul className="space-y-2">
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Price drop
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            New products
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Best sales
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Contact us
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Sitemap
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Stores
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div className="our-company tracking-wider xl:tracking-widest">
-                                <h3 className="text-xl lg:text-2xl font-semibold pb-2">
-                                    Our company
-                                </h3>
-                                <ul className="space-y-2">
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Delivery
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Legal notice
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Terms and conditions
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            About us
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Secure payment
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                            Login
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-
-
-                            <div className="subscribe-newsletter tracking-wider xl:tracking-widest w-full md:w-auto">
-                                <h3 className="text-lg md:text-xl lg:text-2xl font-semibold pb-2 text-center md:text-left">
-                                    Subscribe to our newsletter
-                                </h3>
-
-                                <p className="text-center md:text-left text-sm md:text-base">
-                                    Subscribe to our latest newsletter to get news about special discounts.
-                                </p>
-                                <form className="w-full flex flex-col gap-3 md:gap-4 py-3 md:py-4">
-                                    <div className="search-box bg-black/5 w-full max-w-sm md:max-w-md lg:w-150 h-12 md:h-14 rounded-md flex items-center">
-                                        <input type="email" name="email" placeholder="Enter your email" className="px-4 text-sm md:text-base lg:text-lg tracking-wider outline-none border-none w-full h-full" />
-                                    </div>
-                                    <Button variant="contained" className="w-full md:max-w-fit">
-                                        SUBSCRIBE
-                                    </Button>
-                                    <div className="flex items-center gap-2">
-                                        <input type="checkbox" name="agreement" id="agreement" className="h-5 w-5 text-gray-600 rounded-full" />
-                                        <label htmlFor="agreement">
-                                            I agree to the terms and conditions and the privacy policy
-                                        </label>
-                                    </div>
-                                    {/* <label className="flex items-center gap-2 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    className="hidden peer"
-                                />
-
-                                <div className="w-6 h-6 rounded-full border border-gray-400 flex items-center justify-center peer-checked:bg-blue-500 peer-checked:border-blue-500">
-                                    <div className="w-2.5 h-2.5 bg-white rounded-full hidden peer-checked:block"></div>
-                                </div>
-
-                                <span>
-                                    I agree to the terms and conditions and the privacy policy
-                                </span>
-                            </label> */}
-                                </form>
+                                <label className="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" className="mt-0.5 accent-blue-600" />
+                                    <span className="text-xs text-gray-400">I agree to the terms and privacy policy</span>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="bg-gray-700 text-gray-100">
-                    <div className="container py-4 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-0">
-                        <div>
-                            <ul className="flex flex-wrap items-center gap-4">
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <IoLogoLinkedin size={32} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <FaGithub size={32} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <FaFacebook size={32} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <FaPinterest size={32} />
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            &copy; Pantry 2026 | All Rights Reserved by Mahin Hasan
-                        </div>
-                        <div>
-                            <ul className="flex flex-wrap items-center gap-4">
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <RiVisaFill size={32} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <FaCcPaypal size={32} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <FaCcAmazonPay size={32} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} className="font-medium hover:text-blue-500 transition-colors duration-150">
-                                        <FaCcApplePay size={32} />
-                                    </Link>
-                                </li>
-                            </ul>
+
+                {/* Bottom bar */}
+                <div className="border-t border-gray-800">
+                    <div className="container py-4 md:py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <p className="text-xs md:text-sm text-gray-500 text-center md:text-left">
+                            &copy; {new Date().getFullYear()} Pantry. All rights reserved.
+                        </p>
+                        <div className="flex items-center gap-3">
+                            <RiVisaFill size={28} className="text-gray-500" />
+                            <FaCcPaypal size={28} className="text-gray-500" />
+                            <FaCcAmazonPay size={28} className="text-gray-500" />
+                            <FaCcApplePay size={28} className="text-gray-500" />
                         </div>
                     </div>
                 </div>
-
             </footer>
 
+            {/* Address Drawer */}
             <div>
-                <Drawer
-                    open={isOpenAddAddressPanel}
-                    onClose={closeAddAddress}
-                    anchor="right"
-                >
+                <Drawer open={isOpenAddAddressPanel} onClose={closeAddAddress} anchor="right">
                     <form className="w-100 md:w-120 lg:w-140 p-4">
                         <div className="py-2">
                             <h3 className="text-gray-700 text-lg lg:text-xl font-bold mb-4 text-center">Add Delivery Address</h3>
                         </div>
-
                         <div className='w-full space-y-4 text-gray-600!'>
                             <div>
                                 <TextField id="addressLine" name="addressLine" label="Address Line" variant="outlined" className='w-full!' type='text' />
@@ -322,13 +169,7 @@ function Footer() {
                                 <TextField id="country" name="country" label="Country" variant="outlined" className='w-full!' type='text' />
                             </div>
                             <div className='w-full!'>
-                                {/* <TextField id="mobileNumber" label="Mobile number" variant="outlined" className='w-full!' type='text' /> */}
-                                <PhoneInput
-                                    defaultCountry="bd"
-                                    value={phone}
-                                    onChange={(phone) => setPhone(phone)}
-                                    className='w-full! '
-                                />
+                                <PhoneInput defaultCountry="bd" value={phone} onChange={(phone) => setPhone(phone)} className='w-full!' />
                             </div>
                             <div>
                                 <TextField id="landMark" name="landMark" label="Land Mark" variant="outlined" className='w-full!' type='text' />
@@ -336,20 +177,15 @@ function Footer() {
                             <div>
                                 <FormControl>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Address Type</FormLabel>
-                                    <RadioGroup row
-                                        aria-labelledby="demo-row-radio-buttons-group-label"
-                                        name="row-radio-buttons-group">
+                                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
                                         <FormControlLabel value="female" control={<Radio />} label="Home" />
                                         <FormControlLabel value="male" control={<Radio />} label="Office" />
                                     </RadioGroup>
                                 </FormControl>
                             </div>
                             <div className="">
-                                <Button variant="contained" className="w-full py-2!">
-                                    Save
-                                </Button>
+                                <Button variant="contained" className="w-full py-2!">Save</Button>
                             </div>
-
                         </div>
                     </form>
                 </Drawer>
