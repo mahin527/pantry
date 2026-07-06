@@ -60,9 +60,8 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl md:rounded-2xl bg-gradient-to-br ${slide.gradientFrom} ${slide.gradientTo} transition-all duration-700 ${
-        isActive ? "opacity-100" : "opacity-0"
-      }`}
+      className={`relative overflow-hidden rounded-xl md:rounded-2xl bg-linear-to-br ${slide.gradientFrom} ${slide.gradientTo} transition-all duration-700 ${isActive ? "opacity-100" : "opacity-0"
+        }`}
     >
       <div className="relative z-10 flex flex-col md:flex-row items-center px-6 md:px-12 lg:px-16 py-8 md:py-12 lg:py-16 min-h-[300px] md:min-h-[400px]">
         {/* Left content */}
@@ -83,9 +82,8 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
           </p>
           <Link
             href={slide.buttonLink}
-            className={`inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all duration-200 shadow-lg hover:shadow-xl ${
-              accentMap[slide.accent] || accentMap.blue
-            }`}
+            className={`inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all duration-200 shadow-lg hover:shadow-xl ${accentMap[slide.accent] || accentMap.blue
+              }`}
           >
             {slide.buttonText}
             <FaArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
@@ -96,13 +94,13 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
         <div className="w-full md:w-1/2 mt-6 md:mt-0 flex items-center justify-center">
           <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80">
             <div
-              className={`absolute inset-0 rounded-full bg-gradient-to-br ${slide.gradientFrom} ${slide.gradientTo} opacity-40 blur-3xl`}
+              className={`absolute inset-0 rounded-full bg-linear-to-br ${slide.gradientFrom} ${slide.gradientTo} opacity-40 blur-3xl`}
             />
             <Image
               src={slide.image}
               alt={slide.title.replace("\n", " ")}
-              width={320}
-              height={320}
+              width={380}
+              height={380}
               className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
               priority={isActive}
             />
