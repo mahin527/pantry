@@ -2,10 +2,10 @@
 
 import dynamic from "next/dynamic"
 
-const HomeSlider = dynamic(() => import("@/components/HomeSlider"), {
+const HeroSlider = dynamic(() => import("@/components/HeroSlider"), {
   ssr: false,
 })
 
 export default function HomeSliderWrapper() {
-  return <HomeSlider />
+  return <HeroSlider />
 }
