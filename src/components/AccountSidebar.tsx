@@ -11,8 +11,7 @@ import Link from "next/link"
 import { Button } from "@mui/material"
 import { usePathname, useRouter } from "next/navigation"
 import { useAuth, setCachedUser } from "@/hooks/useAuth"
-import { ImageUploader } from "@/components/ImageUploader"
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 type accountPageLinkType = {
   id: number
@@ -34,20 +33,47 @@ function AccountSidebar() {
     .toUpperCase()
     .slice(0, 2) ?? "?"
 
-  const handleAvatarUpload = async (url: string) => {
-    setAvatarUrl(url)
-    // Update user avatar in DB
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [uploading, setUploading] = useState(false)
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const allowed = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
+    if (!allowed.includes(file.type)) return
+    if (file.size > 5 * 1024 * 1024) return
+
+    setUploading(true)
     try {
-      await fetch("/api/users/me", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ avatar: url }),
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("folder", "avatars")
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
         credentials: "include",
       })
-      if (user) {
-        setCachedUser({ ...user, avatar: url })
+      const json = await res.json()
+      if (json.success && json.data?.url) {
+        setAvatarUrl(json.data.url)
+        await fetch("/api/users/me", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ avatar: json.data.url }),
+          credentials: "include",
+        })
+        if (user) {
+          setCachedUser({ ...user, avatar: json.data.url })
+        }
       }
     } catch {}
+    setUploading(false)
     refresh()
   }
 
@@ -70,26 +96,39 @@ function AccountSidebar() {
   return (
     <aside className="account-sidebar w-full h-fit shadow-md rounded-xl">
       <div className="bg-white py-4 rounded-t-xl">
-        <div className="relative w-24 h-24 mx-auto">
-          <Avatar
-            src={avatarUrl || user?.avatar || undefined}
-            alt={user?.name ?? "User"}
-            sx={{ width: 96, height: 96, fontSize: 36, bgcolor: "primary.main" }}
-          >
-            {initials}
-          </Avatar>
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 z-10">
-            <div className="w-full h-full rounded-full bg-black/30 flex items-center justify-center cursor-pointer">
-              <span className="text-white text-xs font-bold">Change</span>
-            </div>
-          </div>
-          <div className="absolute inset-0 z-20 opacity-0">
-            <ImageUploader
-              currentImage={avatarUrl || user?.avatar}
-              onUpload={handleAvatarUpload}
-              folder="avatars"
-              label=""
+        <div className="relative w-24 h-24 mx-auto overflow-hidden rounded-full">
+          <div className="relative w-full h-full">
+            <Avatar
+              src={avatarUrl || user?.avatar || undefined}
+              alt={user?.name ?? "User"}
+              sx={{ width: "100%", height: "100%", fontSize: 36, bgcolor: "primary.main" }}
+            >
+              {initials}
+            </Avatar>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              onChange={handleAvatarUpload}
+              className="hidden"
+              id="avatar-upload"
             />
+            <button
+              type="button"
+              onClick={handleAvatarClick}
+              disabled={uploading}
+              className="absolute inset-0 w-full h-full rounded-full bg-black/40 flex items-center justify-center cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-200 z-10 border-0"
+              aria-label="Change avatar"
+            >
+              {uploading ? (
+                <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+              ) : (
+                <span className="text-white text-xs font-bold">Change</span>
+              )}
+            </button>
           </div>
         </div>
         <div className="text-center mt-2">
