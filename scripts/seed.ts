@@ -1,7 +1,8 @@
-// import "dotenv/config";
+import "dotenv/config";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import { Category, Product, User } from "../src/models";
+
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -25,7 +26,7 @@ const categories = [
   {
     name: "Fruits & Vegetables",
     slug: "fruits-vegetables",
-    image: "https://placehold.co/200x200?text=Fruits",
+    image: "/category-image1.png",
     description: "Fresh fruits and vegetables sourced daily",
     sortOrder: 1,
     isActive: true,
@@ -33,7 +34,7 @@ const categories = [
   {
     name: "Meats & Seafood",
     slug: "meats-seafood",
-    image: "https://placehold.co/200x200?text=Meats",
+    image: "/category-image2.png",
     description: "Premium cuts of meat and fresh seafood",
     sortOrder: 2,
     isActive: true,
@@ -41,7 +42,7 @@ const categories = [
   {
     name: "Breakfast & Dairy",
     slug: "breakfast-dairy",
-    image: "https://placehold.co/200x200?text=Dairy",
+    image: "/category-image3.png",
     description: "Dairy products and breakfast essentials",
     sortOrder: 3,
     isActive: true,
@@ -49,7 +50,7 @@ const categories = [
   {
     name: "Breads & Bakery",
     slug: "breads-bakery",
-    image: "https://placehold.co/200x200?text=Bakery",
+    image: "/category-image4.png",
     description: "Freshly baked breads and pastries",
     sortOrder: 4,
     isActive: true,
@@ -57,7 +58,7 @@ const categories = [
   {
     name: "Beverages",
     slug: "beverages",
-    image: "https://placehold.co/200x200?text=Drinks",
+    image: "/category-image5.png",
     description: "Refreshing drinks for every occasion",
     sortOrder: 5,
     isActive: true,
@@ -65,7 +66,7 @@ const categories = [
   {
     name: "Snacks & Biscuits",
     slug: "snacks-biscuits",
-    image: "https://placehold.co/200x200?text=Snacks",
+    image: "/category-image6.png",
     description: "Crisps, biscuits, and everything in between",
     sortOrder: 6,
     isActive: true,

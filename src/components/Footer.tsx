@@ -19,6 +19,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { IoIosSend } from "react-icons/io";
 
 function Footer() {
     const { isOpenAddAddressPanel, closeAddAddress } = useAppContext()
@@ -48,7 +49,7 @@ function Footer() {
 
                 {/* Main footer columns */}
                 <div className="container py-8 md:py-12">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10">
                         {/* Brand column */}
                         <div className="space-y-4">
                             <h3 className="text-2xl font-black text-white tracking-tight">
@@ -110,14 +111,14 @@ function Footer() {
                             <h4 className="text-sm font-bold text-white uppercase tracking-wider">Newsletter</h4>
                             <p className="text-sm text-gray-400">Subscribe for exclusive deals and fresh arrivals.</p>
                             <div className="flex flex-col gap-3">
-                                <div className="flex items-center bg-gray-800 rounded-lg border border-gray-700 focus-within:border-blue-500 transition-colors overflow-hidden">
+                                <div className="flex items-center bg-gray-800 rounded-lg border border-gray-700 focus-within:border-blue-500 transition-colors relative">
                                     <input
                                         type="email"
                                         placeholder="your@email.com"
-                                        className="flex-1 px-4 py-2.5 text-sm bg-transparent outline-none text-white placeholder-gray-500"
+                                        className="relative flex-1 px-2 py-2.5 text-sm bg-transparent outline-none text-white placeholder-gray-500"
                                     />
-                                    <button className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-colors">
-                                        Subscribe
+                                    <button className="absolute h-full right-0 px-2 rounded-sm bg-blue-700 text-white font-semibold text-sm transition-colors cursor-pointer">
+                                        <IoIosSend size={28} className="" />
                                     </button>
                                 </div>
                                 <label className="flex items-start gap-2 cursor-pointer">

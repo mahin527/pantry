@@ -37,7 +37,7 @@ export function MobileDrawer() {
 
     const handleLogout = async () => {
         setOpen(false)
-        try { await fetch("/api/auth/logout", { method: "POST", credentials: "include" }) } catch {}
+        try { await fetch("/api/auth/logout", { method: "POST", credentials: "include" }) } catch { }
         setCachedUser(null)
         router.push("/")
     }
@@ -48,7 +48,7 @@ export function MobileDrawer() {
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="flex items-center justify-center size-10 text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                className="flex items-center justify-center size-10 text-gray-600 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
                 aria-label="Open menu"
             >
                 <FaBars size={20} />
@@ -153,26 +153,26 @@ function NavLinks() {
 
     return (
         <nav className="hidden md:block bg-white border-b border-gray-200">
-            <div className="container flex items-center justify-between">
-                <ul className="flex items-center">
+            <div className="container flex items-center justify-between overflow-hidden">
+                <ul className="flex items-center gap-0 lg:gap-1">
                     {visible.map((link) => (
-                        <li key={link.id}>
+                        <li key={link.id} className="flex-shrink-0">
                             <Link href={link.link}
-                                className="inline-block px-4 py-3 text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 after:transition-all hover:after:w-full"
+                                className="inline-block whitespace-nowrap px-2 lg:px-4 py-3 text-xs lg:text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 after:transition-all hover:after:w-full"
                             >
                                 {link.title}
                             </Link>
                         </li>
                     ))}
                     {overflow.length > 0 && (
-                        <li className="group relative">
-                            <span className="inline-flex items-center gap-1 px-4 py-3 text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer">
-                                More <FaChevronDown size={12} />
+                        <li className="group relative flex-shrink-0">
+                            <span className="inline-flex items-center gap-1 whitespace-nowrap px-2 lg:px-4 py-3 text-xs lg:text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer">
+                                More <FaChevronDown size={10} className="lg:size-3" />
                             </span>
-                            <div className="absolute top-full left-0 z-50 min-w-[200px] bg-white rounded-lg shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-1 group-hover:translate-y-0">
+                            <div className="absolute top-full right-0 z-50 min-w-[180px] bg-white rounded-lg shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-1 group-hover:translate-y-0">
                                 {overflow.map((link) => (
                                     <Link key={link.id} href={link.link}
-                                        className="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                                        className="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors whitespace-nowrap"
                                     >
                                         {link.title}
                                     </Link>

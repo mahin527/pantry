@@ -44,7 +44,7 @@ const Header = () => {
                         <div className="flex items-center gap-0.5">
                             <button
                                 onClick={openSearch}
-                                className="flex items-center justify-center size-10 text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                                className="flex items-center justify-center size-10 text-gray-600 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
                                 aria-label="Search"
                             >
                                 <FiSearch size={20} />

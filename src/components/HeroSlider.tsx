@@ -74,7 +74,7 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
           <p className="text-sm md:text-base font-semibold uppercase tracking-widest text-gray-500">
             {slide.subtitle}
           </p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight whitespace-pre-line">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 leading-tight whitespace-pre-line">
             {slide.title}
           </h2>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 max-w-md leading-relaxed">
@@ -82,7 +82,7 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
           </p>
           <Link
             href={slide.buttonLink}
-            className={`inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 rounded-xl font-bold text-sm md:text-base transition-all duration-200 shadow-lg hover:shadow-xl ${accentMap[slide.accent] || accentMap.blue
+            className={`inline-flex items-center gap-2 px-6 py-3 md:px-7 md:py-3 rounded-xl font-bold text-xs md:text-sm transition-all duration-200 shadow-lg hover:shadow-xl ${accentMap[slide.accent] || accentMap.blue
               }`}
           >
             {slide.buttonText}
