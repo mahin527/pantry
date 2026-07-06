@@ -8,8 +8,9 @@ const protectedRoutes = [
   "/address",
   "/checkout",
   "/wishlist",
-  "/admin",
 ]
+
+const adminRoutes = ["/admin"]
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -17,8 +18,9 @@ export async function middleware(request: NextRequest) {
   const isProtected = protectedRoutes.some((route) =>
     pathname.startsWith(route),
   )
+  const isAdmin = adminRoutes.some((route) => pathname.startsWith(route))
 
-  if (!isProtected) {
+  if (!isProtected && !isAdmin) {
     const response = NextResponse.next()
     response.headers.set("X-Content-Type-Options", "nosniff")
     response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
@@ -33,11 +35,20 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get(AUTH_COOKIE_CONFIG.name)?.value
 
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url))
+    const callbackUrl = encodeURIComponent(pathname)
+    return NextResponse.redirect(
+      new URL(`/login?callbackUrl=${callbackUrl}`, request.url),
+    )
   }
 
   try {
-    await verifyTokenEdge(token)
+    const payload = await verifyTokenEdge(token)
+
+    // Admin routes require admin role
+    if (isAdmin && payload.role !== "admin") {
+      return NextResponse.redirect(new URL("/", request.url))
+    }
+
     const response = NextResponse.next()
     response.headers.set("X-Content-Type-Options", "nosniff")
     response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
@@ -48,7 +59,10 @@ export async function middleware(request: NextRequest) {
     )
     return response
   } catch {
-    const redirect = NextResponse.redirect(new URL("/login", request.url))
+    const callbackUrl = encodeURIComponent(pathname)
+    const redirect = NextResponse.redirect(
+      new URL(`/login?callbackUrl=${callbackUrl}`, request.url),
+    )
     redirect.cookies.set(AUTH_COOKIE_CONFIG.name, "", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

@@ -142,32 +142,47 @@ function AccountSidebar() {
       </div>
 
       <div className="my-account flex flex-col items-center justify-start w-full">
-        {accountPageLinks.map((link) => {
-          const Icon = link.icon
-          const isActive = pathname === link.link
+        {user ? (
+          accountPageLinks.map((link) => {
+            const Icon = link.icon
+            const isActive = pathname === link.link
 
-          if (link.link === "") {
+            if (link.link === "") {
+              return (
+                <button key={link.id} onClick={handleLogout} className="w-full py-2">
+                  <Button className="w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3!">
+                    <Icon size={26} />
+                    {link.title}
+                  </Button>
+                </button>
+              )
+            }
+
             return (
-              <button key={link.id} onClick={handleLogout} className="w-full py-2">
-                <Button className="w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3!">
+              <Link key={link.id} href={link.link} className="w-full py-2">
+                <Button
+                  className={`w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3! ${isActive === true && "active"}`}
+                >
                   <Icon size={26} />
                   {link.title}
                 </Button>
-              </button>
+              </Link>
             )
-          }
-
-          return (
-            <Link key={link.id} href={link.link} className="w-full py-2">
-              <Button
-                className={`w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3! ${isActive === true && "active"}`}
-              >
-                <Icon size={26} />
-                {link.title}
+          })
+        ) : (
+          <div className="w-full px-4 py-4 space-y-2">
+            <Link href="/login" className="block w-full">
+              <Button variant="contained" className="w-full! font-bold!">
+                Login
               </Button>
             </Link>
-          )
-        })}
+            <Link href="/register" className="block w-full">
+              <Button variant="outlined" className="w-full! font-bold!">
+                Register
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </aside>
   )
