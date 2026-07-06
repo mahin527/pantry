@@ -71,10 +71,10 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
               {slide.badge}
             </span>
           )}
-          <p className="text-sm md:text-base font-semibold uppercase tracking-widest text-gray-500">
+          <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-gray-500">
             {slide.subtitle}
           </p>
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 leading-tight whitespace-pre-line">
+          <h2 className="text-xl md:text-2xl xl:text-3xl font-black text-gray-900 leading-tight whitespace-pre-line">
             {slide.title}
           </h2>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 max-w-md leading-relaxed">
@@ -99,8 +99,8 @@ function HeroSlideContent({ slide, isActive }: { slide: HeroSlide; isActive: boo
             <Image
               src={slide.image}
               alt={slide.title.replace("\n", " ")}
-              width={380}
-              height={380}
+              width={680}
+              height={680}
               className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
               priority={isActive}
             />

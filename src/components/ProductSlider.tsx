@@ -52,7 +52,7 @@ function ProductSlider({ products }: { products?: ProductItem[] }) {
         </Swiper>
 
         {/* Navigation buttons positioned absolutely on desktop, below on mobile */}
-        <div className="flex justify-center mt-4 md:absolute md:top-1/2 md:-translate-y-1/2 md:left-0 md:right-0 md:justify-between md:px-1 md:mt-0 md:pointer-events-none">
+        <div className="flex justify-center mt-4 md:absolute md:top-1/2 md:-translate-y-1/2 md:left-0 md:right-0 md:justify-between md:px-1 md:mt-0 md:pointer-events-none z-10">
           <div className="md:pointer-events-auto">
             <SwiperNavigation id="product-slider" />
           </div>
