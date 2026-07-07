@@ -1,6 +1,6 @@
 "use client"
 
-import { Avatar } from "@mui/material"
+import { Avatar, Button, Snackbar, Alert, CircularProgress } from "@mui/material"
 import { IconType } from "react-icons"
 import { CgProfile } from "react-icons/cg"
 import { IoLocationOutline } from "react-icons/io5"
@@ -8,10 +8,9 @@ import { IoMdHeartEmpty } from "react-icons/io"
 import { BsCartCheck } from "react-icons/bs"
 import { FaArrowRightFromBracket } from "react-icons/fa6"
 import Link from "next/link"
-import { Button } from "@mui/material"
 import { usePathname, useRouter } from "next/navigation"
 import { useAuth, setCachedUser } from "@/hooks/useAuth"
-import { useState, useRef } from "react"
+import { useState, useRef, useCallback } from "react"
 
 type accountPageLinkType = {
   id: number
@@ -25,6 +24,8 @@ function AccountSidebar() {
   const pathname = usePathname()
   const { user, refresh } = useAuth()
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar ?? "")
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [previewFile, setPreviewFile] = useState<File | null>(null)
 
   const initials = user?.name
     ?.split(" ")
@@ -36,22 +37,54 @@ function AccountSidebar() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
 
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean
+    message: string
+    severity: "success" | "error" | "info"
+  }>({ open: false, message: "", severity: "success" })
+
+  const showSnackbar = useCallback((message: string, severity: "success" | "error" | "info") => {
+    setSnackbar({ open: true, message, severity })
+  }, [])
+
+  const handleCloseSnackbar = useCallback(() => {
+    setSnackbar((s) => ({ ...s, open: false }))
+  }, [])
+
   const handleAvatarClick = () => {
+    if (uploading) return
     fileInputRef.current?.click()
   }
 
-  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
     const allowed = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
-    if (!allowed.includes(file.type)) return
-    if (file.size > 5 * 1024 * 1024) return
+    if (!allowed.includes(file.type)) {
+      showSnackbar("Invalid file type. Accepted: jpg, jpeg, png, webp", "error")
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showSnackbar("File size must be less than 5 MB", "error")
+      return
+    }
+
+    const objectUrl = URL.createObjectURL(file)
+    setPreviewUrl(objectUrl)
+    setPreviewFile(file)
+
+    if (e.target) e.target.value = ""
+  }
+
+  const handleSaveAvatar = async () => {
+    if (!previewFile || uploading) return
 
     setUploading(true)
+    showSnackbar("Uploading avatar...", "info")
     try {
       const formData = new FormData()
-      formData.append("file", file)
+      formData.append("file", previewFile)
       formData.append("folder", "avatars")
 
       const res = await fetch("/api/upload", {
@@ -71,16 +104,29 @@ function AccountSidebar() {
         if (user) {
           setCachedUser({ ...user, avatar: json.data.url })
         }
+        showSnackbar("Avatar updated successfully.", "success")
+      } else {
+        showSnackbar("Failed to upload avatar. Please try again.", "error")
       }
-    } catch {}
+    } catch {
+      showSnackbar("Failed to upload avatar. Please try again.", "error")
+    }
     setUploading(false)
+    setPreviewUrl(null)
+    setPreviewFile(null)
     refresh()
+  }
+
+  const handleCancelPreview = () => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl)
+    setPreviewUrl(null)
+    setPreviewFile(null)
   }
 
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST", credentials: "include" })
-    } catch {}
+    } catch { }
     setCachedUser(null)
     router.push("/login")
   }
@@ -93,13 +139,15 @@ function AccountSidebar() {
     { id: 5, title: "Logout", link: "", icon: FaArrowRightFromBracket },
   ]
 
+  const currentSrc = previewUrl || avatarUrl || user?.avatar || undefined
+
   return (
     <aside className="account-sidebar w-full h-fit shadow-md rounded-xl">
       <div className="bg-white py-4 rounded-t-xl">
         <div className="relative w-24 h-24 mx-auto overflow-hidden rounded-full">
           <div className="relative w-full h-full">
             <Avatar
-              src={avatarUrl || user?.avatar || undefined}
+              src={currentSrc}
               alt={user?.name ?? "User"}
               sx={{ width: "100%", height: "100%", fontSize: 36, bgcolor: "primary.main" }}
             >
@@ -109,33 +157,52 @@ function AccountSidebar() {
               ref={fileInputRef}
               type="file"
               accept="image/jpeg,image/jpg,image/png,image/webp"
-              onChange={handleAvatarUpload}
+              onChange={handleFileSelect}
               className="hidden"
               id="avatar-upload"
-            />
-            <button
-              type="button"
-              onClick={handleAvatarClick}
               disabled={uploading}
-              className="absolute inset-0 w-full h-full rounded-full bg-black/40 flex items-center justify-center cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-200 z-10 border-0"
-              aria-label="Change avatar"
-            >
-              {uploading ? (
-                <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-              ) : (
+            />
+            {uploading ? (
+              <div className="absolute inset-0 w-full h-full rounded-full bg-black/40 flex items-center justify-center z-10">
+                <CircularProgress size={24} sx={{ color: "white" }} />
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleAvatarClick}
+                className="absolute inset-0 w-full h-full rounded-full bg-black/40 flex items-center justify-center cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-200 z-10 border-0"
+                aria-label="Change avatar"
+              >
                 <span className="text-white text-xs font-bold">Change</span>
-              )}
-            </button>
+              </button>
+            )}
           </div>
         </div>
+        {previewUrl && (
+          <div className="flex justify-center gap-2 mt-3">
+            <Button
+              size="small"
+              variant="contained"
+              onClick={handleSaveAvatar}
+              disabled={uploading}
+            >
+              Save
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={handleCancelPreview}
+              disabled={uploading}
+            >
+              Cancel
+            </Button>
+          </div>
+        )}
         <div className="text-center mt-2">
           <h3 className="text-base lg:text-lg xl:text-xl font-semibold text-gray-700">
             {user?.name ?? "User"}
           </h3>
-          <p className="text-sm md:text-base lg:text-lg font-medium text-gray-700">
+          <p className="text-xs md:text-sm font-medium text-gray-700">
             {user?.email ?? ""}
           </p>
         </div>
@@ -149,12 +216,14 @@ function AccountSidebar() {
 
             if (link.link === "") {
               return (
-                <button key={link.id} onClick={handleLogout} className="w-full py-2">
-                  <Button className="w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3!">
-                    <Icon size={26} />
-                    {link.title}
-                  </Button>
-                </button>
+                <Button
+                  key={link.id}
+                  onClick={handleLogout}
+                  className="w-full! justify-start! gap-3! text-gray-600! font-semibold! px-3! py-2!"
+                >
+                  <Icon size={26} />
+                  {link.title}
+                </Button>
               )
             }
 
@@ -184,6 +253,21 @@ function AccountSidebar() {
           </div>
         )}
       </div>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={snackbar.severity === "info" ? null : 4000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </aside>
   )
 }
