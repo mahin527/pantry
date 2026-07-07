@@ -1,5 +1,4 @@
 import { fetchApi } from "@/lib/fetch-api"
-import Banners from "@/components/Banners"
 import { HomepageJsonLd } from "./HomepageJsonLd"
 import CategorySlider from "@/components/CategorySlider"
 import FeaturedProducts from "@/components/FeaturedProducts"
@@ -42,13 +41,12 @@ export default async function Home() {
     <>
       <HomepageJsonLd />
       <div className="sliderWrapper p-4">
-      <HomeSliderWrapper />
-      {categories && <CategorySlider categories={categories} />}
-      {popular && <PopularProducts products={popular} />}
-      <Banners />
-      {latest && <LatestProducts products={latest} />}
-      {featured && <FeaturedProducts products={featured} />}
-    </div>
+        <HomeSliderWrapper />
+        {categories && <CategorySlider categories={categories} />}
+        {popular && <PopularProducts products={popular} />}
+        {latest && <LatestProducts products={latest} />}
+        {featured && <FeaturedProducts products={featured} />}
+      </div>
     </>
   )
 }
