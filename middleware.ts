@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
 
     // Admin routes require admin role
     if (isAdmin && payload.role !== "admin") {
-      return NextResponse.redirect(new URL("/", request.url))
+      return NextResponse.redirect(new URL("/403", request.url))
     }
 
     const response = NextResponse.next()
@@ -81,6 +81,7 @@ export const config = {
     "/address/:path*",
     "/checkout/:path*",
     "/wishlist/:path*",
+    "/admin",
     "/admin/:path*",
   ],
 }

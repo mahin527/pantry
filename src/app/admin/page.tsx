@@ -1,5 +1,6 @@
-import { headers } from "next/headers"
+import { headers, cookies } from "next/headers"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import {
   Card,
   CardContent,
@@ -15,7 +16,8 @@ import {
   Chip,
 } from "@mui/material"
 import { formatPrice, formatDate } from "@/lib/utils"
-import { STATUS_COLORS } from "@/constants"
+import { STATUS_COLORS, AUTH_COOKIE_CONFIG } from "@/constants"
+import { verifyAccessToken } from "@/lib/auth"
 
 type Stats = {
   users: number
@@ -125,6 +127,24 @@ function InitialsAvatar({ name }: { name: string }) {
 }
 
 export default async function AdminDashboardPage() {
+  // Server-side auth guard (works in all modes including dev where middleware is skipped)
+  const cookieStore = await cookies()
+  const token = cookieStore.get(AUTH_COOKIE_CONFIG.name)?.value
+  if (!token) {
+    redirect(`/login?callbackUrl=${encodeURIComponent("/admin")}`)
+  }
+
+  let payload
+  try {
+    payload = verifyAccessToken(token)
+  } catch {
+    redirect(`/login?callbackUrl=${encodeURIComponent("/admin")}`)
+  }
+
+  if (payload!.role !== "admin") {
+    redirect("/403")
+  }
+
   const data = await getDashboard()
 
   if (!data) {
