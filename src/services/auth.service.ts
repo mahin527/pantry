@@ -87,6 +87,9 @@ export const authService = {
       return error(MESSAGES.INVALID_CREDENTIALS);
     }
 
+    if (!user.password) {
+      return error(MESSAGES.INVALID_CREDENTIALS);
+    }
     const isMatch = await comparePassword(data.password, user.password);
     if (!isMatch) {
       return error(MESSAGES.INVALID_CREDENTIALS);

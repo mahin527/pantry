@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+
 
 import { useState } from 'react';
 import { Button, Snackbar, Alert } from '@mui/material';
@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginInput } from '@/validations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { setCachedUser } from '@/hooks/useAuth';
+import { GoogleLoginButton } from '@/components/GoogleLoginButton';
 
 function LoginForm() {
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
@@ -124,14 +125,7 @@ function LoginForm() {
                                 Not Registered? <Link href={"/register"} className='text-blue-500 font-bold'>Signup</Link>
                             </span>
                             <span>Or continue with social account</span>
-                            <Button className='w-full! py-2.5! font-bold! bg-gray-100!'
-                                loading={false}
-                                loadingPosition='end'
-                                startIcon={<FcGoogle />}
-                                variant='outlined'
-                            >
-                                Login with Google
-                            </Button>
+                            <GoogleLoginButton mode="login" callbackUrl={callbackUrl} />
                         </div>
                     </form>
                 </div>

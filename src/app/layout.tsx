@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { AppProvider } from "@/providers/AppProvider"
+import { GoogleOAuthProvider } from "@react-oauth/google"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,11 +49,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans">
-        <AppProvider>
-          <Header />
-          {children}
-          <Footer />
-        </AppProvider>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
+          <AppProvider>
+            <Header />
+            {children}
+            <Footer />
+          </AppProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

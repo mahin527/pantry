@@ -3,9 +3,10 @@ import mongoose, { Schema, Document, models } from "mongoose";
 export interface IUser extends Document {
   name: string;
   email: string;
-  password: string;
+  password?: string;
   avatar?: string;
   role: "user" | "admin";
+  authProvider: "email" | "google";
   isVerified: boolean;
   emailVerifiedAt?: Date;
   createdAt: Date;
@@ -22,9 +23,10 @@ const UserSchema = new Schema<IUser>(
       lowercase: true,
       trim: true,
     },
-    password: { type: String, required: true },
+    password: { type: String },
     avatar: { type: String },
     role: { type: String, enum: ["user", "admin"], default: "user" },
+    authProvider: { type: String, enum: ["email", "google"], default: "email" },
     isVerified: { type: Boolean, default: false },
     emailVerifiedAt: { type: Date },
   },
