@@ -10,6 +10,8 @@ export interface IUser extends Document {
   authProvider: "email" | "google";
   isVerified: boolean;
   emailVerifiedAt?: Date;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,6 +33,8 @@ const UserSchema = new Schema<IUser>(
     authProvider: { type: String, enum: ["email", "google"], default: "email" },
     isVerified: { type: Boolean, default: false },
     emailVerifiedAt: { type: Date },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
   },
   { timestamps: true },
 );
