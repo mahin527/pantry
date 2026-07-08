@@ -164,7 +164,7 @@ function NavLinks() {
                             </Link>
                         </li>
                     ))}
-                    {overflow.length > 0 && (
+                    {/* {overflow.length > 0 && (
                         <li className="group relative shrink-0">
                             <span className="inline-flex items-center gap-1 whitespace-nowrap px-2 lg:px-4 py-3 text-xs lg:text-sm font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer">
                                 More <FaChevronDown size={10} className="lg:size-3" />
@@ -179,7 +179,7 @@ function NavLinks() {
                                 ))}
                             </div>
                         </li>
-                    )}
+                    )} */}
                 </ul>
             </div>
         </nav>

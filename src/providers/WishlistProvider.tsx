@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, useCallback, startTransition, ReactNode } from "react"
+import { toast } from "sonner"
 
 export type WishlistItem = {
   productId: string
@@ -113,6 +114,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       const data = await apiFetch("POST", { productId: product._id })
       if (data) {
         setState({ ...data, loading: false, error: null })
+        toast.success("❤️ Added to wishlist!", { duration: 3000, position: "bottom-right" })
         return
       }
 
@@ -133,6 +135,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         saveLocalWishlist(items)
         return { items, itemCount: items.length, loading: false, error: null }
       })
+      toast.success("❤️ Added to wishlist!", { duration: 3000, position: "bottom-right" })
     },
     [],
   )
@@ -147,6 +150,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       const json = await res.json()
       if (json.success && json.data) {
         setState({ ...json.data, loading: false, error: null })
+        toast.info("Removed from wishlist", { duration: 3000, position: "bottom-right" })
         return
       }
     } catch {
@@ -158,6 +162,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       saveLocalWishlist(items)
       return { items, itemCount: items.length, loading: false, error: null }
     })
+    toast.info("Removed from wishlist", { duration: 3000, position: "bottom-right" })
   }, [])
 
   const clearWishlist = useCallback(async () => {

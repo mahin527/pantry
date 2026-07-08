@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { AppProvider } from "@/providers/AppProvider"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import { Toaster } from "sonner"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,6 +55,7 @@ export default function RootLayout({
             <Header />
             {children}
             <Footer />
+            <Toaster position="bottom-right" />
           </AppProvider>
         </GoogleOAuthProvider>
       </body>

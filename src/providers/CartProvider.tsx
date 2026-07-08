@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, useCallback, startTransition, ReactNode } from "react"
+import { toast } from "sonner"
 
 export type CartItem = {
   productId: string
@@ -128,6 +129,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const data = await apiFetch("POST", { productId: product._id, quantity })
       if (data) {
         setState({ ...data, loading: false, error: null })
+        toast.success("🛒 Added to cart!", { duration: 3000, position: "bottom-right" })
         return
       }
 
@@ -157,6 +159,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         saveLocalCart(items)
         return { ...computeTotals(items), loading: false, error: null }
       })
+      toast.success("🛒 Added to cart!", { duration: 3000, position: "bottom-right" })
     },
     [],
   )
@@ -186,6 +189,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const data = await apiFetch("DELETE", undefined)
     if (data) {
       setState({ ...data, loading: false, error: null })
+      toast.info("Removed from cart", { duration: 3000, position: "bottom-right" })
       return
     }
 
@@ -194,6 +198,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       saveLocalCart(items)
       return { ...computeTotals(items), loading: false, error: null }
     })
+    toast.info("Removed from cart", { duration: 3000, position: "bottom-right" })
   }, [])
 
   const clearCart = useCallback(async () => {
