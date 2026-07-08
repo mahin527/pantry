@@ -61,7 +61,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
           alt={title}
           height={200}
           width={200}
-          className="w-full h-full object-contain p-4 md:p-5 transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 200px"
         />
 

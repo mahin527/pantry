@@ -66,7 +66,7 @@ function ProductDetails({ product }: { product: Product }) {
   }
 
   return (
-    <div className="py-3 w-full md:w-[70%] space-y-6 md:space-y-8">
+    <div className="py-3 w-full md:w-[60%] space-y-6 md:space-y-8">
       <div>
         <h2 className="text-xl lg:text-2xl 2xl:text-3xl font-semibold text-gray-700">
           {product.title}

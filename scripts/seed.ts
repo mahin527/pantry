@@ -22,6 +22,13 @@ function generateSku(categoryPrefix: string, index: number): string {
   return `${categoryPrefix}-${String(index).padStart(3, "0")}`;
 }
 
+function getImagePath(slug: string): string {
+  if (slug === "organic-bananas-bunch") {
+    return `/seed-products/${slug}.webp`
+  }
+  return `/seed-products/${slug}.jpg`
+}
+
 const categories = [
   {
     name: "Fruits & Vegetables",
@@ -450,7 +457,7 @@ async function seed() {
       description: prod.description,
       shortDescription: prod.shortDescription,
       category: categoryId,
-      images: [],
+      images: [getImagePath(slug)],
       price: prod.price,
       discountPrice: prod.discountPrice,
       stock: prod.stock,
@@ -470,6 +477,18 @@ async function seed() {
   }
 
   console.log(`\nDone. ${created} products created, ${skipped} skipped.`);
+
+  // Update existing products that have empty or missing images
+  const productsWithoutImages = await Product.find({
+    $or: [{ images: { $exists: false } }, { images: [] }],
+  });
+  for (const product of productsWithoutImages) {
+    const imagePath = getImagePath(product.slug);
+    product.images = [imagePath];
+    await product.save();
+    console.log(`Updated image for: ${product.title}`);
+  }
+  console.log(`Updated images for ${productsWithoutImages.length} existing products.`);
 
   await mongoose.disconnect();
   process.exit(0);

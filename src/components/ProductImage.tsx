@@ -22,15 +22,22 @@ function ProductImage({ images, title }: { images: string[]; title: string }) {
   }
 
   return (
-    <div className="image-wrapper w-full md:w-[30%] space-y-6">
+    <div className="image-wrapper w-full md:w-[40%] space-y-6">
       <Swiper
         onSwiper={setBigSwiper}
-        className="BigSlider border border-gray-200 rounded-md p-4 overflow-hidden"
+        className="BigSlider border border-gray-200 rounded-md p-4 overflow-hidden max-h-96"
       >
         {items.map((src, idx) => (
           <SwiperSlide key={idx}>
-            <div className="w-full h-fit flex items-center justify-center">
-              <InnerImageZoom zoomType="click" zoomScale={1} src={src} zoomSrc={src} />
+            <div className="w-full h-96 flex items-center justify-center overflow-hidden">
+              <InnerImageZoom
+                zoomType="click"
+                zoomScale={1}
+                src={src}
+                zoomSrc={src}
+                className="max-h-full max-w-full"
+                imgAttributes={{ className: "max-h-full w-full object-contain" }}
+              />
             </div>
           </SwiperSlide>
         ))}
@@ -46,11 +53,10 @@ function ProductImage({ images, title }: { images: string[]; title: string }) {
           <SwiperSlide key={idx}>
             <div
               onClick={() => goToSlide(idx)}
-              className={`item border ${
-                slideIndex === idx ? "border-gray-400" : "border-gray-200"
-              } rounded-md overflow-hidden`}
+              className={`item border ${slideIndex === idx ? "border-gray-400" : "border-gray-200"
+                } rounded-md overflow-hidden`}
             >
-              <Image src={src} alt={`${title} ${idx + 1}`} className="w-full" width={100} height={100} />
+              <Image src={src} alt={`${title} ${idx + 1}`} className="w-full h-20 object-cover" width={100} height={100} />
             </div>
           </SwiperSlide>
         ))}
