@@ -41,7 +41,7 @@ function Sidebar({ categories, selectedCategory, minPrice, maxPrice }: Props) {
   const [price, setPrice] = useState<[number, number]>([initialMin, initialMax])
 
   const ratings = [5, 4, 3, 2, 1]
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([])
+  const selectedRating = searchParams.get("rating") || ""
 
   const navigate = useCallback(
     (params: Record<string, string>) => {
@@ -151,12 +151,10 @@ function Sidebar({ categories, selectedCategory, minPrice, maxPrice }: Props) {
                 key={rate}
                 className="flex items-center w-full cursor-pointer hover:bg-gray-200 rounded"
                 onClick={() => {
-                  setSelectedRatings((prev) =>
-                    prev.includes(rate) ? prev.filter((r) => r !== rate) : [...prev, rate],
-                  )
+                  navigate({ rating: selectedRating === String(rate) ? "" : String(rate) })
                 }}
               >
-                <Checkbox checked={selectedRatings.includes(rate)} />
+                <Checkbox checked={selectedRating === String(rate)} />
                 <Rating value={rate} size="small" readOnly />
               </div>
             ))}

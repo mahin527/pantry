@@ -168,6 +168,7 @@ export const productService = {
     isActive?: boolean;
     minPrice?: number;
     maxPrice?: number;
+    minRating?: number;
   }): Promise<ApiResponse<PaginatedProducts>> {
     await connectDB();
 
@@ -188,6 +189,7 @@ export const productService = {
     if (raw.isActive !== undefined) filter.isActive = raw.isActive;
     if (raw.minPrice !== undefined) filter.minPrice = raw.minPrice;
     if (raw.maxPrice !== undefined) filter.maxPrice = raw.maxPrice;
+    if (raw.minRating !== undefined) filter.minRating = raw.minRating;
 
     const { products, total } = await productRepository.findAll(filter);
 

@@ -41,6 +41,7 @@ export async function GET(request: NextRequest) {
       isLatest: parseBool(searchParams.get("latest")),
       minPrice: parseNumber(searchParams.get("minPrice")),
       maxPrice: parseNumber(searchParams.get("maxPrice")),
+      minRating: parseNumber(searchParams.get("rating")),
     });
 
     return NextResponse.json(result, { status: HTTP.OK });

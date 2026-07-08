@@ -93,6 +93,8 @@ type ProductSeed = {
   isFeatured?: boolean;
   isPopular?: boolean;
   isLatest?: boolean;
+  rating: number;
+  reviewCount: number;
 };
 
 const products: ProductSeed[] = [
@@ -109,6 +111,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
+    rating: 4.7,
+    reviewCount: 234,
   },
   {
     title: "Fresh Avocados (Pack of 4)",
@@ -124,6 +128,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: false,
     isLatest: true,
+    rating: 4.5,
+    reviewCount: 189,
   },
   {
     title: "Baby Spinach (5 oz)",
@@ -138,6 +144,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
+    rating: 4.3,
+    reviewCount: 156,
   },
   {
     title: "Fresh Chicken Breast (1 lb)",
@@ -152,6 +160,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
+    rating: 4.4,
+    reviewCount: 267,
   },
   {
     title: "Atlantic Salmon Fillet (8 oz)",
@@ -166,6 +176,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: true,
+    rating: 4.8,
+    reviewCount: 345,
   },
   {
     title: "Ground Beef 85/15 (1 lb)",
@@ -180,6 +192,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: false,
+    rating: 4.1,
+    reviewCount: 198,
   },
   {
     title: "Greek Yogurt Plain (32 oz)",
@@ -195,6 +209,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: false,
     isLatest: false,
+    rating: 4.5,
+    reviewCount: 312,
   },
   {
     title: "Free Range Eggs (Dozen)",
@@ -209,6 +225,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
+    rating: 4.6,
+    reviewCount: 278,
   },
   {
     title: "Almond Milk Unsweetened (Half Gallon)",
@@ -223,6 +241,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: true,
+    rating: 4.3,
+    reviewCount: 187,
   },
   {
     title: "Sourdough Boule (16 oz)",
@@ -237,6 +257,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
+    rating: 4.7,
+    reviewCount: 203,
   },
   {
     title: "Butter Croissants (Pack of 4)",
@@ -251,6 +273,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
+    rating: 4.6,
+    reviewCount: 156,
   },
   {
     title: "Orange Juice Not From Concentrate (64 oz)",
@@ -266,6 +290,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
+    rating: 4.3,
+    reviewCount: 234,
   },
   {
     title: "Organic Green Tea Bags (Pack of 40)",
@@ -280,6 +306,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
+    rating: 4.4,
+    reviewCount: 198,
   },
   {
     title: "Cold Brew Coffee Concentrate (32 oz)",
@@ -294,6 +322,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: false,
     isLatest: true,
+    rating: 4.6,
+    reviewCount: 289,
   },
   {
     title: "Sparkling Water Variety Pack (12 cans)",
@@ -308,6 +338,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: false,
+    rating: 4.1,
+    reviewCount: 167,
   },
   {
     title: "Dark Chocolate 70% Cocoa (3.5 oz)",
@@ -322,6 +354,8 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: false,
     isLatest: false,
+    rating: 4.8,
+    reviewCount: 423,
   },
   {
     title: "Roasted Mixed Nuts (16 oz)",
@@ -336,6 +370,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
+    rating: 4.7,
+    reviewCount: 345,
   },
   {
     title: "Kettle Cooked Potato Chips (8 oz)",
@@ -350,6 +386,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
+    rating: 4.2,
+    reviewCount: 234,
   },
   {
     title: "Granola Bars Variety Pack (12 bars)",
@@ -365,6 +403,8 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: true,
+    rating: 4.2,
+    reviewCount: 156,
   },
 ];
 
@@ -449,8 +489,8 @@ async function seed() {
       stock: prod.stock,
       sku,
       brand: prod.brand,
-      rating: 0,
-      reviewCount: 0,
+      rating: prod.rating,
+      reviewCount: prod.reviewCount,
       isFeatured: prod.isFeatured ?? false,
       isPopular: prod.isPopular ?? false,
       isLatest: prod.isLatest ?? false,
@@ -475,6 +515,25 @@ async function seed() {
     console.log(`Updated image for: ${product.title}`);
   }
   console.log(`Updated images for ${productsWithoutImages.length} existing products.`);
+
+  // Update existing products that have zero rating
+  const ratingMap: Record<string, { rating: number; reviewCount: number }> = {};
+  for (const prod of products) {
+    const slug = slugify(prod.title);
+    ratingMap[slug] = { rating: prod.rating, reviewCount: prod.reviewCount };
+  }
+
+  const productsWithoutRating = await Product.find({ rating: 0 });
+  for (const product of productsWithoutRating) {
+    const data = ratingMap[product.slug];
+    if (data) {
+      product.rating = data.rating;
+      product.reviewCount = data.reviewCount;
+      await product.save();
+      console.log(`Updated rating for: ${product.title}`);
+    }
+  }
+  console.log(`Updated ratings for ${productsWithoutRating.length} existing products.`);
 
   await mongoose.disconnect();
   process.exit(0);

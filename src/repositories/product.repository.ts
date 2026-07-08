@@ -34,6 +34,7 @@ export type ProductFilter = {
   isActive?: boolean;
   minPrice?: number;
   maxPrice?: number;
+  minRating?: number;
 };
 
 export const productRepository = {
@@ -86,6 +87,9 @@ export const productRepository = {
       if (filter.maxPrice !== undefined) {
         (query.price as Record<string, number>).$lte = filter.maxPrice;
       }
+    }
+    if (filter.minRating !== undefined) {
+      query.rating = { $gte: filter.minRating };
     }
 
     const [products, total] = await Promise.all([
