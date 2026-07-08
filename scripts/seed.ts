@@ -182,20 +182,6 @@ const products: ProductSeed[] = [
     isLatest: false,
   },
   {
-    title: "Whole Milk (1 Gallon Jug)",
-    categoryName: "Breakfast & Dairy",
-    price: 3.99,
-    stock: 100,
-    brand: "DairyPure",
-    description:
-      "Fresh whole milk from pasture-raised cows. Rich, creamy, and packed with calcium and vitamin D.",
-    shortDescription: "Fresh whole milk from pasture-raised cows",
-    tags: ["dairy", "milk", "calcium"],
-    isFeatured: false,
-    isPopular: true,
-    isLatest: false,
-  },
-  {
     title: "Greek Yogurt Plain (32 oz)",
     categoryName: "Breakfast & Dairy",
     price: 5.29,

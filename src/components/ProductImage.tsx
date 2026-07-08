@@ -5,8 +5,6 @@ import type { Swiper as SwiperType } from "swiper"
 import "swiper/css"
 import Image from "next/image"
 import { useState } from "react"
-import InnerImageZoom from "react-inner-image-zoom"
-import "react-inner-image-zoom/lib/styles.min.css"
 
 function ProductImage({ images, title }: { images: string[]; title: string }) {
   const [slideIndex, setSlideIndex] = useState(0)
@@ -25,18 +23,18 @@ function ProductImage({ images, title }: { images: string[]; title: string }) {
     <div className="image-wrapper w-full md:w-[40%] space-y-6">
       <Swiper
         onSwiper={setBigSwiper}
-        className="BigSlider border border-gray-200 rounded-md p-4 overflow-hidden max-h-96"
+        className="BigSlider border border-gray-200 rounded-md p-4"
       >
         {items.map((src, idx) => (
           <SwiperSlide key={idx}>
-            <div className="w-full h-96 flex items-center justify-center overflow-hidden">
-              <InnerImageZoom
-                zoomType="click"
-                zoomScale={1}
+            <div className="relative w-full aspect-square bg-gray-50 rounded-md">
+              <Image
                 src={src}
-                zoomSrc={src}
-                className="max-h-full max-w-full"
-                imgAttributes={{ className: "max-h-full w-full object-contain" }}
+                alt={`${title} ${idx + 1}`}
+                fill
+                className="object-cover p-2"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority={idx === 0}
               />
             </div>
           </SwiperSlide>
