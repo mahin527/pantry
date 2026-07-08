@@ -32,7 +32,7 @@ function FeaturedProducts({ products }: { products?: ProductItem[] }) {
             </Link>
           </div>
         </div>
-        <ProductSlider products={products} />
+        <ProductSlider products={products} sectionId="featured" />
       </div>
     </section>
   )

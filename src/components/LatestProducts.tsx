@@ -32,7 +32,7 @@ function LatestProducts({ products }: { products?: ProductItem[] }) {
             </Link>
           </div>
         </div>
-        <ProductSlider products={products} />
+        <ProductSlider products={products} sectionId="latest" />
       </div>
     </section>
   )

@@ -63,7 +63,7 @@ function PopularProducts({ products }: { products?: ProductItem[] }) {
           </div>
         </div>
 
-        <ProductSlider products={products} />
+        <ProductSlider products={products} sectionId="popular" />
       </div>
     </section>
   )
