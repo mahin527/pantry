@@ -1,6 +1,8 @@
 "use client"
 
 import { createContext, useContext, useState, ReactNode } from "react"
+import { CartProvider } from "./CartProvider"
+import { WishlistProvider } from "./WishlistProvider"
 
 type AppContextType = {
     isOpenAddAddressPanel: boolean
@@ -18,7 +20,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <AppContext.Provider value={{ isOpenAddAddressPanel, openAddAddress, closeAddAddress }}>
-            {children}
+            <CartProvider>
+                <WishlistProvider>
+                    {children}
+                </WishlistProvider>
+            </CartProvider>
         </AppContext.Provider>
     )
 }

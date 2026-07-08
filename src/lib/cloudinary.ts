@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from "cloudinary"
+import crypto from "crypto"
 import type { StorageProvider } from "./storage"
 
 cloudinary.config({
@@ -34,4 +35,33 @@ export const cloudinaryStorage: StorageProvider = {
     const match = url.match(/\/v\d+\/(.+)\.\w+$/)
     return match ? match[1] : null
   },
+}
+
+export async function deleteFromCloudinary(publicId: string) {
+  try {
+    const timestamp = Math.round(new Date().getTime() / 1000)
+    const signature = crypto
+      .createHash("sha256")
+      .update(`public_id=${publicId}&timestamp=${timestamp}${process.env.CLOUDINARY_API_SECRET}`)
+      .digest("hex")
+
+    const formData = new FormData()
+    formData.append("public_id", publicId)
+    formData.append("timestamp", timestamp.toString())
+    formData.append("api_key", process.env.CLOUDINARY_API_KEY!)
+    formData.append("signature", signature)
+
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/destroy`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    )
+
+    return await response.json()
+  } catch (error) {
+    console.error("Cloudinary delete error:", error)
+    throw error
+  }
 }
