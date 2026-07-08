@@ -88,6 +88,7 @@ function Sidebar({ categories, selectedCategory, minPrice, maxPrice }: Props) {
           <Button
             onClick={() => setIsOpenCatFilter(!isOpenCatFilter)}
             className="rounded-full! h-14! w-4!"
+            suppressHydrationWarning
           >
             {isOpenCatFilter === true ? <FaAngleUp size={26} /> : <FaAngleDown size={26} />}
           </Button>
@@ -139,6 +140,7 @@ function Sidebar({ categories, selectedCategory, minPrice, maxPrice }: Props) {
           <Button
             onClick={() => setIsOpenRatingFilter(!isOpenRatingFilter)}
             className="rounded-full! h-14! w-4!"
+            suppressHydrationWarning
           >
             {isOpenRatingFilter === true ? <FaAngleUp size={26} /> : <FaAngleDown size={26} />}
           </Button>

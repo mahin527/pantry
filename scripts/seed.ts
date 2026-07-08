@@ -128,7 +128,7 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: false,
     isLatest: true,
-    rating: 4.5,
+    rating: 4.2,
     reviewCount: 189,
   },
   {
@@ -144,7 +144,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
-    rating: 4.3,
+    rating: 3.2,
     reviewCount: 156,
   },
   {
@@ -160,7 +160,7 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
-    rating: 4.4,
+    rating: 4.0,
     reviewCount: 267,
   },
   {
@@ -192,7 +192,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: false,
-    rating: 4.1,
+    rating: 3.6,
     reviewCount: 198,
   },
   {
@@ -209,7 +209,7 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: false,
     isLatest: false,
-    rating: 4.5,
+    rating: 4.1,
     reviewCount: 312,
   },
   {
@@ -225,7 +225,7 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
-    rating: 4.6,
+    rating: 4.3,
     reviewCount: 278,
   },
   {
@@ -241,7 +241,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: true,
-    rating: 4.3,
+    rating: 3.9,
     reviewCount: 187,
   },
   {
@@ -257,7 +257,7 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
-    rating: 4.7,
+    rating: 4.6,
     reviewCount: 203,
   },
   {
@@ -273,7 +273,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
-    rating: 4.6,
+    rating: 3.8,
     reviewCount: 156,
   },
   {
@@ -290,7 +290,7 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: true,
     isLatest: false,
-    rating: 4.3,
+    rating: 2.3,
     reviewCount: 234,
   },
   {
@@ -306,7 +306,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
-    rating: 4.4,
+    rating: 3.7,
     reviewCount: 198,
   },
   {
@@ -322,7 +322,7 @@ const products: ProductSeed[] = [
     isFeatured: true,
     isPopular: false,
     isLatest: true,
-    rating: 4.6,
+    rating: 4.0,
     reviewCount: 289,
   },
   {
@@ -338,7 +338,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: false,
-    rating: 4.1,
+    rating: 2.6,
     reviewCount: 167,
   },
   {
@@ -370,7 +370,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
-    rating: 4.7,
+    rating: 3.4,
     reviewCount: 345,
   },
   {
@@ -386,7 +386,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: true,
     isLatest: false,
-    rating: 4.2,
+    rating: 2.8,
     reviewCount: 234,
   },
   {
@@ -403,7 +403,7 @@ const products: ProductSeed[] = [
     isFeatured: false,
     isPopular: false,
     isLatest: true,
-    rating: 4.2,
+    rating: 3.1,
     reviewCount: 156,
   },
 ];
@@ -523,7 +523,7 @@ async function seed() {
     ratingMap[slug] = { rating: prod.rating, reviewCount: prod.reviewCount };
   }
 
-  const productsWithoutRating = await Product.find({ rating: 0 });
+  const productsWithoutRating = await Product.find({});
   for (const product of productsWithoutRating) {
     const data = ratingMap[product.slug];
     if (data) {
@@ -533,7 +533,7 @@ async function seed() {
       console.log(`Updated rating for: ${product.title}`);
     }
   }
-  console.log(`Updated ratings for ${productsWithoutRating.length} existing products.`);
+  console.log(`Updated ratings for ${productsWithoutRating.length} products.`);
 
   await mongoose.disconnect();
   process.exit(0);

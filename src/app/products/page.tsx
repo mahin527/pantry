@@ -52,6 +52,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   const featured = typeof sp.featured === "string" ? sp.featured : ""
   const popular = typeof sp.popular === "string" ? sp.popular : ""
   const latest = typeof sp.latest === "string" ? sp.latest : ""
+  const rating = typeof sp.rating === "string" ? sp.rating : ""
 
   const params = new URLSearchParams()
   params.set("page", page)
@@ -63,6 +64,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   if (featured) params.set("featured", featured)
   if (popular) params.set("popular", popular)
   if (latest) params.set("latest", latest)
+  if (rating) params.set("rating", rating)
 
   const sortOption = sortMap[sort] || sortMap["createdAt-desc"]
   params.set("sort", sortOption.field)
