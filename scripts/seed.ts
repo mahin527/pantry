@@ -1,7 +1,7 @@
 import "dotenv/config";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { Category, Product, User } from "../src/models";
+import { Category, Product, User, Review } from "../src/models";
 
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -534,6 +534,86 @@ async function seed() {
     }
   }
   console.log(`Updated ratings for ${productsWithoutRating.length} products.`);
+
+  // Seed reviews
+  const reviewUsers = [
+    { name: "Alice M.", email: "alice@example.com" },
+    { name: "Bob K.", email: "bob@example.com" },
+    { name: "Carol S.", email: "carol@example.com" },
+    { name: "Dave L.", email: "dave@example.com" },
+    { name: "Eve R.", email: "eve@example.com" },
+    { name: "Frank T.", email: "frank@example.com" },
+  ];
+
+  const reviewComments = [
+    "Absolutely love this product! Fresh and high quality. Will definitely buy again.",
+    "Great value for the price. The quality exceeded my expectations.",
+    "Good product overall. Freshness was great and packaging was secure.",
+    "Pretty good but I have had better. Still worth the price though.",
+    "Exactly what I needed. Fast delivery and product was as described.",
+    "Highly recommend! This is now a staple in our household.",
+    "Decent quality but a bit pricey for what it is. Still good though.",
+    "Very satisfied with my purchase. Would order again without hesitation.",
+    "The product is good but shipping took a bit longer than expected.",
+    "Perfect for everyday use. Fresh, tasty, and reasonably priced.",
+  ];
+
+  function pickRandom<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  const allProducts = await Product.find({}).select("_id title rating");
+  const seenUserProduct = new Set<string>();
+  let reviewCreated = 0;
+
+  for (const product of allProducts) {
+    const reviewCount = 3 + Math.floor(Math.random() * 4); // 3-6 reviews per product
+    const shuffledUsers = [...reviewUsers].sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < Math.min(reviewCount, shuffledUsers.length); i++) {
+      const reviewUser = shuffledUsers[i];
+      const key = `${reviewUser.email}-${product._id}`;
+      if (seenUserProduct.has(key)) continue;
+      seenUserProduct.add(key);
+
+      const reviewRating = Math.max(1, Math.min(5, Math.round((product.rating as number) + (Math.random() - 0.5) * 2)));
+
+      // Hash a dummy password to create user
+      const reviewUserExists = await User.findOne({ email: reviewUser.email });
+      let userId = reviewUserExists?._id;
+
+      if (!reviewUserExists) {
+        const pw = await bcrypt.hash("Review@123", 12);
+        const created = await User.create({
+          name: reviewUser.name,
+          email: reviewUser.email,
+          password: pw,
+          role: "user",
+          isVerified: true,
+        });
+        userId = created._id;
+        // Don't print every user creation
+      }
+
+      const existingReview = await Review.findOne({
+        user: userId,
+        product: product._id,
+      });
+      if (existingReview) continue;
+
+      await Review.create({
+        user: userId,
+        product: product._id,
+        userName: reviewUser.name,
+        rating: reviewRating,
+        comment: pickRandom(reviewComments),
+        isVerifiedPurchase: Math.random() > 0.3,
+        helpfulCount: Math.floor(Math.random() * 20),
+      });
+      reviewCreated++;
+    }
+  }
+  console.log(`Created ${reviewCreated} reviews.`);
 
   await mongoose.disconnect();
   process.exit(0);

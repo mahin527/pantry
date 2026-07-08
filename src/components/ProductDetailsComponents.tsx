@@ -37,7 +37,7 @@ function ProductDetailsComponents({
         <ProductImage images={product.images} title={product.title} />
         <ProductDetails product={product} />
       </div>
-      <ProductReviews reviewCount={product.reviewCount} />
+      <ProductReviews productId={product._id} />
       {relatedProducts.length > 0 && <RelatedProducts products={relatedProducts} />}
     </div>
   )
