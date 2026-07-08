@@ -1,15 +1,23 @@
 import { NextRequest, NextResponse } from "next/server"
-import { authorizeAdmin } from "@/lib/authorize"
+import { verifyAccessToken } from "@/lib/auth"
 import { cloudinaryStorage } from "@/lib/cloudinary"
 import { error } from "@/lib/api-response"
 import { HTTP } from "@/lib/http-status"
+import { AUTH_COOKIE_CONFIG } from "@/constants"
 
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
 const MAX_SIZE = 5 * 1024 * 1024 // 5MB
 
 export async function POST(request: NextRequest) {
-  const auth = await authorizeAdmin(request)
-  if (!auth.authorized) return auth.response
+  const token = request.cookies.get(AUTH_COOKIE_CONFIG.name)?.value
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: HTTP.UNAUTHORIZED })
+  }
+  try {
+    verifyAccessToken(token)
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: HTTP.UNAUTHORIZED })
+  }
 
   try {
     const formData = await request.formData()

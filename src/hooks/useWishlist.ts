@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useTransition } from "react"
+import { useState, useEffect, useCallback, startTransition } from "react"
 
 export type WishlistItem = {
   productId: string
@@ -76,10 +76,8 @@ export function useWishlist() {
     setState({ items: local, itemCount: local.length, loading: false, error: null })
   }, [])
 
-  const [, startTransition] = useTransition()
-
   useEffect(() => {
-    if (!isServer) startTransition(() => sync())
+    if (!isServer) startTransition(() => { sync() })
   }, [isServer, sync])
 
   const addItem = useCallback(

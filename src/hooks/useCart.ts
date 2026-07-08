@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useTransition } from "react"
+import { useState, useEffect, useCallback, startTransition } from "react"
 
 export type CartItem = {
   productId: string
@@ -90,10 +90,8 @@ export function useCart() {
     setState({ ...totals, loading: false, error: null })
   }, [])
 
-  const [, startTransition] = useTransition()
-
   useEffect(() => {
-    if (!isServer) startTransition(() => sync())
+    if (!isServer) startTransition(() => { sync() })
   }, [isServer, sync])
 
   const addItem = useCallback(

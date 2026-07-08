@@ -27,6 +27,11 @@ function Register() {
         formState: { errors, isSubmitting },
     } = useForm<RegisterInput>({
         resolver: zodResolver(registerSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+        },
     })
 
     const onSubmit = async (data: RegisterInput) => {

@@ -25,7 +25,7 @@ function NavMenus() {
     setAnchorEl(null)
     try {
       await fetch("/api/auth/logout", { method: "POST", credentials: "include" })
-    } catch {}
+    } catch { }
     setCachedUser(null)
     router.push("/")
   }
@@ -80,7 +80,7 @@ function NavMenus() {
           <>
             <button
               onClick={(e) => setAnchorEl(e.currentTarget)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
               aria-label="Account menu"
             >
               <Avatar
