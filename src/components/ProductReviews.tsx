@@ -112,9 +112,17 @@ function ProductReviews({ productId }: { productId: string }) {
           reviews.map((review) => (
             <div key={review._id} className="py-2">
               <div className="flex items-center gap-4 w-full">
-                <div className="size-14 lg:size-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg shrink-0">
-                  {review.userName.charAt(0).toUpperCase()}
-                </div>
+                {review.userAvatar ? (
+                  <img
+                    src={review.userAvatar}
+                    alt={review.userName}
+                    className="size-14 lg:size-16 rounded-full object-cover shrink-0"
+                  />
+                ) : (
+                  <div className="size-14 lg:size-16 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold shrink-0">
+                    {review.userName?.charAt(0)?.toUpperCase() || "U"}
+                  </div>
+                )}
                 <div className="flex justify-between w-full">
                   <div>
                     <h6 className="font-bold text-gray-700">{review.userName}</h6>

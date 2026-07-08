@@ -62,6 +62,7 @@ export const reviewService = {
   async create(
     userId: string,
     userName: string,
+    userAvatar: string,
     productId: string,
     rating: number,
     comment: string,
@@ -90,6 +91,7 @@ export const reviewService = {
       user: userId,
       product: productId,
       userName,
+      userAvatar,
       rating,
       comment,
       isVerifiedPurchase: false,

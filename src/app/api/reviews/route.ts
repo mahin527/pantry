@@ -5,6 +5,7 @@ import { MESSAGES } from "@/lib/messages";
 import { HTTP } from "@/lib/http-status";
 import { verifyAccessToken, type TokenPayload } from "@/lib/auth";
 import { AUTH_COOKIE_CONFIG } from "@/constants";
+import { User } from "@/models";
 
 async function getUser(
   request: NextRequest,
@@ -65,9 +66,17 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const user = await User.findById(auth.user.userId).select("name avatar");
+    if (!user) {
+      return NextResponse.json(error(MESSAGES.NOT_AUTHENTICATED), {
+        status: HTTP.UNAUTHORIZED,
+      });
+    }
+
     const result = await reviewService.create(
       auth.user.userId,
-      auth.user.email.split("@")[0],
+      user.name,
+      user.avatar || "",
       productId,
       Number(rating),
       comment.trim(),

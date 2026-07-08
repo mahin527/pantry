@@ -110,6 +110,7 @@ function ProductDetails({ product }: { product: Product }) {
             className="py-2.5! font-bold! space-x-2!"
             disabled={outOfStock}
             onClick={handleAdd}
+            suppressHydrationWarning
           >
             <RiShoppingBag3Line size={26} /> {outOfStock ? "Out of Stock" : "Add to cart"}
           </Button>
@@ -117,7 +118,7 @@ function ProductDetails({ product }: { product: Product }) {
             title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
             placement="top"
           >
-            <Button className="rounde-md!" onClick={handleWishlist}>
+            <Button className="rounde-md!" onClick={handleWishlist} suppressHydrationWarning>
               {inWishlist ? (
                 <IoMdHeart size={34} className="text-red-500" />
               ) : (
