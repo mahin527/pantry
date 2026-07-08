@@ -182,7 +182,7 @@ const products: ProductSeed[] = [
     isLatest: false,
   },
   {
-    title: "Whole Milk (1 Gallon)",
+    title: "Whole Milk (1 Gallon Jug)",
     categoryName: "Breakfast & Dairy",
     price: 3.99,
     stock: 100,
