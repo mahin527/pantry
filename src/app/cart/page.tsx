@@ -70,6 +70,7 @@ export default function CartPage() {
                   <Rating name="read-only" value={5} readOnly size="small" />
                   <div className="flex flex-wrap items-center gap-2 md:gap-3 text-gray-600">
                     <QuantityBox
+                      value={item.quantity}
                       disabled={false}
                       onChange={(val) => updateQuantity(item.productId, val)}
                     />

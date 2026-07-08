@@ -1,31 +1,33 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { FaPlus } from "react-icons/fa6"
 import { FaMinus } from "react-icons/fa6"
 import { Button } from "@mui/material"
 
 function QuantityBox({
+  value,
   disabled,
   onChange,
 }: {
+  value?: number
   disabled?: boolean
   onChange?: (val: number) => void
 }) {
-  const [qtyValue, setqtyValue] = useState(1)
-
-  useEffect(() => {
-    onChange?.(qtyValue)
-  }, [qtyValue, onChange])
+  const [qtyValue, setqtyValue] = useState(value ?? 1)
 
   const minusQty = () => {
     if (qtyValue > 1) {
-      setqtyValue(qtyValue - 1)
+      const next = qtyValue - 1
+      setqtyValue(next)
+      onChange?.(next)
     }
   }
 
   const plusQty = () => {
-    setqtyValue(qtyValue + 1)
+    const next = qtyValue + 1
+    setqtyValue(next)
+    onChange?.(next)
   }
 
   return (

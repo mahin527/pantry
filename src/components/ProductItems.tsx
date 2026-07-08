@@ -121,6 +121,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
         <Button
           variant="contained"
           onClick={handleAdd}
+          suppressHydrationWarning
           className="w-full! rounded-lg! font-bold! text-[11px]! md:text-xs! py-2! md:py-2.5! shadow-sm hover:shadow-md! transition-all! flex items-center justify-center gap-1.5!"
         >
           <RiShoppingBag3Line size={16} className="md:size-[18]" />
