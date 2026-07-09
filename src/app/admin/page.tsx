@@ -167,7 +167,7 @@ export default async function AdminDashboardPage() {
       </Typography>
 
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 4 }}>
-        <StatCard label="Total Users" value={stats.users} href="/admin/orders" />
+        <StatCard label="Total Users" value={stats.users} href="/admin/users" />
         <StatCard label="Products" value={stats.products} href="/admin/products" />
         <StatCard label="Categories" value={stats.categories} href="/admin/categories" />
         <StatCard label="Orders" value={stats.orders} href="/admin/orders" />
