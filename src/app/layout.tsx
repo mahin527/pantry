@@ -21,6 +21,23 @@ export const metadata: Metadata = {
   },
   description: "Order fresh groceries online from Pantry. Wide selection of fruits, vegetables, meats, dairy, bakery, beverages and snacks with fast delivery.",
   keywords: ["grocery", "online grocery", "fresh food", "delivery", "pantry", "food delivery"],
+  icons: {
+    icon: [
+      { url: "/favicon/favicon.ico", sizes: "any" },
+      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      {
+        rel: "apple-touch-icon-precomposed",
+        url: "/favicon/apple-touch-icon.png",
+      },
+    ],
+  },
+  manifest: "/favicon/site.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -36,9 +53,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Pantry | Fresh Grocery Delivery",
     description: "Order fresh groceries online from Pantry.",
-  },
-  icons: {
-    icon: "/favicon.ico",
   },
 };
 
