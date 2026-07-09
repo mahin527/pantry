@@ -10,9 +10,10 @@ type Props = {
   onUpload: (url: string) => void
   folder?: string
   label?: string
+  uploadUrl?: string
 }
 
-export function ImageUploader({ currentImage, onUpload, folder = "pantry", label = "Choose Image" }: Props) {
+export function ImageUploader({ currentImage, onUpload, folder = "pantry", label = "Choose Image", uploadUrl = "/api/upload" }: Props) {
   const [preview, setPreview] = useState<string | null>(currentImage ?? null)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -41,7 +42,7 @@ export function ImageUploader({ currentImage, onUpload, folder = "pantry", label
       formData.append("file", file)
       formData.append("folder", folder)
 
-      const res = await fetch("/api/upload", {
+      const res = await fetch(uploadUrl, {
         method: "POST",
         body: formData,
         credentials: "include",

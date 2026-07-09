@@ -132,6 +132,7 @@ export function CategoryFormDialog({ open, category, onClose, onSaved, showSnack
               onUpload={onUpload}
               folder="categories"
               label="Choose Image"
+              uploadUrl="/api/admin/upload-product-image"
             />
           </Box>
           <Controller name="description" control={control} render={({ field }) => (

@@ -284,6 +284,7 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
               onUpload={addImage}
               folder="products"
               label="Add Image"
+              uploadUrl="/api/admin/upload-product-image"
             />
           </Box>
 
