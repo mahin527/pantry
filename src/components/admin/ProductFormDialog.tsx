@@ -69,6 +69,10 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
   const isEdit = !!product
 
   useEffect(() => {
+    setImageUrls(product?.images ?? [])
+  }, [product])
+
+  useEffect(() => {
     fetch("/api/admin/categories?limit=100", { credentials: "include" })
       .then((res) => res.json())
       .then((json) => {
@@ -129,7 +133,9 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
   })
 
   const addImage = (url: string) => {
-    if (url) setImageUrls((prev) => [...prev, url])
+    if (url && !imageUrls.includes(url)) {
+      setImageUrls((prev) => [...prev, url])
+    }
   }
 
   const removeImage = (idx: number) => {
