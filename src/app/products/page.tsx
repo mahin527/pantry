@@ -96,7 +96,9 @@ export default async function ProductsPage({ searchParams }: Props) {
 
           {products.length === 0 ? (
             <div className="py-16 px-5 text-center">
-              <p className="text-lg font-bold text-gray-500">No products found</p>
+              <p className="text-lg font-bold text-gray-500">
+                {search ? `No products found for "${search}"` : "No products found"}
+              </p>
               <p className="text-sm text-gray-400 mt-1">Try adjusting your filters or search terms.</p>
             </div>
           ) : (

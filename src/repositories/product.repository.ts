@@ -62,7 +62,11 @@ export const productRepository = {
     const query: Record<string, unknown> = {};
 
     if (filter.search) {
-      query.title = { $regex: filter.search, $options: "i" };
+      query.$or = [
+        { title: { $regex: filter.search, $options: "i" } },
+        { description: { $regex: filter.search, $options: "i" } },
+        { brand: { $regex: filter.search, $options: "i" } },
+      ];
     }
     if (filter.category) {
       query.category = filter.category;
