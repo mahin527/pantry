@@ -9,7 +9,13 @@ const nextConfig: NextConfig = {
         pathname: "**",
       },
     ],
+    deviceSizes: [480, 640, 768, 1024, 1280, 1536],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    formats: ["image/avif", "image/webp"],
   },
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
 };
 
 export default nextConfig;
