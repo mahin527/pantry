@@ -265,10 +265,10 @@ export default function AdminProductsPage() {
         </Paper>
       )}
 
-      {formOpen && editProduct && (
+      {formOpen && (
         <ProductFormDialog
           open={formOpen}
-          product={editProduct as unknown as ProductFull}
+          product={editProduct as unknown as ProductFull | null}
           onClose={() => { setFormOpen(false); setEditProduct(null) }}
           onSaved={() => { setFormOpen(false); setEditProduct(null); loadProducts() }}
           showSnackbar={showSnackbar}

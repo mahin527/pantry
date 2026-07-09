@@ -82,7 +82,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
           <IconButton
             onClick={handleWishlist}
             size="small"
-            className="absolute! bottom-2 right-2! z-10 bg-white/90 hover:bg-white shadow-sm"
+            className="absolute! bottom-2 right-2! z-10! bg-white/90! hover:bg-white! shadow-sm!"
             sx={{ width: 34, height: 34 }}
             aria-label={inWishlist ? `Remove ${title} from wishlist` : `Add ${title} to wishlist`}
           >
