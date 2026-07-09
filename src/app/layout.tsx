@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import { AppProvider } from "@/providers/AppProvider"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { Toaster } from "sonner"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,6 +72,8 @@ export default function RootLayout({
             {children}
             <Footer />
             <Toaster position="bottom-right" />
+            <Analytics />
+            <SpeedInsights />
           </AppProvider>
         </GoogleOAuthProvider>
       </body>
