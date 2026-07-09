@@ -290,7 +290,7 @@ export default function AdminOrdersPage() {
               </Box>
 
               <Typography variant="subtitle2" sx={{ mt: 2, fontWeight: "bold" }}>Payment</Typography>
-              <Typography variant="body2">{detailOrder.paymentMethod.toUpperCase()} — <Chip label={detailOrder.paymentStatus} size="small" color={STATUS_COLORS[detailOrder.paymentStatus] ?? "default"} variant="outlined" /></Typography>
+              <Typography variant="body2" component="div">{detailOrder.paymentMethod.toUpperCase()} — <Chip label={detailOrder.paymentStatus} size="small" color={STATUS_COLORS[detailOrder.paymentStatus] ?? "default"} variant="outlined" /></Typography>
 
               <Typography variant="subtitle2" sx={{ mt: 2, fontWeight: "bold" }}>Order Status</Typography>
               <FormControl size="small" sx={{ minWidth: 160, mt: 0.5 }}>

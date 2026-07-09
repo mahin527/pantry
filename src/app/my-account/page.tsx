@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField"
 import IconButton from "@mui/material/IconButton"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { toast } from "sonner"
-import { useAuth } from "@/hooks/useAuth"
+import { useAuth, setCachedUser } from "@/hooks/useAuth"
 
 function MyAccount() {
   const { user } = useAuth()
@@ -60,6 +60,7 @@ function MyAccount() {
         return
       }
 
+      setCachedUser({ ...user!, name: name.trim() })
       toast.success("Profile updated successfully!", { duration: 3000 })
     } catch {
       toast.error("Something went wrong. Please try again.")

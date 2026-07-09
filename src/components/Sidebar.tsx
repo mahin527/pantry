@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@mui/material"
 import { FaAngleDown } from "react-icons/fa6"
 import { FaAngleUp } from "react-icons/fa6"
 import FormGroup from "@mui/material/FormGroup"
@@ -85,13 +84,13 @@ function Sidebar({ categories, selectedCategory, minPrice, maxPrice }: Props) {
       <div>
         <div className="flex items-center justify-between">
           <h3 className="text-base lg:text-lg font-bold">Shop by Category</h3>
-          <Button
+          <button
             onClick={() => setIsOpenCatFilter(!isOpenCatFilter)}
-            className="rounded-full! h-14! w-4!"
-            suppressHydrationWarning
+            className="rounded-full h-14 w-4 flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer"
+            aria-label="Toggle category filter"
           >
             {isOpenCatFilter === true ? <FaAngleUp size={26} /> : <FaAngleDown size={26} />}
-          </Button>
+          </button>
         </div>
 
         <Collapse isOpened={isOpenCatFilter}>
@@ -137,13 +136,13 @@ function Sidebar({ categories, selectedCategory, minPrice, maxPrice }: Props) {
       <div className="pt-4">
         <div className="flex items-center justify-between">
           <h3 className="text-base lg:text-lg font-bold">Filter By Rating</h3>
-          <Button
+          <button
             onClick={() => setIsOpenRatingFilter(!isOpenRatingFilter)}
-            className="rounded-full! h-14! w-4!"
-            suppressHydrationWarning
+            className="rounded-full h-14 w-4 flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer"
+            aria-label="Toggle rating filter"
           >
             {isOpenRatingFilter === true ? <FaAngleUp size={26} /> : <FaAngleDown size={26} />}
-          </Button>
+          </button>
         </div>
 
         <Collapse isOpened={isOpenRatingFilter}>
