@@ -1,4 +1,5 @@
 import { Product, IProduct } from "@/models";
+import { escapeRegex } from "@/lib/utils";
 
 export type CreateProductData = {
   title: string;
@@ -62,10 +63,11 @@ export const productRepository = {
     const query: Record<string, unknown> = {};
 
     if (filter.search) {
+      const escapedSearch = escapeRegex(filter.search);
       query.$or = [
-        { title: { $regex: filter.search, $options: "i" } },
-        { description: { $regex: filter.search, $options: "i" } },
-        { brand: { $regex: filter.search, $options: "i" } },
+        { title: { $regex: escapedSearch, $options: "i" } },
+        { description: { $regex: escapedSearch, $options: "i" } },
+        { brand: { $regex: escapedSearch, $options: "i" } },
       ];
     }
     if (filter.category) {

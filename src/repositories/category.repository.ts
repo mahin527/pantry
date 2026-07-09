@@ -1,4 +1,5 @@
 import { Category, ICategory } from "@/models";
+import { escapeRegex } from "@/lib/utils";
 
 export type CreateCategoryData = {
   name: string;
@@ -42,7 +43,8 @@ export const categoryRepository = {
     const filter: Record<string, unknown> = {};
 
     if (query.search) {
-      filter.name = { $regex: query.search, $options: "i" };
+      const escapedSearch = escapeRegex(query.search);
+      filter.name = { $regex: escapedSearch, $options: "i" };
     }
 
     const [categories, total] = await Promise.all([
