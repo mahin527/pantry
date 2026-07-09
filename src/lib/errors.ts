@@ -1,4 +1,5 @@
 import { HTTP } from "./http-status";
+import type { ApiResponse } from "@/types/common";
 
 export class AppError extends Error {
   public readonly statusCode: number;
@@ -34,4 +35,23 @@ export class ConflictError extends AppError {
   constructor(message = "Resource already exists") {
     super(message, HTTP.CONFLICT, "CONFLICT");
   }
+}
+
+export function errorHandler(error: unknown): { response: ApiResponse<never>; status: number } {
+  if (error instanceof AppError) {
+    return {
+      response: { success: false, message: error.message, error: error.code },
+      status: error.statusCode,
+    };
+  }
+
+  // Log unexpected errors in development
+  if (process.env.NODE_ENV === "development") {
+    console.error("[ErrorHandler]", error);
+  }
+
+  return {
+    response: { success: false, message: "An unexpected error occurred", error: "INTERNAL_ERROR" },
+    status: HTTP.INTERNAL_SERVER_ERROR,
+  };
 }
