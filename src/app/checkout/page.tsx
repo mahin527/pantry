@@ -241,9 +241,8 @@ function CheckoutPage() {
             ) : (
               addresses.map((address) => (
                 <div key={address._id}
-                  className={`flex items-start gap-3 p-4 border rounded-md cursor-pointer transition-colors ${
-                    selectedAddressId === address._id ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"
-                  }`}
+                  className={`flex items-start gap-3 p-4 border rounded-md cursor-pointer transition-colors ${selectedAddressId === address._id ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"
+                    }`}
                   onClick={() => setSelectedAddressId(address._id)}
                 >
                   <Radio checked={selectedAddressId === address._id} readOnly />
@@ -386,7 +385,7 @@ function CheckoutPage() {
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Edit Address</DialogTitle>
         <DialogContent>
-          <div className="space-y-4 mt-2">
+          <div className="space-y-8! mt-2">
             <TextField label="Full Name" fullWidth value={editForm.fullName}
               onChange={(e) => setEditForm((f) => ({ ...f, fullName: e.target.value }))} />
             <TextField label="Phone" fullWidth value={editForm.phone}
