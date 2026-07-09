@@ -2,15 +2,21 @@
 
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
-import { FaPlus, FaTrash, FaEdit } from "react-icons/fa"
+import { FaPlus, FaTrash, FaEdit, FaCreditCard } from "react-icons/fa"
 import { IoArrowBack } from "react-icons/io5"
+import { TbCurrencyTaka } from "react-icons/tb"
 import { Button, CircularProgress, Radio, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel } from "@mui/material"
+import { loadStripe } from "@stripe/stripe-js"
+import { Elements } from "@stripe/react-stripe-js"
 import { useAppContext } from "@/providers/AppProvider"
 import { useCart } from "@/hooks/useCart"
 import { useRouter } from "next/navigation"
 import { formatPrice } from "@/lib/utils"
 import { toast } from "sonner"
 import Link from "next/link"
+import { PaymentForm } from "@/components/Checkout/PaymentForm"
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 type Address = {
   _id: string
@@ -34,6 +40,10 @@ function CheckoutPage() {
   const [addressLoading, setAddressLoading] = useState(true)
   const [selectedAddressId, setSelectedAddressId] = useState("")
   const [submitting, setSubmitting] = useState(false)
+
+  // Payment
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "card">("cod")
+  const [showCardForm, setShowCardForm] = useState(false)
 
   // Edit address dialog
   const [editDialogOpen, setEditDialogOpen] = useState(false)
@@ -75,7 +85,7 @@ function CheckoutPage() {
   const shippingFee = subtotal >= 100 || subtotal === 0 ? 0 : 5.99
   const total = subtotal + shippingFee
 
-  const placeOrder = async () => {
+  const placeOrder = async (paymentIntentId?: string) => {
     if (!selectedAddressId) {
       toast.error("Please select a delivery address")
       return
@@ -85,7 +95,11 @@ function CheckoutPage() {
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ addressId: selectedAddressId }),
+        body: JSON.stringify({
+          addressId: selectedAddressId,
+          paymentMethod,
+          paymentIntentId,
+        }),
         credentials: "include",
       })
 
@@ -107,6 +121,10 @@ function CheckoutPage() {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  const handleCardSuccess = (paymentIntentId: string) => {
+    placeOrder(paymentIntentId)
   }
 
   const openEditDialog = (address: Address) => {
@@ -308,16 +326,57 @@ function CheckoutPage() {
                 <span className="text-blue-500">{formatPrice(total)}</span>
               </div>
 
-              <div className="px-5 py-3 flex flex-col gap-2">
-                <Button variant="contained" className="w-full py-3! font-bold!"
-                  disabled={submitting || !selectedAddressId} onClick={placeOrder}>
-                  {submitting ? "Placing Order..." : "Place Order"}
-                </Button>
-                <Button variant="text" component={Link} href="/cart"
-                  className="font-bold! flex! items-center! gap-2!" startIcon={<IoArrowBack />}>
-                  Back to Cart
-                </Button>
+              {/* Payment Method */}
+              <div className="px-5 py-3 border-t border-gray-200">
+                <h4 className="font-bold text-gray-700 mb-3">Payment Method</h4>
+                <div className="space-y-2">
+                  <label className={`flex items-center gap-3 p-3 border rounded-md cursor-pointer transition-colors ${paymentMethod === "cod" ? "border-blue-500 bg-blue-50" : "border-gray-200"}`}>
+                    <Radio
+                      checked={paymentMethod === "cod"}
+                      onChange={() => { setPaymentMethod("cod"); setShowCardForm(false); }}
+                      value="cod"
+                    />
+                    <TbCurrencyTaka size={24} className="text-gray-600" />
+                    <span className="font-medium text-gray-700">Cash on Delivery</span>
+                  </label>
+                  <label className={`flex items-center gap-3 p-3 border rounded-md cursor-pointer transition-colors ${paymentMethod === "card" ? "border-blue-500 bg-blue-50" : "border-gray-200"}`}>
+                    <Radio
+                      checked={paymentMethod === "card"}
+                      onChange={() => { setPaymentMethod("card"); setShowCardForm(true); }}
+                      value="card"
+                    />
+                    <FaCreditCard size={20} className="text-gray-600" />
+                    <span className="font-medium text-gray-700">Credit / Debit Card</span>
+                  </label>
+                </div>
               </div>
+
+              {/* Card Payment Form */}
+              {showCardForm && (
+                <div className="px-5 pb-3">
+                  <Elements stripe={stripePromise}>
+                    <PaymentForm
+                      amount={total}
+                      onSuccess={handleCardSuccess}
+                      onBack={() => { setShowCardForm(false); setPaymentMethod("cod"); }}
+                    />
+                  </Elements>
+                </div>
+              )}
+
+              {/* COD Place Order */}
+              {paymentMethod === "cod" && (
+                <div className="px-5 py-3 flex flex-col gap-2">
+                  <Button variant="contained" className="w-full py-3! font-bold!"
+                    disabled={submitting || !selectedAddressId} onClick={() => placeOrder()}>
+                    {submitting ? "Placing Order..." : "Place Order"}
+                  </Button>
+                  <Button variant="text" component={Link} href="/cart"
+                    className="font-bold! flex! items-center! gap-2!" startIcon={<IoArrowBack />}>
+                    Back to Cart
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>

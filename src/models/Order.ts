@@ -29,6 +29,7 @@ export interface IOrder extends Document {
   total: number;
   paymentMethod: string;
   paymentStatus: "pending" | "paid" | "failed" | "refunded";
+  paymentIntentId?: string;
   orderStatus:
     | "pending"
     | "confirmed"
@@ -79,6 +80,7 @@ const OrderSchema = new Schema<IOrder>(
     discount: { type: Number, default: 0, min: 0 },
     total: { type: Number, required: true, min: 0 },
     paymentMethod: { type: String, required: true },
+    paymentIntentId: { type: String },
     paymentStatus: {
       type: String,
       enum: ["pending", "paid", "failed", "refunded"],

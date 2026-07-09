@@ -51,6 +51,8 @@ export async function POST(request: NextRequest) {
     const result = await orderService.createOrder(
       auth.user.userId,
       parsed.data.addressId,
+      parsed.data.paymentMethod,
+      parsed.data.paymentIntentId,
     );
     const status = result.success ? HTTP.CREATED : HTTP.BAD_REQUEST;
     return NextResponse.json(result, { status });

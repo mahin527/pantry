@@ -23,6 +23,8 @@ export const orderService = {
   async createOrder(
     userId: string,
     addressId: string,
+    paymentMethod: "cod" | "card" = "cod",
+    paymentIntentId?: string,
   ): Promise<ApiResponse<OrderResponse>> {
     const mongooseInstance = await connectDB();
 
@@ -103,8 +105,9 @@ export const orderService = {
           shippingFee,
           discount,
           total,
-          paymentMethod: "cod",
-          paymentStatus: "pending",
+          paymentMethod,
+          paymentIntentId,
+          paymentStatus: paymentMethod === "card" ? "paid" : "pending",
           orderStatus: "pending",
         },
         session,
