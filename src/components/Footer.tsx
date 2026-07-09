@@ -11,8 +11,6 @@ import { RiVisaFill } from "react-icons/ri";
 import Drawer from '@mui/material/Drawer';
 import { useAppContext } from "@/providers/AppProvider"
 import TextField from '@mui/material/TextField';
-import { PhoneInput } from 'react-international-phone';
-import 'react-international-phone/style.css';
 import { useState } from "react";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -20,10 +18,90 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { IoIosSend } from "react-icons/io";
+import { toast } from "sonner";
+import { CircularProgress } from "@mui/material";
 
 function Footer() {
-    const { isOpenAddAddressPanel, closeAddAddress } = useAppContext()
-    const [phone, setPhone] = useState<string>('');
+    const { isOpenAddAddressPanel, closeAddAddress, onAddressAdded } = useAppContext()
+    const [formData, setFormData] = useState({
+        fullName: "",
+        phone: "",
+        country: "",
+        city: "",
+        area: "",
+        street: "",
+        postalCode: "",
+        label: "Home" as "Home" | "Office" | "Other",
+        isDefault: false,
+    })
+    const [saving, setSaving] = useState(false)
+
+    const updateField = (field: string, value: string | boolean) => {
+        setFormData((prev) => ({ ...prev, [field]: value }))
+    }
+
+    const validateForm = () => {
+        if (!formData.fullName.trim()) return "Full name is required"
+        if (!formData.phone.trim()) return "Phone is required"
+        if (!formData.street.trim()) return "Street address is required"
+        if (!formData.city.trim()) return "City is required"
+        if (!formData.country.trim()) return "State is required"
+        if (!formData.postalCode.trim()) return "Postal code is required"
+        return null
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        const validationError = validateForm()
+        if (validationError) {
+            toast.error(validationError)
+            return
+        }
+
+        setSaving(true)
+        try {
+            const res = await fetch("/api/addresses", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({
+                    fullName: formData.fullName.trim(),
+                    phone: formData.phone.trim(),
+                    country: formData.country.trim(),
+                    city: formData.city.trim(),
+                    area: formData.area.trim(),
+                    street: formData.street.trim(),
+                    postalCode: formData.postalCode.trim(),
+                    label: formData.label,
+                    isDefault: formData.isDefault,
+                }),
+            })
+
+            const json = await res.json()
+            if (json.success) {
+                toast.success("Address added successfully!")
+                closeAddAddress()
+                if (onAddressAdded) onAddressAdded()
+                setFormData({
+                    fullName: "",
+                    phone: "",
+                    country: "",
+                    city: "",
+                    area: "",
+                    street: "",
+                    postalCode: "",
+                    label: "Home",
+                    isDefault: false,
+                })
+            } else {
+                toast.error(json.message || "Failed to add address")
+            }
+        } catch {
+            toast.error("Failed to add address")
+        } finally {
+            setSaving(false)
+        }
+    }
 
     return (
         <>
@@ -149,43 +227,104 @@ function Footer() {
             {/* Address Drawer */}
             <div>
                 <Drawer open={isOpenAddAddressPanel} onClose={closeAddAddress} anchor="right">
-                    <form className="w-100 md:w-120 lg:w-140 p-4">
+                    <form className="w-100 md:w-120 lg:w-140 p-4" onSubmit={handleSubmit}>
                         <div className="py-2">
                             <h3 className="text-gray-700 text-lg lg:text-xl font-bold mb-4 text-center">Add Delivery Address</h3>
                         </div>
                         <div className='w-full space-y-4 text-gray-600!'>
                             <div>
-                                <TextField id="addressLine" name="addressLine" label="Address Line" variant="outlined" className='w-full!' type='text' />
+                                <TextField
+                                    label="Full Name"
+                                    variant="outlined"
+                                    className='w-full!'
+                                    value={formData.fullName}
+                                    onChange={(e) => updateField("fullName", e.target.value)}
+                                    required
+                                />
                             </div>
                             <div>
-                                <TextField id="city" name="city" label="City" variant="outlined" className='w-full!' type='text' />
+                                <TextField
+                                    label="Phone"
+                                    variant="outlined"
+                                    className='w-full!'
+                                    value={formData.phone}
+                                    onChange={(e) => updateField("phone", e.target.value)}
+                                    required
+                                />
                             </div>
                             <div>
-                                <TextField id="state" name="state" label="State" variant="outlined" className='w-full!' type='text' />
+                                <TextField
+                                    label="Street Address"
+                                    variant="outlined"
+                                    className='w-full!'
+                                    value={formData.street}
+                                    onChange={(e) => updateField("street", e.target.value)}
+                                    required
+                                />
                             </div>
                             <div>
-                                <TextField id="pincode" name="pincode" label="Pincode" variant="outlined" className='w-full!' type='text' />
+                                <TextField
+                                    label="City"
+                                    variant="outlined"
+                                    className='w-full!'
+                                    value={formData.city}
+                                    onChange={(e) => updateField("city", e.target.value)}
+                                    required
+                                />
                             </div>
                             <div>
-                                <TextField id="country" name="country" label="Country" variant="outlined" className='w-full!' type='text' />
-                            </div>
-                            <div className='w-full!'>
-                                <PhoneInput defaultCountry="bd" value={phone} onChange={(phone) => setPhone(phone)} className='w-full!' />
+                                <TextField
+                                    label="Country"
+                                    variant="outlined"
+                                    className='w-full!'
+                                    value={formData.country}
+                                    onChange={(e) => updateField("country", e.target.value)}
+                                    required
+                                />
                             </div>
                             <div>
-                                <TextField id="landMark" name="landMark" label="Land Mark" variant="outlined" className='w-full!' type='text' />
+                                <TextField
+                                    label="Postal Code"
+                                    variant="outlined"
+                                    className='w-full!'
+                                    value={formData.postalCode}
+                                    onChange={(e) => updateField("postalCode", e.target.value)}
+                                    required
+                                />
                             </div>
                             <div>
                                 <FormControl>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Address Type</FormLabel>
-                                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                                        <FormControlLabel value="female" control={<Radio />} label="Home" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Office" />
+                                    <FormLabel>Address Type</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        value={formData.label}
+                                        onChange={(e) => updateField("label", e.target.value)}
+                                    >
+                                        <FormControlLabel value="Home" control={<Radio />} label="Home" />
+                                        <FormControlLabel value="Office" control={<Radio />} label="Office" />
+                                        <FormControlLabel value="Other" control={<Radio />} label="Other" />
                                     </RadioGroup>
                                 </FormControl>
                             </div>
-                            <div className="">
-                                <Button variant="contained" className="w-full py-2!">Save</Button>
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    id="isDefault"
+                                    checked={formData.isDefault}
+                                    onChange={(e) => updateField("isDefault", e.target.checked)}
+                                    className="accent-blue-600"
+                                />
+                                <label htmlFor="isDefault" className="text-sm text-gray-600">Set as default address</label>
+                            </div>
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    className="w-full py-2!"
+                                    type="submit"
+                                    disabled={saving}
+                                >
+                                    {saving ? <CircularProgress size={20} color="inherit" /> : "Save"}
+                                </Button>
                             </div>
                         </div>
                     </form>

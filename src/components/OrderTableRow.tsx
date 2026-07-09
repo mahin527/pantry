@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { FaAngleDown } from "react-icons/fa6"
 import IconButton from "@mui/material/IconButton"
 import Chip from "@mui/material/Chip"
@@ -50,7 +51,9 @@ function OrderTableRow({ order }: { order: Order }) {
           </div>
         </td>
         <td className="px-3 h-8 whitespace-nowrap border-x border-gray-200 font-medium">
-          #{order._id.slice(-8).toUpperCase()}
+          <Link href={`/order/${order._id}`} className="hover:text-blue-600 transition-colors">
+            #{order._id.slice(-8).toUpperCase()}
+          </Link>
         </td>
         <td className="px-3 h-8 whitespace-nowrap border-r border-gray-200">
           {order.items.length} item{order.items.length !== 1 ? "s" : ""}

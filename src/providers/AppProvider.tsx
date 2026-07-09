@@ -8,18 +8,21 @@ type AppContextType = {
     isOpenAddAddressPanel: boolean
     openAddAddress: () => void
     closeAddAddress: () => void
+    onAddressAdded: (() => void) | null
+    setOnAddressAdded: (cb: (() => void) | null) => void
 }
 
 const AppContext = createContext<AppContextType | null>(null)
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
     const [isOpenAddAddressPanel, setIsOpenAddAddressPanel] = useState(false)
+    const [onAddressAdded, setOnAddressAdded] = useState<(() => void) | null>(null)
 
     const openAddAddress = () => setIsOpenAddAddressPanel(true)
     const closeAddAddress = () => setIsOpenAddAddressPanel(false)
 
     return (
-        <AppContext.Provider value={{ isOpenAddAddressPanel, openAddAddress, closeAddAddress }}>
+        <AppContext.Provider value={{ isOpenAddAddressPanel, openAddAddress, closeAddAddress, onAddressAdded, setOnAddressAdded }}>
             <CartProvider>
                 <WishlistProvider>
                     {children}
