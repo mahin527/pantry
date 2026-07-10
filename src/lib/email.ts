@@ -1,11 +1,12 @@
 import nodemailer from "nodemailer"
+import { env } from "./env"
 
 function createTransporter() {
-  const host = process.env.EMAIL_HOST
-  const port = Number(process.env.EMAIL_PORT) || 587
-  const secure = process.env.EMAIL_SECURE === "true"
-  const user = process.env.EMAIL_USER
-  const pass = process.env.EMAIL_PASSWORD
+  const host = env.EMAIL_HOST
+  const port = Number(env.EMAIL_PORT) || 587
+  const secure = env.EMAIL_SECURE === "true"
+  const user = env.EMAIL_USER
+  const pass = env.EMAIL_PASSWORD
 
   // If email credentials are not configured, return null (email sending is optional)
   if (!host || !user || !pass) {
@@ -29,7 +30,7 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string): P
     return
   }
 
-  const from = process.env.EMAIL_FROM || "noreply@pantry.com"
+  const from = env.EMAIL_FROM || "noreply@pantry.com"
 
   const html = `
 <!DOCTYPE html>
@@ -103,7 +104,7 @@ export async function sendOtpEmail(email: string, otp: number): Promise<void> {
     return
   }
 
-  const from = process.env.EMAIL_FROM || "noreply@pantry.com"
+  const from = env.EMAIL_FROM || "noreply@pantry.com"
 
   const html = `
 <!DOCTYPE html>

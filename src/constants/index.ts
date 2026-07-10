@@ -1,3 +1,5 @@
+import { env } from "@/lib/env";
+
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
   DEFAULT_LIMIT: 12,
@@ -46,7 +48,7 @@ export type AuthCookieOptions = {
 export const AUTH_COOKIE_CONFIG: AuthCookieOptions = {
   name: COOKIE_NAMES.SESSION,
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  secure: env.NODE_ENV === "production",
   sameSite: "lax",
   path: "/",
   maxAge: 7 * 24 * 60 * 60,

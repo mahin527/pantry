@@ -9,6 +9,16 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().min(1, "GOOGLE_CLIENT_ID is required"),
   GOOGLE_CLIENT_SECRET: z.string().min(1, "GOOGLE_CLIENT_SECRET is required"),
   NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string().min(1, "NEXT_PUBLIC_GOOGLE_CLIENT_ID is required"),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1, "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is required"),
+  STRIPE_SECRET_KEY: z.string().min(1, "STRIPE_SECRET_KEY is required"),
+  NEXT_PUBLIC_APP_URL: z.string().default("http://localhost:3000"),
+  EMAIL_HOST: z.string().optional(),
+  EMAIL_PORT: z.string().optional(),
+  EMAIL_SECURE: z.string().optional(),
+  EMAIL_USER: z.string().optional(),
+  EMAIL_PASSWORD: z.string().optional(),
+  EMAIL_FROM: z.string().optional(),
+  NODE_ENV: z.string().default("development"),
 });
 
 function validateEnv() {

@@ -1,10 +1,11 @@
 import { headers } from "next/headers"
+import { env } from "./env"
 
 export async function fetchApi<T>(path: string): Promise<T | null> {
   try {
     const reqHeaders = await headers()
     const host = reqHeaders.get("host") || "localhost:3000"
-    const protocol = process.env.NODE_ENV === "development" ? "http" : "https"
+    const protocol = env.NODE_ENV === "development" ? "http" : "https"
     const cookie = reqHeaders.get("cookie")
 
     const res = await fetch(`${protocol}://${host}${path}`, {
