@@ -22,6 +22,10 @@ function createTransporter() {
 }
 
 export async function sendPasswordResetEmail(email: string, resetUrl: string): Promise<void> {
+  if (!email || !email.includes("@") || !email.includes(".")) {
+    throw new Error("Invalid email format")
+  }
+
   const transporter = createTransporter()
 
   if (!transporter) {
@@ -97,6 +101,10 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string): P
 }
 
 export async function sendOtpEmail(email: string, otp: number): Promise<void> {
+  if (!email || !email.includes("@") || !email.includes(".")) {
+    throw new Error("Invalid email format")
+  }
+
   const transporter = createTransporter()
 
   if (!transporter) {

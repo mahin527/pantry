@@ -1,12 +1,17 @@
 import { z } from "zod";
+import { Types } from "mongoose";
+
+const objectId = z.string().refine((val) => Types.ObjectId.isValid(val), {
+  message: "Invalid ID format",
+});
 
 export const addToCartSchema = z.object({
-  productId: z.string().min(1, "productId is required"),
+  productId: objectId,
   quantity: z.number().int().min(1).default(1),
 });
 
 export const updateCartSchema = z.object({
-  productId: z.string().min(1, "productId is required"),
+  productId: objectId,
   quantity: z.number().int().min(1),
 });
 

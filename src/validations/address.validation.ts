@@ -1,8 +1,13 @@
 import { z } from "zod";
 
+const phone = z
+  .string()
+  .min(10, "Phone number must be at least 10 digits")
+  .regex(/^[0-9+\-\s()]+$/, "Invalid phone format");
+
 export const createAddressSchema = z.object({
   fullName: z.string().min(1, "Full name is required").max(100),
-  phone: z.string().min(1, "Phone is required"),
+  phone,
   country: z.string().min(1, "Country is required"),
   city: z.string().min(1, "City is required"),
   area: z.string().optional(),
@@ -14,7 +19,7 @@ export const createAddressSchema = z.object({
 
 export const updateAddressSchema = z.object({
   fullName: z.string().min(1, "Full name is required").max(100).optional(),
-  phone: z.string().min(1, "Phone is required").optional(),
+  phone: phone.optional(),
   country: z.string().min(1, "Country is required").optional(),
   city: z.string().min(1, "City is required").optional(),
   area: z.string().optional(),

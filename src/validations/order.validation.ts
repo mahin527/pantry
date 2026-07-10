@@ -1,7 +1,12 @@
 import { z } from "zod";
+import { Types } from "mongoose";
+
+const objectId = z.string().refine((val) => Types.ObjectId.isValid(val), {
+  message: "Invalid ID format",
+});
 
 export const createOrderSchema = z.object({
-  addressId: z.string().min(1, "Address is required"),
+  addressId: objectId,
   paymentMethod: z.enum(["cod", "card"]).default("cod"),
   paymentIntentId: z.string().optional(),
 });
