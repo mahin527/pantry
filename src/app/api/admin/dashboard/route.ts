@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   if (!auth.authorized) return auth.response
 
   try {
-    const result = await dashboardService.getDashboard()
+    const result = await dashboardService.getDashboard(auth.payload.role)
     return NextResponse.json(result, { status: HTTP.OK })
   } catch {
     return NextResponse.json(error(MESSAGES.INTERNAL_ERROR), {

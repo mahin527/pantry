@@ -12,6 +12,7 @@ export const MESSAGES = {
   VALIDATION_FAILED: "Validation failed",
   SUCCESS: "Success",
   FORBIDDEN: "Forbidden",
+  NOT_AUTHORIZED: "Not authorized",
   CATEGORY_CREATED: "Category created successfully",
   CATEGORY_UPDATED: "Category updated successfully",
   CATEGORY_DELETED: "Category deleted successfully",

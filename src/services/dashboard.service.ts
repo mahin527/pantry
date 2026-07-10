@@ -3,7 +3,7 @@ import { userRepository } from "@/repositories/user.repository";
 import { productRepository } from "@/repositories/product.repository";
 import { categoryRepository } from "@/repositories/category.repository";
 import { orderRepository } from "@/repositories/order.repository";
-import { success } from "@/lib/api-response";
+import { success, error } from "@/lib/api-response";
 import { MESSAGES } from "@/lib/messages";
 import type { ApiResponse } from "@/types/common";
 import type { IUser, IProduct } from "@/models";
@@ -27,7 +27,11 @@ type DashboardResponse = {
 };
 
 export const dashboardService = {
-  async getDashboard(): Promise<ApiResponse<DashboardResponse>> {
+  async getDashboard(userRole?: string): Promise<ApiResponse<DashboardResponse>> {
+    if (!userRole || userRole !== "admin") {
+      return error(MESSAGES.NOT_AUTHORIZED);
+    }
+
     await connectDB();
 
     const [
