@@ -12,6 +12,32 @@ const protectedRoutes = [
 
 const adminRoutes = ["/admin"]
 
+const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "X-Frame-Options": "DENY",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+  "Content-Security-Policy": [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: res.cloudinary.com",
+    "font-src 'self'",
+    "connect-src 'self' https://api.stripe.com",
+    "frame-src 'self' https://js.stripe.com",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; "),
+}
+
+function setSecurityHeaders(response: NextResponse): NextResponse {
+  for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+    response.headers.set(key, value)
+  }
+  return response
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -21,15 +47,7 @@ export async function middleware(request: NextRequest) {
   const isAdmin = adminRoutes.some((route) => pathname.startsWith(route))
 
   if (!isProtected && !isAdmin) {
-    const response = NextResponse.next()
-    response.headers.set("X-Content-Type-Options", "nosniff")
-    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
-    response.headers.set("X-Frame-Options", "DENY")
-    response.headers.set(
-      "Permissions-Policy",
-      "camera=(), microphone=(), geolocation=()",
-    )
-    return response
+    return setSecurityHeaders(NextResponse.next())
   }
 
   const token = request.cookies.get(AUTH_COOKIE_CONFIG.name)?.value
@@ -49,15 +67,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/403", request.url))
     }
 
-    const response = NextResponse.next()
-    response.headers.set("X-Content-Type-Options", "nosniff")
-    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
-    response.headers.set("X-Frame-Options", "DENY")
-    response.headers.set(
-      "Permissions-Policy",
-      "camera=(), microphone=(), geolocation=()",
-    )
-    return response
+    return setSecurityHeaders(NextResponse.next())
   } catch {
     const callbackUrl = encodeURIComponent(pathname)
     const redirect = NextResponse.redirect(
