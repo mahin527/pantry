@@ -1,2 +1,2 @@
-export { registerSchema, loginSchema } from "./auth.validation";
-export type { RegisterInput, LoginInput } from "./auth.validation";
+export { registerSchema, loginSchema, verifyOtpSchema, resendOtpSchema } from "./auth.validation";
+export type { RegisterInput, LoginInput, VerifyOtpInput, ResendOtpInput } from "./auth.validation";

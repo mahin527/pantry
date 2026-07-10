@@ -49,7 +49,8 @@ function Register() {
                 return
             }
             setSuccessOpen(true)
-            setTimeout(() => router.push("/login"), 1500)
+            const email = data.email
+            setTimeout(() => router.push(`/verify?email=${encodeURIComponent(email)}`), 1500)
         } catch {
             setServerError("Something went wrong. Please try again.")
         }
@@ -154,7 +155,7 @@ function Register() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
                 <Alert severity="success" variant="filled" onClose={() => setSuccessOpen(false)}>
-                    Registration successful. Please login to continue.
+                    Registration successful! Check your email for OTP.
                 </Alert>
             </Snackbar>
 

@@ -54,4 +54,8 @@ export const MESSAGES = {
   WISHLIST_CLEARED: "Wishlist cleared",
   PRODUCT_ALREADY_IN_WISHLIST: "Product already in wishlist",
   ORDER_UPDATED: "Order status updated",
+  OTP_SENT: "OTP sent successfully",
+  OTP_VERIFIED: "Email verified successfully",
+  OTP_INVALID: "Invalid or expired OTP",
+  OTP_FAILED: "Failed to send OTP",
 } as const;

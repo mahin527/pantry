@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { registerSchema } from "@/validations";
+import { verifyOtpSchema } from "@/validations";
 import { authService } from "@/services/auth.service";
 import { error } from "@/lib/api-response";
 import { MESSAGES } from "@/lib/messages";
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const parsed = registerSchema.safeParse(body);
+    const parsed = verifyOtpSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
         error(MESSAGES.VALIDATION_FAILED, parsed.error.issues[0]?.message),
@@ -17,17 +17,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await authService.register(parsed.data);
+    const result = await authService.verifyOtp(parsed.data);
 
     if (!result.success) {
-      return NextResponse.json(result, { status: HTTP.CONFLICT });
+      return NextResponse.json(result, { status: HTTP.BAD_REQUEST });
     }
 
-    const response = NextResponse.json(result, {
-      status: HTTP.CREATED,
-    });
-
-    return response;
+    return NextResponse.json(result, { status: HTTP.OK });
   } catch {
     return NextResponse.json(error(MESSAGES.INTERNAL_ERROR), {
       status: HTTP.INTERNAL_SERVER_ERROR,

@@ -10,7 +10,8 @@ import { userRepository } from "@/repositories/user.repository";
 import { success, error } from "@/lib/api-response";
 import { MESSAGES } from "@/lib/messages";
 import type { ApiResponse } from "@/types/common";
-import type { RegisterInput, LoginInput } from "@/validations";
+import type { RegisterInput, LoginInput, VerifyOtpInput } from "@/validations";
+import { sendOtpEmail } from "@/lib/email";
 
 type AuthResult = {
   user: { id: string; name: string; email: string; role: string };
@@ -64,16 +65,18 @@ export const authService = {
       password: hashedPassword,
     });
 
-    const token = generateAccessToken({
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    });
+    // Send OTP for email verification
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+    await userRepository.update(user._id.toString(), { otp, otpExpires });
+
+    await sendOtpEmail(data.email, otp);
 
     return success(
       {
         user: toSafeUser(user),
-        token,
+        token: "",
       },
       MESSAGES.REGISTER_SUCCESS,
     );
@@ -130,5 +133,65 @@ export const authService = {
     }
 
     return success(toSafeUser(user), MESSAGES.USER_FETCHED);
+  },
+
+  async sendOtp(email: string): Promise<ApiResponse<null>> {
+    await connectDB();
+
+    const user = await userRepository.findByEmail(email);
+    if (!user) {
+      return error(MESSAGES.USER_NOT_FOUND);
+    }
+
+    if (user.isVerified) {
+      return error("Email already verified");
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    await userRepository.update(user._id.toString(), { otp, otpExpires });
+
+    await sendOtpEmail(email, otp);
+
+    return success(null, MESSAGES.OTP_SENT);
+  },
+
+  async verifyOtp(data: VerifyOtpInput): Promise<ApiResponse<null>> {
+    await connectDB();
+
+    const user = await userRepository.findByEmail(data.email);
+    if (!user) {
+      return error(MESSAGES.USER_NOT_FOUND);
+    }
+
+    if (user.isVerified) {
+      return error("Email already verified");
+    }
+
+    if (!user.otp || !user.otpExpires) {
+      return error(MESSAGES.OTP_INVALID);
+    }
+
+    if (user.otp !== Number(data.otp)) {
+      return error(MESSAGES.OTP_INVALID);
+    }
+
+    if (Date.now() > user.otpExpires.getTime()) {
+      return error(MESSAGES.OTP_INVALID);
+    }
+
+    await userRepository.update(user._id.toString(), {
+      isVerified: true,
+      emailVerifiedAt: new Date(),
+      otp: null,
+      otpExpires: null,
+    });
+
+    return success(null, MESSAGES.OTP_VERIFIED);
+  },
+
+  async resendOtp(email: string): Promise<ApiResponse<null>> {
+    return this.sendOtp(email);
   },
 };
