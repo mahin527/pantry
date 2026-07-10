@@ -110,7 +110,7 @@ Copy `.env.example` to `.env` and fill in the values. Required variables:
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Vercel
 
 1. Push the repository to GitHub
 2. Import the project in [Vercel](https://vercel.com/new)
