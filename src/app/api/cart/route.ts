@@ -109,8 +109,8 @@ export async function DELETE(request: NextRequest) {
   if (!auth.user) return auth.response!
 
   try {
-    const { searchParams } = request.nextUrl
-    const productId = searchParams.get("productId")
+    const body = await request.json().catch(() => ({}))
+    const productId = body?.productId || request.nextUrl.searchParams.get("productId")
 
     if (productId) {
       const result = await cartService.removeItem(auth.user.userId, productId)

@@ -186,7 +186,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   )
 
   const removeItem = useCallback(async (productId: string) => {
-    const data = await apiFetch("DELETE", undefined)
+    const data = await apiFetch("DELETE", { productId })
     if (data) {
       setState({ ...data, loading: false, error: null })
       toast.info("Removed from cart", { duration: 3000, position: "bottom-right" })
