@@ -53,7 +53,7 @@ function ProductItems({ product }: { product?: ProductItem }) {
   }
 
   return (
-    <div className="group bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 w-full max-w-52 flex flex-col overflow-hidden">
+    <div className="group bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 w-full h-full max-w-52 max-h-86 flex flex-col overflow-hidden">
       {/* Image section */}
       <Link href={`/product/${slug}`} className="relative overflow-hidden bg-gray-50 aspect-square">
         <Image

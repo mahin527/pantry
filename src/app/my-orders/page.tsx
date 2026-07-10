@@ -82,37 +82,37 @@ export default async function MyOrdersPage({ searchParams }: Props) {
             ) : (
               <>
                 <div className="w-full overflow-x-auto p-3 bg-white">
-                  <div className="min-w-[650px] md:min-w-full">
-                      <table className="w-full min-w-[650px] md:min-w-full border-collapse text-xs lg:text-base">
-                        <thead className="bg-gray-100 border-b border-gray-200">
-                          <tr>
-                            <th></th>
-                            <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-x border-gray-200">
-                              Order Id
-                            </th>
-                            <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
-                              Items
-                            </th>
-                            <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
-                              Total
-                            </th>
-                            <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
-                              Payment
-                            </th>
-                            <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
-                              Status
-                            </th>
-                            <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
-                              Date
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {orders.map((order) => (
-                            <OrderTableRow key={order._id} order={order} />
-                          ))}
-                        </tbody>
-                      </table>
+                  <div className="min-w-162.5 md:min-w-full">
+                    <table className="w-full min-w-162.5 md:min-w-full border-collapse text-xs lg:text-base">
+                      <thead className="bg-gray-100 border-b border-gray-200">
+                        <tr>
+                          <th></th>
+                          <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-x border-gray-200">
+                            Order Id
+                          </th>
+                          <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
+                            Items
+                          </th>
+                          <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
+                            Total
+                          </th>
+                          <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
+                            Payment
+                          </th>
+                          <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
+                            Status
+                          </th>
+                          <th className="px-3 py-2 h-8 text-left font-semibold whitespace-nowrap border-r border-gray-200">
+                            Date
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {orders.map((order) => (
+                          <OrderTableRow key={order._id} order={order} />
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 

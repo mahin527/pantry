@@ -99,7 +99,7 @@ type ProductSeed = {
 
 const products: ProductSeed[] = [
   {
-    title: "Bananas, Organic and Fresh (Bunch)",
+    title: "Organic Bananas (Bunch)",
     categoryName: "Fruits & Vegetables",
     price: 1.99,
     stock: 200,
@@ -115,7 +115,7 @@ const products: ProductSeed[] = [
     reviewCount: 234,
   },
   {
-    title: "Fresh Avocados (Pack of 4 and also 8)",
+    title: "Fresh Avocados (Pack of 4)",
     categoryName: "Fruits & Vegetables",
     price: 4.49,
     discountPrice: 3.99,
@@ -132,7 +132,7 @@ const products: ProductSeed[] = [
     reviewCount: 189,
   },
   {
-    title: "Baby Fresh Spinach (5 oz and 10)",
+    title: "Baby Spinach (5 oz)",
     categoryName: "Fruits & Vegetables",
     price: 3.29,
     stock: 150,
@@ -213,7 +213,7 @@ const products: ProductSeed[] = [
     reviewCount: 312,
   },
   {
-    title: "Free Fresh Range Eggs (Dozen and Half)",
+    title: "Free Range Eggs (Dozen)",
     categoryName: "Breakfast & Dairy",
     price: 4.79,
     stock: 130,
@@ -245,7 +245,7 @@ const products: ProductSeed[] = [
     reviewCount: 187,
   },
   {
-    title: "Sourdough Delicious Boule (16 oz)",
+    title: "Sourdough Boule (16 oz)",
     categoryName: "Breads & Bakery",
     price: 4.99,
     stock: 40,
@@ -358,7 +358,7 @@ const products: ProductSeed[] = [
     reviewCount: 423,
   },
   {
-    title: "Roasted Delicious Mixed Nuts (16 oz)",
+    title: "Roasted Mixed Nuts (16 oz)",
     categoryName: "Snacks & Biscuits",
     price: 6.99,
     stock: 70,
