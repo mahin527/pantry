@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { FaBars, FaXmark, FaChevronDown } from "react-icons/fa6"
+import { FaBars, FaXmark } from "react-icons/fa6"
 import { IoMdHeartEmpty } from "react-icons/io"
 import { BsCartCheck } from "react-icons/bs"
 import { CgProfile } from "react-icons/cg"
