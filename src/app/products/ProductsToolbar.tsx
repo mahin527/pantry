@@ -42,7 +42,7 @@ export function ProductsToolbar({ total, sort }: { total: number; sort: string }
       <p className="font-bold">
         There are {total} product{total !== 1 ? "s" : ""}
       </p>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col md:flex-row items-center gap-3">
         <p className="font-bold">Sort By</p>
         <div className="relative">
           <Button

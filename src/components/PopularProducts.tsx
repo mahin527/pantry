@@ -28,15 +28,15 @@ function PopularProducts({ products }: { products?: ProductItem[] }) {
     <section className="py-8">
       <div className='bg-gray-100 rounded-md'> {/* dark:bg-black*/}
         <div className="flex items-center justify-between px-5 py-3">
-          <div className="col-1 w-[30%] space-y-2">
+          <div className="col-1 w-full lg:w-[30%] space-y-2">
             <h2 className="text-xl font-bold tracking-wider">
               Popular Products
             </h2>
-            <p className="text-sm lg:text-base font-bold tracking-wider">
+            <p className="hidden lg:block text-sm lg:text-base font-bold tracking-wider">
               Do not miss the current offers
             </p>
           </div>
-          <div className="col-2 w-[70%] flex items-center justify-end">
+          <div className="hidden lg:flex col-2 w-[70%] items-center justify-end">
             <Tabs
               value={value}
               onChange={handleChange}

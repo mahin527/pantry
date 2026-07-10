@@ -102,7 +102,7 @@ export default async function ProductsPage({ searchParams }: Props) {
               <p className="text-sm text-gray-400 mt-1">Try adjusting your filters or search terms.</p>
             </div>
           ) : (
-            <div className="py-6 px-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
+            <div className="py-6 px-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5">
               {products.map((product) => (
                 <ProductItems key={product._id} product={product} />
               ))}

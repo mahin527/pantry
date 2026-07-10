@@ -14,7 +14,7 @@ export function SwiperNavigation({ id, className = "", prevClassName = "swiper-n
     <div className={`flex items-center gap-2 ${className}`}>
       <button
         id={`swiper-prev-${id}`}
-        className={`${prevClassName} flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-sm disabled:hover:text-gray-600 disabled:hover:border-gray-200`}
+        className={`${prevClassName} flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-sm disabled:hover:text-gray-600 disabled:hover:border-gray-200`}
         aria-label="Previous slide"
         tabIndex={0}
       >
@@ -22,7 +22,7 @@ export function SwiperNavigation({ id, className = "", prevClassName = "swiper-n
       </button>
       <button
         id={`swiper-next-${id}`}
-        className={`${nextClassName} flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-sm disabled:hover:text-gray-600 disabled:hover:border-gray-200`}
+        className={`${nextClassName} flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-sm disabled:hover:text-gray-600 disabled:hover:border-gray-200`}
         aria-label="Next slide"
         tabIndex={0}
       >
