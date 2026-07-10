@@ -1,10 +1,11 @@
 import { connectDB } from "@/lib/db";
 import { cartRepository } from "@/repositories/cart.repository";
-import { Product } from "@/models";
+import { Product, Cart } from "@/models";
+import { Types } from "mongoose";
 import { success, error } from "@/lib/api-response";
 import { MESSAGES } from "@/lib/messages";
 import type { ApiResponse } from "@/types/common";
-import type { ICart } from "@/models";
+import type { ICart, ICartItem } from "@/models";
 
 type CartItemResponse = {
   productId: string;
@@ -78,38 +79,62 @@ export const cartService = {
     productId: string,
     quantity: number,
   ): Promise<ApiResponse<CartResponse>> {
-    await connectDB();
+    const mongooseInstance = await connectDB();
 
-    const product = await Product.findById(productId).select(
-      "title price discountPrice images stock isActive brand slug",
-    );
-    if (!product) {
-      return error(MESSAGES.PRODUCT_NOT_FOUND);
-    }
-    if (!product.isActive) {
-      return error(MESSAGES.PRODUCT_INACTIVE);
-    }
-    if (product.stock < 1) {
-      return error(MESSAGES.PRODUCT_OUT_OF_STOCK);
-    }
+    const session = await mongooseInstance.startSession();
+    session.startTransaction();
 
-    const cart = await cartRepository.getCart(userId);
-    let currentQty = 0;
-    if (cart) {
+    try {
+      const product = await Product.findById(productId)
+        .select("title price discountPrice images stock isActive brand slug")
+        .session(session);
+      if (!product) {
+        await session.abortTransaction();
+        return error(MESSAGES.PRODUCT_NOT_FOUND);
+      }
+      if (!product.isActive) {
+        await session.abortTransaction();
+        return error(MESSAGES.PRODUCT_INACTIVE);
+      }
+      if (product.stock < 1) {
+        await session.abortTransaction();
+        return error(MESSAGES.PRODUCT_OUT_OF_STOCK);
+      }
+
+      let cart = await Cart.findOne({ user: userId }).session(session);
+      if (!cart) {
+        cart = new Cart({ user: userId, items: [] });
+      }
+
+      let currentQty = 0;
       const existing = cart.items.find(
-        (i) => i.product.toString() === productId,
+        (i: ICartItem) => i.product.toString() === productId,
       );
       if (existing) {
         currentQty = existing.quantity;
       }
-    }
 
-    const newQty = currentQty + quantity;
-    if (newQty > product.stock) {
-      return error(MESSAGES.QUANTITY_EXCEEDS_STOCK);
-    }
+      const newQty = currentQty + quantity;
+      if (newQty > product.stock) {
+        await session.abortTransaction();
+        return error(MESSAGES.QUANTITY_EXCEEDS_STOCK);
+      }
 
-    await cartRepository.addItem(userId, productId, quantity);
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        cart.items.push({ product: new Types.ObjectId(productId), quantity });
+      }
+
+      await cart.save({ session });
+
+      await session.commitTransaction();
+    } catch (err) {
+      await session.abortTransaction();
+      throw err;
+    } finally {
+      session.endSession();
+    }
 
     const populated = await cartRepository.getCart(userId);
     return success(
@@ -123,27 +148,49 @@ export const cartService = {
     productId: string,
     quantity: number,
   ): Promise<ApiResponse<CartResponse>> {
-    await connectDB();
+    const mongooseInstance = await connectDB();
 
     if (quantity < 1) {
       return error("Quantity must be at least 1");
     }
 
-    const product = await Product.findById(productId).select("stock");
-    if (!product) {
-      return error(MESSAGES.PRODUCT_NOT_FOUND);
-    }
-    if (quantity > product.stock) {
-      return error(MESSAGES.QUANTITY_EXCEEDS_STOCK);
-    }
+    const session = await mongooseInstance.startSession();
+    session.startTransaction();
 
-    const updated = await cartRepository.updateQuantity(
-      userId,
-      productId,
-      quantity,
-    );
-    if (!updated) {
-      return error(MESSAGES.CART_NOT_FOUND);
+    try {
+      const product = await Product.findById(productId)
+        .select("stock")
+        .session(session);
+      if (!product) {
+        await session.abortTransaction();
+        return error(MESSAGES.PRODUCT_NOT_FOUND);
+      }
+      if (quantity > product.stock) {
+        await session.abortTransaction();
+        return error(MESSAGES.QUANTITY_EXCEEDS_STOCK);
+      }
+
+      const cart = await Cart.findOne({ user: userId }).session(session);
+      if (!cart) {
+        await session.abortTransaction();
+        return error(MESSAGES.CART_NOT_FOUND);
+      }
+
+      const item = cart.items.find((i: ICartItem) => i.product.toString() === productId);
+      if (!item) {
+        await session.abortTransaction();
+        return error(MESSAGES.CART_NOT_FOUND);
+      }
+
+      item.quantity = quantity;
+      await cart.save({ session });
+
+      await session.commitTransaction();
+    } catch (err) {
+      await session.abortTransaction();
+      throw err;
+    } finally {
+      session.endSession();
     }
 
     const populated = await cartRepository.getCart(userId);
