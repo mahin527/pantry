@@ -6,6 +6,7 @@ import { HTTP } from "@/lib/http-status"
 import { AUTH_COOKIE_CONFIG } from "@/constants"
 import { connectDB } from "@/lib/db"
 import { User } from "@/models"
+import { logger } from "@/lib/logger"
 
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
 const MAX_SIZE = 5 * 1024 * 1024 // 5MB
@@ -77,7 +78,7 @@ export async function POST(request: NextRequest) {
       await deleteFromCloudinary(oldPublicId)
     } catch (deleteError) {
       // Delete failed but user already has the new avatar — just log
-      console.error("Failed to delete old avatar:", deleteError)
+      logger.error("Failed to delete old avatar:", deleteError)
     }
   }
 

@@ -7,11 +7,12 @@ import { success, error } from "@/lib/api-response"
 import { MESSAGES } from "@/lib/messages"
 import { HTTP } from "@/lib/http-status"
 import { AUTH_COOKIE_CONFIG } from "@/constants"
+import { logger } from "@/lib/logger"
 
 export async function POST(request: NextRequest) {
   try {
     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-      console.error("[Google Auth] Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET")
+      logger.error("[Google Auth] Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET")
       return NextResponse.json(
         error("Server configuration error"),
         { status: HTTP.INTERNAL_SERVER_ERROR },
@@ -22,15 +23,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { credential } = body
 
-    console.log("[Google Auth] Request received")
-    console.log("[Google Auth] Credential exists:", Boolean(credential))
-
     if (!credential || typeof credential !== "string") {
       return NextResponse.json(
         error("Missing Google credential"),
         { status: HTTP.BAD_REQUEST },
       )
     }
+
+    logger.info("[Google Auth] Request received")
+    logger.info("[Google Auth] Credential exists:", { value: Boolean(credential) })
 
     const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log("[Google Auth] Authenticated email:", userInfo.email)
+    logger.info("[Google Auth] Authenticated email:", userInfo.email)
 
     await connectDB()
 
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
 
     return response
   } catch (err) {
-    console.error("[Google Auth] Error:", err)
+    logger.error("[Google Auth] Error:", err)
     return NextResponse.json(
       error(MESSAGES.INTERNAL_ERROR),
       { status: HTTP.INTERNAL_SERVER_ERROR },

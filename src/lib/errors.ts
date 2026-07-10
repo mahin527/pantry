@@ -1,6 +1,7 @@
 import { HTTP } from "./http-status";
 import type { ApiResponse } from "@/types/common";
 import { env } from "./env";
+import { logger } from "./logger";
 
 export class AppError extends Error {
   public readonly statusCode: number;
@@ -48,7 +49,7 @@ export function errorHandler(error: unknown): { response: ApiResponse<never>; st
 
   // Log unexpected errors in development
   if (env.NODE_ENV === "development") {
-    console.error("[ErrorHandler]", error);
+    logger.error("[ErrorHandler]", error);
   }
 
   return {

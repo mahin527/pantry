@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { Button } from "@mui/material"
 import { FaHome } from "react-icons/fa"
 import { useRouter } from "next/navigation"
+import { logger } from "@/lib/logger"
 
 type Props = {
   error: Error & { digest?: string }
@@ -15,7 +16,7 @@ export default function Error({ error, reset }: Props) {
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
-      console.error("[Error page]", error)
+      logger.error("[Error page]", error)
     }
   }, [error])
 

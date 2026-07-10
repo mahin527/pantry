@@ -7,6 +7,7 @@ import { error, message } from "@/lib/api-response"
 import { MESSAGES } from "@/lib/messages"
 import { HTTP } from "@/lib/http-status"
 import { rateLimit } from "@/lib/rate-limit"
+import { logger } from "@/lib/logger"
 
 const RESET_TOKEN_EXPIRY_MS = 60 * 60 * 1000 // 1 hour
 
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
       await sendPasswordResetEmail(email, resetUrl)
     } catch (emailError) {
       // Log but don't expose email send failure to user (security)
-      console.error("Failed to send password reset email:", emailError)
+      logger.error("Failed to send password reset email:", emailError)
     }
 
     return NextResponse.json(message(genericMessage), { status: HTTP.OK })

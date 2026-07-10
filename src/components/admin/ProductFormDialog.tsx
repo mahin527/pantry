@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { useForm, Controller, useFieldArray } from "react-hook-form"
+import { useForm, Controller, useFieldArray, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   createProductSchema,
   updateProductSchema,
-  type CreateProductInput,
-  type UpdateProductInput,
 } from "@/validations/product.validation"
 import {
   Button,
@@ -26,6 +24,27 @@ import {
 } from "@mui/material"
 import { FaPlus, FaTrash } from "react-icons/fa"
 import { ImageUploader } from "@/components/ImageUploader"
+
+// Form-specific type that wraps primitive arrays for useFieldArray compatibility
+// (react-hook-form's FieldArrayPath rejects string[] items)
+interface ProductFormData {
+  title: string
+  slug: string
+  description: string
+  shortDescription?: string
+  category: string
+  images?: string[]
+  price: number
+  discountPrice?: number
+  stock: number
+  sku: string
+  brand?: string
+  isFeatured: boolean
+  isPopular: boolean
+  isLatest: boolean
+  isActive: boolean
+  tags: { value: string }[]
+}
 
 export type Product = {
   _id: string
@@ -88,8 +107,8 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<CreateProductInput | UpdateProductInput>({
-    resolver: zodResolver(isEdit ? updateProductSchema : createProductSchema),
+  } = useForm<ProductFormData>({
+    resolver: zodResolver(isEdit ? updateProductSchema : createProductSchema) as unknown as Resolver<ProductFormData>,
     defaultValues: isEdit
       ? {
           title: product.title,
@@ -106,7 +125,7 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
           isPopular: product.isPopular,
           isLatest: product.isLatest,
           isActive: product.isActive,
-          tags: product.tags ?? [""],
+          tags: (product.tags ?? [""]).map((t) => ({ value: t })),
         }
       : {
           title: "",
@@ -123,13 +142,13 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
           isPopular: false,
           isLatest: false,
           isActive: true,
-          tags: [""],
+          tags: [{ value: "" }],
         },
   })
 
   const { fields: tagFields, append: appendTag, remove: removeTag } = useFieldArray({
     control,
-    name: "tags" as never,
+    name: "tags",
   })
 
   const addImage = (url: string) => {
@@ -142,7 +161,7 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
     setImageUrls((prev) => prev.filter((_, i) => i !== idx))
   }
 
-  const onSubmit = async (data: CreateProductInput | UpdateProductInput) => {
+  const onSubmit = async (data: ProductFormData) => {
     setSaving(true)
     try {
       const method = isEdit ? "PATCH" : "POST"
@@ -151,7 +170,7 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
       const payload = {
         ...data,
         images: imageUrls,
-        tags: (data as CreateProductInput).tags?.filter(Boolean) ?? [],
+        tags: data.tags.map((t) => t.value).filter(Boolean),
       }
 
       const res = await fetch(url, {
@@ -292,13 +311,13 @@ export function ProductFormDialog({ open, product, onClose, onSaved, showSnackba
             <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "text.secondary" }}>Tags</Typography>
             {tagFields.map((field, idx) => (
               <Box key={field.id} sx={{ display: "flex", gap: 1, mb: 1 }}>
-                <Controller name={`tags.${idx}` as never} control={control} render={({ field: f }) => (
+                <Controller name={`tags.${idx}.value`} control={control} render={({ field: f }) => (
                   <TextField {...f} size="small" placeholder="Tag name" fullWidth />
                 )} />
                 <IconButton color="error" onClick={() => removeTag(idx)} size="small"><FaTrash size={14} /></IconButton>
               </Box>
             ))}
-            <Button size="small" startIcon={<FaPlus />} onClick={() => appendTag("" as never)}>Add Tag</Button>
+            <Button size="small" startIcon={<FaPlus />} onClick={() => appendTag({ value: "" })}>Add Tag</Button>
           </Box>
 
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>

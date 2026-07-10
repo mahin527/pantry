@@ -2,6 +2,7 @@ import { v2 as cloudinary } from "cloudinary"
 import crypto from "crypto"
 import type { StorageProvider } from "./storage"
 import { env } from "./env"
+import { logger } from "./logger"
 
 cloudinary.config({
   cloud_name: env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -62,7 +63,7 @@ export async function deleteFromCloudinary(publicId: string) {
 
     return await response.json()
   } catch (error) {
-    console.error("Cloudinary delete error:", error)
+    logger.error("Cloudinary delete error:", error)
     throw error
   }
 }
