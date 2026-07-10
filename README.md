@@ -1,4 +1,6 @@
-# 🛒 Pantry — E-Commerce Platform
+# [🛒 Pantry — E-Commerce Platform](https://pantry-eight-henna.vercel.app/)
+
+Live URL: https://pantry-eight-henna.vercel.app/ 
 
 A full-featured online grocery store built with Next.js 16 (App Router), featuring product browsing, cart/wishlist management, user authentication, address management, Stripe payments, and an admin dashboard.
 
@@ -179,6 +181,15 @@ src/
 - API routes protected by `verifyAccessToken` middleware
 - Avatar/image upload routes separated (admin vs user) to prevent cross-contamination
 - `poweredByHeader: false` removes `X-Powered-By` header
+
+## 🤝 Contact
+**Mahin Hasan** *Full-Stack Web Developer | Shopify Expert*
+
+[📧 Email](mailto:hasan.mahin527@gmail.com) | 
+[💬 Messenger](https://m.me/md.mahin.hassan.738742) | 
+[🎮 Discord Server](https://discord.gg/QKB7XMezg) (Username: `mahin527`)
+
+----
 
 ## 📄 License
 
