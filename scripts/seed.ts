@@ -413,7 +413,8 @@ async function seed() {
   console.log("Connected to MongoDB\n");
 
   // Seed users
-  const hashedPassword = await bcrypt.hash("Admin@123", 12);
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD || "Admin@123";
+  const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
   const adminExists = await User.findOne({ email: "admin@example.com" });
   if (!adminExists) {
@@ -431,7 +432,8 @@ async function seed() {
 
   const userExists = await User.findOne({ email: "user@example.com" });
   if (!userExists) {
-    const userPassword = await bcrypt.hash("User@123", 12);
+    const userPasswordRaw = process.env.SEED_USER_PASSWORD || "User@123";
+    const userPassword = await bcrypt.hash(userPasswordRaw, 12);
     await User.create({
       name: "John Doe",
       email: "user@example.com",

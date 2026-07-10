@@ -18,11 +18,10 @@ type ProductItem = {
 }
 
 function ProductSlider({ products, sectionId = "default" }: { products?: ProductItem[]; sectionId?: string }) {
-  const items = products ?? [1, 2, 3, 4, 5, 6, 7, 8]
+  if (!products || !Array.isArray(products) || products.length === 0) return null
+
   const prevClass = `${sectionId}-swiper-prev`
   const nextClass = `${sectionId}-swiper-next`
-
-  if (Array.isArray(items) && items.length === 0) return null
 
   return (
     <div className="container py-4">
@@ -44,10 +43,10 @@ function ProductSlider({ products, sectionId = "default" }: { products?: Product
           }}
           className="!px-0"
         >
-          {items.map((item, index) => (
-            <SwiperSlide key={typeof item === "object" ? item._id : index}>
+          {products.map((item) => (
+            <SwiperSlide key={item._id}>
               <div className="flex items-center justify-center">
-                <ProductItems product={typeof item === "object" ? item : undefined} />
+                <ProductItems product={item} />
               </div>
             </SwiperSlide>
           ))}

@@ -20,6 +20,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { IoIosSend } from "react-icons/io";
 import { toast } from "sonner";
 import { CircularProgress } from "@mui/material";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/constants/contact"
 
 function Footer() {
     const { isOpenAddAddressPanel, closeAddAddress, onAddressAdded } = useAppContext()
@@ -138,8 +139,8 @@ function Footer() {
                             </p>
                             <div className="pt-2">
                                 <p className="text-sm font-semibold text-white">Contact Us</p>
-                                <p className="text-sm text-gray-400 mt-1">hasan.mahin527@gmail.com</p>
-                                <p className="text-sm text-gray-400">+880 12345 6789</p>
+                                <p className="text-sm text-gray-400 mt-1">{CONTACT_EMAIL}</p>
+                                <p className="text-sm text-gray-400">{CONTACT_PHONE}</p>
                             </div>
                             <div className="flex items-center gap-3 pt-1">
                                 <Link href="/" className="w-9 h-9 rounded-full bg-gray-700 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-300 hover:text-white">

@@ -25,12 +25,12 @@ function ProductItems({ product }: { product?: ProductItem }) {
   const { addItem } = useCart()
   const { addItem: addWishlist, removeItem, isInWishlist } = useWishlist()
 
-  const title = product?.title || "Colorful fruit juices - 64 fl oz Bottle"
-  const slug = product?.slug || "23454356"
-  const imageSrc = product?.images?.[0] || "/product-1-colorful-fruit-juices-in-glass-bottles-with-fresh-fruit.png"
-  const brand = product?.brand || "Bingo"
-  const rating = product?.rating ?? 4
-  const originalPrice = product?.price ?? 24.09
+  const title = product?.title || "Product Unavailable"
+  const slug = product?.slug || "product-unavailable"
+  const imageSrc = product?.images?.[0] || "/placeholder-product.png"
+  const brand = product?.brand || "Unknown"
+  const rating = product?.rating ?? 0
+  const originalPrice = product?.price ?? 0
   const salePrice = product?.discountPrice ?? undefined
   const hasDiscount = salePrice !== undefined && salePrice < originalPrice
 
