@@ -5,9 +5,22 @@ import { error } from "@/lib/api-response";
 import { MESSAGES } from "@/lib/messages";
 import { HTTP } from "@/lib/http-status";
 import { AUTH_COOKIE_CONFIG } from "@/constants";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+    const { success, resetTime } = rateLimit(`login:${ip}`);
+    if (!success) {
+      return NextResponse.json(
+        error(MESSAGES.VALIDATION_FAILED, "Too many login attempts. Please try again later."),
+        {
+          status: HTTP.TOO_MANY_REQUESTS,
+          headers: { "Retry-After": String(Math.ceil((resetTime - Date.now()) / 1000)) },
+        },
+      );
+    }
+
     const body = await request.json();
 
     const parsed = loginSchema.safeParse(body);
