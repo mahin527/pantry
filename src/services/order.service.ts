@@ -28,11 +28,6 @@ export const orderService = {
   ): Promise<ApiResponse<OrderResponse>> {
     const mongooseInstance = await connectDB();
 
-    const cart = await cartRepository.getCart(userId);
-    if (!cart || cart.items.length === 0) {
-      return error(MESSAGES.CART_EMPTY);
-    }
-
     const address = await addressRepository.getById(userId, addressId);
     if (!address) {
       return error(MESSAGES.ADDRESS_NOT_FOUND);
