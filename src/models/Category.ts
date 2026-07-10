@@ -23,7 +23,6 @@ const CategorySchema = new Schema<ICategory>(
   { timestamps: true },
 );
 
-CategorySchema.index({ slug: 1 });
 CategorySchema.index({ isActive: 1, sortOrder: 1 });
 
 export const Category =
