@@ -1,3 +1,5 @@
+"use client"
+
 import ProductDetails from "./ProductDetails"
 import ProductImage from "./ProductImage"
 import ProductReviews from "./ProductReviews"
