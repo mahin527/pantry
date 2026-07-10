@@ -24,8 +24,8 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string): P
   const transporter = createTransporter()
 
   if (!transporter) {
-    // Email not configured — log and skip silently (security: don't expose config state)
-    console.warn("Email not configured. Reset URL:", resetUrl)
+    // Email not configured — log generic warning without exposing reset URL/token
+    console.warn("Email service not configured. Password reset email was not sent.")
     return
   }
 
@@ -99,7 +99,7 @@ export async function sendOtpEmail(email: string, otp: number): Promise<void> {
   const transporter = createTransporter()
 
   if (!transporter) {
-    console.warn("Email not configured. OTP for", email, ":", otp)
+    console.warn("Email service not configured. OTP email was not sent for:", email)
     return
   }
 
