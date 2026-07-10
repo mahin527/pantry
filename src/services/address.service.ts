@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/db";
 import { addressRepository } from "@/repositories/address.repository";
 import { success, error } from "@/lib/api-response";
 import { MESSAGES } from "@/lib/messages";
+import { Address } from "@/models";
 import type { ApiResponse } from "@/types/common";
 import type { IAddress } from "@/models";
 
@@ -26,7 +27,7 @@ export const addressService = {
     userId: string,
     data: Record<string, unknown>,
   ): Promise<ApiResponse<IAddress>> {
-    await connectDB();
+    const mongooseInstance = await connectDB();
 
     const count = await addressRepository.countByUser(userId);
     const cleaned = sanitize(data);
@@ -35,12 +36,31 @@ export const addressService = {
       cleaned.isDefault = true;
     }
 
-    if (cleaned.isDefault === true) {
-      await addressRepository.clearDefault(userId);
-    }
+    const session = await mongooseInstance.startSession();
+    session.startTransaction();
 
-    const address = await addressRepository.create(userId, cleaned);
-    return success(address, MESSAGES.ADDRESS_CREATED);
+    try {
+      if (cleaned.isDefault === true) {
+        await Address.updateMany(
+          { user: userId },
+          { $set: { isDefault: false } },
+          { session },
+        );
+      }
+
+      const [address] = await Address.create(
+        [{ ...cleaned, user: userId }],
+        { session },
+      );
+
+      await session.commitTransaction();
+      return success(address, MESSAGES.ADDRESS_CREATED);
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
   },
 
   async update(
@@ -48,7 +68,7 @@ export const addressService = {
     addressId: string,
     data: Record<string, unknown>,
   ): Promise<ApiResponse<IAddress>> {
-    await connectDB();
+    const mongooseInstance = await connectDB();
 
     const existing = await addressRepository.getById(userId, addressId);
     if (!existing) {
@@ -57,16 +77,37 @@ export const addressService = {
 
     const cleaned = sanitize(data);
 
-    if (cleaned.isDefault === true) {
-      await addressRepository.clearDefault(userId);
-    }
+    const session = await mongooseInstance.startSession();
+    session.startTransaction();
 
-    const updated = await addressRepository.update(userId, addressId, cleaned);
-    if (!updated) {
-      return error(MESSAGES.ADDRESS_NOT_FOUND);
-    }
+    try {
+      if (cleaned.isDefault === true) {
+        await Address.updateMany(
+          { user: userId, _id: { $ne: addressId } },
+          { $set: { isDefault: false } },
+          { session },
+        );
+      }
 
-    return success(updated, MESSAGES.ADDRESS_UPDATED);
+      const updated = await Address.findOneAndUpdate(
+        { _id: addressId, user: userId },
+        { $set: cleaned },
+        { new: true, session },
+      );
+
+      await session.commitTransaction();
+
+      if (!updated) {
+        return error(MESSAGES.ADDRESS_NOT_FOUND);
+      }
+
+      return success(updated, MESSAGES.ADDRESS_UPDATED);
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
   },
 
   async delete(userId: string, addressId: string): Promise<ApiResponse<null>> {
