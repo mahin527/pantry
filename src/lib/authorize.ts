@@ -44,3 +44,32 @@ export async function authorizeAdmin(request: NextRequest): Promise<AuthResult> 
 
   return { authorized: true, payload };
 }
+
+export async function authenticateUser(
+  request: NextRequest,
+): Promise<AuthResult> {
+  const token = request.cookies.get(AUTH_COOKIE_CONFIG.name)?.value;
+
+  if (!token) {
+    return {
+      authorized: false,
+      response: NextResponse.json(error(MESSAGES.NOT_AUTHENTICATED, "Unauthorized"), {
+        status: HTTP.UNAUTHORIZED,
+      }),
+    };
+  }
+
+  let payload: TokenPayload;
+  try {
+    payload = verifyAccessToken(token);
+  } catch {
+    return {
+      authorized: false,
+      response: NextResponse.json(error(MESSAGES.INVALID_TOKEN, "Unauthorized"), {
+        status: HTTP.UNAUTHORIZED,
+      }),
+    };
+  }
+
+  return { authorized: true, payload };
+}

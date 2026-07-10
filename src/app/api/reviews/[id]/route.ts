@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { reviewService } from "@/services/review.service";
+import { authenticateUser } from "@/lib/authorize";
 import { error } from "@/lib/api-response";
 import { MESSAGES } from "@/lib/messages";
 import { HTTP } from "@/lib/http-status";
@@ -9,6 +10,9 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const auth = await authenticateUser(request);
+    if (!auth.authorized) return auth.response;
+
     const { id } = await params;
 
     const result = await reviewService.markHelpful(id);
