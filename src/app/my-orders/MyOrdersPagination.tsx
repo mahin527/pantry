@@ -18,6 +18,7 @@ export function MyOrdersPagination({
       count={totalPages}
       page={currentPage}
       color="primary"
+      aria-label="Orders pagination"
       onChange={(_, page) => {
         const sp = new URLSearchParams(searchParams.toString())
         sp.set("page", String(page))

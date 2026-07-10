@@ -148,16 +148,19 @@ function Sidebar({ categories, selectedCategory, minPrice, maxPrice }: Props) {
         <Collapse isOpened={isOpenRatingFilter}>
           <div className="scroll overflow-scroll max-h-60">
             {ratings.map((rate) => (
-              <div
+              <button
                 key={rate}
-                className="flex items-center w-full cursor-pointer hover:bg-gray-200 rounded"
+                type="button"
+                className="flex items-center w-full hover:bg-gray-200 rounded"
                 onClick={() => {
                   navigate({ rating: selectedRating === String(rate) ? "" : String(rate) })
                 }}
+                aria-label={`Filter by ${rate} star rating`}
+                aria-pressed={selectedRating === String(rate)}
               >
-                <Checkbox checked={selectedRating === String(rate)} />
+                <Checkbox checked={selectedRating === String(rate)} tabIndex={-1} />
                 <Rating value={rate} size="small" readOnly />
-              </div>
+              </button>
             ))}
           </div>
         </Collapse>

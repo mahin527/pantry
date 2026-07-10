@@ -195,13 +195,13 @@ function Footer() {
                                         placeholder="your@email.com"
                                         className="relative flex-1 px-2 py-2.5 text-sm bg-transparent outline-none text-white placeholder-gray-500"
                                     />
-                                    <button className="absolute h-full right-0 px-2 rounded-sm bg-blue-700 text-white font-semibold text-sm transition-colors cursor-pointer">
+                                    <button type="submit" aria-label="Subscribe to newsletter" className="absolute h-full right-0 px-2 rounded-sm bg-blue-700 text-white font-semibold text-sm transition-colors cursor-pointer">
                                         <IoIosSend size={28} className="" />
                                     </button>
                                 </div>
-                                <label className="flex items-start gap-2 cursor-pointer">
-                                    <input type="checkbox" className="mt-0.5 accent-blue-600" />
-                                    <span className="text-xs text-gray-400">I agree to the terms and privacy policy</span>
+                                <label htmlFor="newsletter-consent" className="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" id="newsletter-consent" aria-describedby="newsletter-description" className="mt-0.5 accent-blue-600" />
+                                    <span id="newsletter-description" className="text-xs text-gray-400">I agree to the terms and privacy policy</span>
                                 </label>
                             </div>
                         </div>
