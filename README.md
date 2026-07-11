@@ -58,7 +58,7 @@ A full-featured online grocery store built with Next.js 16 (App Router), featuri
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/pantry.git
+git clone https://github.com/mahin527/pantry.git
 cd pantry
 
 # 2. Install dependencies
