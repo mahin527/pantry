@@ -1,22 +1,19 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import logoImg from "../../public/logo-img.png"
 import Link from "next/link"
 import Searchbar from "./Searchbar"
 import NavMenus from "./NavIcons"
 import NavLinks, { MobileDrawer } from "./NavLinks"
-import { FiSearch, FiX } from "react-icons/fi"
+import { FiSearch } from "react-icons/fi"
+import { SearchModal } from "./SearchModal"
 
 const Header = () => {
-    const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
-    const searchInputRef = useRef<HTMLInputElement>(null)
+    const [searchModalOpen, setSearchModalOpen] = useState(false)
 
-    const openSearch = () => {
-        setMobileSearchOpen(true)
-        setTimeout(() => searchInputRef.current?.focus(), 100)
-    }
+    const openSearch = () => setSearchModalOpen(true)
 
     return (
         <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -29,7 +26,10 @@ const Header = () => {
                             <h3 className="text-2xl lg:text-3xl font-black text-blue-600 tracking-tight">Pantry</h3>
                         </Link>
                         <div className="flex-1 max-w-xl mx-4">
-                            <Searchbar placeholder="Search products, categories, brands..." />
+                            <Searchbar
+                                placeholder="Search products, categories, brands..."
+                                onOpenModal={openSearch}
+                            />
                         </div>
                         <NavMenus />
                     </div>
@@ -52,25 +52,12 @@ const Header = () => {
                             <NavMenus />
                         </div>
                     </div>
-
-                    {/* Mobile search bar — always present below header on mobile */}
-                    <div className={`md:hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-16 opacity-100 mt-2" : "max-h-0 opacity-0 overflow-hidden"}`}>
-                        <div className="flex items-center gap-2 pb-1">
-                            <div className="flex-1">
-                                <Searchbar placeholder="Search products..." />
-                            </div>
-                            <button
-                                onClick={() => setMobileSearchOpen(false)}
-                                className="flex items-center justify-center size-10 text-gray-500 rounded-full hover:bg-gray-100 shrink-0"
-                                aria-label="Close search"
-                            >
-                                <FiX size={20} />
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
             <NavLinks />
+
+            {/* Search modal — triggered from desktop search field and mobile search icon */}
+            <SearchModal open={searchModalOpen} onClose={() => setSearchModalOpen(false)} />
         </header>
     )
 }

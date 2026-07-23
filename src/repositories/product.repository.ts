@@ -134,4 +134,32 @@ export const productRepository = {
       .limit(limit)
       .select("title sku stock images price");
   },
+
+  /**
+   * Lightweight product suggestions for the search-as-you-type modal.
+   *
+   * NOTE: This uses an unanchored, case-insensitive `$regex` across title,
+   * brand, and tags. Such a regex cannot use a B-tree index and performs a
+   * collection scan on every request, so it is fine for small-to-medium
+   * catalogs but will degrade as the catalog grows. For large catalogs,
+   * replace this with a dedicated search solution (e.g. MongoDB Atlas Search
+   * or a `$text` query backed by a text index) — note `$text` is word-based
+   * and does not support arbitrary substring/prefix typeahead, so a true
+   * search index is preferred. Results are capped by `limit` and the route
+   * requires a minimum query length.
+   */
+  async searchSuggestions(query: string, limit = 5): Promise<IProduct[]> {
+    const escapedSearch = escapeRegex(query);
+    return Product.find({
+      $or: [
+        { title: { $regex: escapedSearch, $options: "i" } },
+        { brand: { $regex: escapedSearch, $options: "i" } },
+        { tags: { $regex: escapedSearch, $options: "i" } },
+      ],
+      isActive: true,
+    })
+      .select("title slug price discountPrice images brand")
+      .limit(limit)
+      .lean();
+  },
 };

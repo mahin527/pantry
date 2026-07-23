@@ -8,7 +8,7 @@ import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import { RiShoppingBag3Line } from "react-icons/ri"
 import { useCart } from "@/hooks/useCart"
 import { useWishlist } from "@/hooks/useWishlist"
-import { formatPrice } from "@/lib/utils"
+import { formatPrice, hasDiscount, getEffectivePrice } from "@/lib/utils"
 
 type ProductItem = {
   _id: string
@@ -31,8 +31,9 @@ function ProductItems({ product }: { product?: ProductItem }) {
   const brand = product?.brand || "Unknown"
   const rating = product?.rating ?? 0
   const originalPrice = product?.price ?? 0
-  const salePrice = product?.discountPrice ?? undefined
-  const hasDiscount = salePrice !== undefined && salePrice < originalPrice
+  const discountPrice = product?.discountPrice ?? undefined
+  const isDiscounted = hasDiscount(originalPrice, discountPrice)
+  const effectivePrice = getEffectivePrice(originalPrice, discountPrice)
 
   const inWishlist = product ? isInWishlist(product._id) : false
 
@@ -71,9 +72,9 @@ function ProductItems({ product }: { product?: ProductItem }) {
         </span>
 
         {/* Discount badge */}
-        {hasDiscount && (
+        {isDiscounted && (
           <span className="absolute right-2 top-2 bg-red-500 text-white text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-md shadow-sm">
-            -{Math.round((1 - salePrice! / originalPrice) * 100)}%
+            -{Math.round((1 - effectivePrice / originalPrice) * 100)}%
           </span>
         )}
 
@@ -108,9 +109,9 @@ function ProductItems({ product }: { product?: ProductItem }) {
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center gap-1.5">
             <span className="font-bold text-sm md:text-base text-blue-600">
-              {formatPrice(hasDiscount ? salePrice! : originalPrice)}
+              {formatPrice(effectivePrice)}
             </span>
-            {hasDiscount && (
+            {isDiscounted && (
               <span className="text-[11px] md:text-xs font-medium text-gray-400 line-through">
                 {formatPrice(originalPrice)}
               </span>
